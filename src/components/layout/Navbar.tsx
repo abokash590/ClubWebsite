@@ -179,6 +179,9 @@ export function Navbar() {
               ))}
             </ul>
             <div className="navbar__mobile-actions">
+              <div style={{ marginBottom: '1rem' }}>
+                <ThemeToggle />
+              </div>
               <Button href="/join" fullWidth id="mobile-join-cta">
                 Apply to Join
               </Button>

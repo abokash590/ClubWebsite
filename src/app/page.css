@@ -508,6 +508,10 @@
 }
 
 @media (max-width: 480px) {
+  .hero {
+    padding: var(--space-4) 0;
+  }
+
   .hero__actions {
     flex-direction: column;
   }
