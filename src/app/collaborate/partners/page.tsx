@@ -22,7 +22,7 @@ export default function PartnersPage() {
 
       <div className="grid grid--3 stagger-children" style={{ maxWidth: '1000px', margin: '0 auto' }}>
         {partners.map((partner, i) => (
-          <div key={i} className="card" style={{ padding: 'var(--space-5)', background: 'var(--surface-elevated)', border: '2px solid var(--text-primary)', borderRadius: 'var(--radius-xl)', transition: 'transform 0.2s', cursor: 'pointer' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'translate(-4px, -4px)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'translate(0, 0)'}>
+          <div key={i} className="card card--hoverable" style={{ padding: 'var(--space-5)', background: 'var(--surface-elevated)', border: '2px solid var(--text-primary)', borderRadius: 'var(--radius-xl)' }}>
             <div style={{ padding: '4px 12px', background: 'var(--accent-secondary)', color: 'var(--surface-primary)', display: 'inline-block', borderRadius: '99px', fontSize: 'var(--text-xs)', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: 'var(--space-3)' }}>
               {partner.type}
             </div>
