@@ -21,7 +21,7 @@ const navItems = [
       { label: "Advisor Panel", href: "/advisors" },
       { label: "Alumni", href: "/alumni" },
       { label: "Executive Panel", href: "/executives" },
-      { label: "Members", href: "/about#team" },
+      { label: "Members", href: "/members" },
     ],
   },
   {
