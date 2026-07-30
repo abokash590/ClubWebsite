@@ -11,7 +11,7 @@ export function AlgorithmVisualizer() {
   const [isRunning, setIsRunning] = useState(false);
   
   // Bubble Sort state
-  const [comparing, setComparing] = useState<[number, number] | []>([]);
+  const [comparing, setComparing] = useState<number[]>([]);
   const [sortedIndices, setSortedIndices] = useState<number[]>([]);
   
   const timeouts = useRef<NodeJS.Timeout[]>([]);
@@ -62,7 +62,7 @@ export function AlgorithmVisualizer() {
     animations.forEach((anim, i) => {
       const timeout = setTimeout(() => {
         if (anim.type === "compare") {
-          setComparing(anim.indices as [number, number]);
+          setComparing(anim.indices as number[]);
         } else if (anim.type === "update") {
           setArray(anim.array as number[]);
         } else if (anim.type === "sorted") {
