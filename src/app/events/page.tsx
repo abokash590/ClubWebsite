@@ -17,7 +17,7 @@ export default function EventsPage() {
       <section className="section events-hero">
         <div className="container">
           <span className="kicker">Events</span>
-          <h1>What&apos;s happening</h1>
+          <h1>System Events & Tech Meetups</h1>
           <p className="events-hero__subtitle">
             Workshops, contests, seminars, and socials — all organized by
             members, for members.
@@ -29,8 +29,7 @@ export default function EventsPage() {
       <section className="section" id="upcoming">
         <div className="container">
           <h2 className="events-section-title">
-            Upcoming
-            <span className="events-count">{upcoming.length}</span>
+            Next in Queue
           </h2>
           {upcoming.length > 0 ? (
             <div className="grid grid--3">
@@ -47,11 +46,10 @@ export default function EventsPage() {
       </section>
 
       {/* Past */}
-      <section className="section section--alt" id="past">
+      <section className="section" id="past">
         <div className="container">
           <h2 className="events-section-title">
-            Past Events
-            <span className="events-count">{past.length}</span>
+            Successfully Executed (Past Events)
           </h2>
           <div className="grid grid--3 past-events-grid">
             {past.map((event) => (

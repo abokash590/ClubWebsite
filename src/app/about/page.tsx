@@ -21,7 +21,7 @@ export default function AboutPage() {
       <section className="section about-hero">
         <div className="container">
           <span className="kicker">About us</span>
-          <h1>We build things that work.</h1>
+          <h1>Hello World! Meet the Club</h1>
           <p className="about-hero__subtitle">
             MEC Computer Club exists to give students a structured path from
             &quot;I&apos;m interested in CS&quot; to &quot;I&apos;ve shipped real projects, competed
@@ -42,7 +42,7 @@ export default function AboutPage() {
         <div className="container">
           <div className="section-header">
             <span className="kicker">Departments</span>
-            <h2>What you&apos;d actually do here</h2>
+            <h2>Your Core Functions & Tasks</h2>
             <p>Each department runs its own activities, projects, and learning tracks.</p>
           </div>
           <div className="about-depts">
@@ -67,7 +67,7 @@ export default function AboutPage() {
         <div className="container">
           <div className="section-header">
             <span className="kicker">Leadership</span>
-            <h2>Executive Committee</h2>
+            <h2>The Root Users (Executive Panel)</h2>
             <p>The people keeping things running.</p>
           </div>
           <div className="grid grid--4 stagger-children">
@@ -83,7 +83,7 @@ export default function AboutPage() {
         <div className="container">
           <div className="section-header">
             <span className="kicker">Department leads</span>
-            <h2>Panel Leaders</h2>
+            <h2>Our Tech Leads & Mentors</h2>
             <p>Each department is run by a lead who sets the direction and activities.</p>
           </div>
           <div className="grid grid--4 stagger-children">
@@ -99,7 +99,7 @@ export default function AboutPage() {
         <div className="container container--narrow">
           <div className="section-header">
             <span className="kicker">History</span>
-            <h2>How we got here</h2>
+            <h2>Our Version History (How it started)</h2>
           </div>
           <div className="timeline">
             <div className="timeline__item">

@@ -14,7 +14,7 @@ export default function AlumniPage() {
       <section className="section alumni-hero">
         <div className="container">
           <span className="kicker">Hall of Fame</span>
-          <h1>Alumni Panel</h1>
+          <h1>Our Alumni Network (Legacy Code)</h1>
           <p className="alumni-hero__subtitle">
             The legends who built this club and shaped its culture.
           </p>

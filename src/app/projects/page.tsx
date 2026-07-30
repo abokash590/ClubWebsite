@@ -14,7 +14,7 @@ export default function ProjectsPage() {
       <section className="section projects-hero">
         <div className="container">
           <span className="kicker">Projects</span>
-          <h1>Proof of work</h1>
+          <h1>Deployed to Production</h1>
           <p className="projects-hero__subtitle">
             Not tutorials. Not toy apps. Software built by members, used by real people.
           </p>
@@ -25,7 +25,7 @@ export default function ProjectsPage() {
         <div className="container">
           <div className="grid grid--3">
             {projects.map((project) => (
-              <ProjectCard key={project.id} {...project} />
+              <ProjectCard key={project.id} {...project} team={project.team || []} />
             ))}
           </div>
         </div>

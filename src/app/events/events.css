@@ -9,14 +9,9 @@
   margin-bottom: var(--space-5);
 }
 
-.events-count {
-  font-family: var(--font-mono); font-feature-settings: "liga" 0, "calt" 0;
-  font-size: var(--text-sm);
-  background: var(--surface-secondary);
-  color: var(--text-tertiary);
-  padding: 2px 10px;
-  border-radius: var(--radius-full);
-}
+
+
+
 
 .events-empty {
   text-align: center;

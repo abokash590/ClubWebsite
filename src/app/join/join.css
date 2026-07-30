@@ -16,6 +16,8 @@
   border-radius: var(--radius-lg);
   border: 1px solid var(--text-primary);
   box-shadow: 8px 8px 0px var(--accent-primary);
+  max-width: 720px;
+  margin: 0 auto;
 }
 
 .dark .join-form {
@@ -90,9 +92,14 @@
 
 /* Robot Progress Bar */
 .robot-progress-container {
-  margin-bottom: var(--space-6);
-  padding-bottom: var(--space-4);
-  border-bottom: 2px solid var(--border-default);
+  margin: 0 auto var(--space-6);
+  padding: var(--space-4) 0;
+  max-width: 720px;
+  
+  /* Sticky Behavior */
+  position: sticky;
+  top: var(--nav-height, 64px);
+  z-index: 40;
 }
 
 .robot-progress-header {

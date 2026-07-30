@@ -26,7 +26,7 @@ export default function CPHubPage() {
       {/* Contest Calendar */}
       <section className="section" id="contests">
         <div className="container">
-          <h2>Contest Calendar</h2>
+          <h2>Scheduled Contests</h2>
           <div className="cp-contests">
             {contests.map((c) => {
               const isPast = new Date(c.date) < new Date();
@@ -62,7 +62,7 @@ export default function CPHubPage() {
       {/* Leaderboard */}
       <section className="section section--alt" id="leaderboard">
         <div className="container">
-          <h2>Club Leaderboard</h2>
+          <h2>Leaderboard</h2>
           <p className="cp-leaderboard-subtitle">Codeforces ratings, updated weekly.</p>
           <div className="cp-leaderboard">
             <div className="cp-leaderboard__header">
@@ -90,7 +90,7 @@ export default function CPHubPage() {
       {/* Resources */}
       <section className="section" id="resources">
         <div className="container">
-          <h2>Resources & Editorials</h2>
+          <h2>Docs, Algorithms & Editorials</h2>
           <div className="cp-resources">
             {cpResources.map((r) => (
               <a key={r.id} href={r.url} className="cp-resource">

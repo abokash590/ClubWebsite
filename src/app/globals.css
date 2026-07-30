@@ -50,9 +50,9 @@
 
 .dark {
   /* Dark Theme — neutral tokens only */
-  --surface-primary: #0D0F0A;
-  --surface-secondary: #1a1c15;
-  --surface-elevated: #151711;
+  --surface-primary: #050505;
+  --surface-secondary: #0A0A0A;
+  --surface-elevated: #121212;
   --surface-inverse: #F5F5EF;
   --nav-bg: rgba(13, 15, 10, 0.85);
 
@@ -76,10 +76,10 @@
   --accent-warning: #F59E0B;
   --accent-error: #EF4444;
 
-  --border-default: rgba(180, 200, 100, 0.15);
-  --border-hover: rgba(180, 200, 100, 0.3);
+  --border-default: rgba(255, 255, 255, 0.1);
+  --border-hover: rgba(255, 255, 255, 0.2);
   --border-focus: #D4F429;
-  --grid-lines: rgba(180, 200, 100, 0.08);
+  --grid-lines: rgba(255, 255, 255, 0.02);
 
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.5);
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);

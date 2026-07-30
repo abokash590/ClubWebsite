@@ -8,6 +8,7 @@ import { getUpcomingEvents, events } from "@/data/events";
 import { getFeaturedProjects } from "@/data/projects";
 import { testimonials } from "@/data/testimonials";
 import { leaderboard } from "@/data/cp";
+import { AlgorithmVisualizer } from "@/components/ui/AlgorithmVisualizer";
 import "./page.css";
 
 export const metadata: Metadata = {
@@ -39,10 +40,10 @@ export default function HomePage() {
                 : "Applications Open"}
             </Badge>
             <h1 className="hero__title">
-              Weekly CP practice,
+              Debug your limits.
               <br />
-              real projects,
-              <span className="hero__accent"> one club.</span>
+              Build reality.
+              <span className="hero__accent"> Welcome to the Club.</span>
             </h1>
             <p className="hero__subtitle">
               MEC Computer Club is where students compete in ICPC, build
@@ -74,30 +75,9 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+          
           <div className="hero__visual">
-            <div className="hero__card-stack">
-              <div className="hero__floating-card hero__floating-card--1">
-                <span className="hero__fc-icon">⚡</span>
-                <div>
-                  <strong>ICPC Regionals</strong>
-                  <small>3 teams qualified</small>
-                </div>
-              </div>
-              <div className="hero__floating-card hero__floating-card--2">
-                <span className="hero__fc-icon">🏆</span>
-                <div>
-                  <strong>2,000+ Problems</strong>
-                  <small>Solved by members</small>
-                </div>
-              </div>
-              <div className="hero__floating-card hero__floating-card--3">
-                <span className="hero__fc-icon">🚀</span>
-                <div>
-                  <strong>6 Projects</strong>
-                  <small>Shipped this year</small>
-                </div>
-              </div>
-            </div>
+            <AlgorithmVisualizer />
           </div>
         </div>
       </section>
@@ -117,7 +97,7 @@ export default function HomePage() {
         <div className="container">
           <div className="section-header">
             <span className="kicker">What&apos;s happening</span>
-            <h2>Upcoming Events</h2>
+            <h2>Upcoming Events Queue</h2>
             <p>Never an empty calendar. Here&apos;s what&apos;s next.</p>
           </div>
           <div className="grid grid--3 home-events-grid">
@@ -140,7 +120,7 @@ export default function HomePage() {
         <div className="container">
           <div className="section-header">
             <span className="kicker">Find your path</span>
-            <h2>Four departments, one club</h2>
+            <h2>Choose Your Tech Tree</h2>
             <p>Every member belongs to at least one. Which one fits you?</p>
           </div>
           <div className="grid grid--4 departments-grid stagger-children">
@@ -163,7 +143,7 @@ export default function HomePage() {
         <div className="container">
           <div className="section-header">
             <span className="kicker">Competitive Programming</span>
-            <h2>Ranked and verified</h2>
+            <h2>Club Leaderboard</h2>
             <p>Our CP team&apos;s standings — updated, not inflated.</p>
           </div>
           <div className="cp-snapshot">
@@ -199,12 +179,12 @@ export default function HomePage() {
         <div className="container">
           <div className="section-header">
             <span className="kicker">Proof of work</span>
-            <h2>Projects we&apos;ve shipped</h2>
+            <h2>Successfully Deployed Projects</h2>
             <p>Not tutorials — real software used by real people.</p>
           </div>
           <div className="grid grid--3">
             {featuredProjects.map((project) => (
-              <ProjectCard key={project.id} {...project} />
+              <ProjectCard key={project.id} {...project} team={project.team || []} />
             ))}
           </div>
           <div className="section-cta">
@@ -220,7 +200,7 @@ export default function HomePage() {
         <div className="container">
           <div className="section-header">
             <span className="kicker">From our members</span>
-            <h2>Real stories, real names</h2>
+            <h2>System Logs: Member Feedbacks</h2>
             <p>
               What actual club members say — not &quot;Great club!&quot; quotes.
             </p>
@@ -248,7 +228,7 @@ export default function HomePage() {
       <section className="cta-band" id="join-cta">
         <div className="container">
           <div className="cta-band__content">
-            <h2 className="cta-band__title">Ready to build something real?</h2>
+            <h2 className="cta-band__title">Ready to sudo join us?</h2>
             <p className="cta-band__subtitle">
               Applications are open. No prerequisites — just bring curiosity and
               consistency.
@@ -257,7 +237,7 @@ export default function HomePage() {
               <Button href="/join" size="lg" id="cta-band-join">
                 Apply to join
               </Button>
-              <Button href="/contact" variant="ghost" size="lg" id="cta-band-contact">
+              <Button href="/contact" variant="secondary" size="lg" id="cta-band-contact">
                 Have questions? Contact us →
               </Button>
             </div>

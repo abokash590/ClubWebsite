@@ -6,7 +6,7 @@ export const departments: Department[] = [
     name: "Competitive Programming",
     description:
       "Train for ICPC, national contests, and online competitions. Weekly practice sessions, editorial discussions, and team formations.",
-    icon: "⚡",
+    icon: "[CP]",
     color: "var(--accent-primary)",
     memberCount: 24,
   },
@@ -15,7 +15,7 @@ export const departments: Department[] = [
     name: "Web Development",
     description:
       "Build real-world projects using modern frameworks. From frontend to full-stack, learn by shipping, not just studying.",
-    icon: "🌐",
+    icon: "[WEB]",
     color: "var(--accent-secondary)",
     memberCount: 18,
   },
@@ -24,7 +24,7 @@ export const departments: Department[] = [
     name: "Machine Learning & AI",
     description:
       "Explore data science, deep learning, and AI applications. Kaggle competitions, research projects, and study groups.",
-    icon: "🧠",
+    icon: "[ML]",
     color: "#7C3AED",
     memberCount: 15,
   },
@@ -33,7 +33,7 @@ export const departments: Department[] = [
     name: "Cybersecurity",
     description:
       "CTF competitions, ethical hacking workshops, and security research. Learn to break things — responsibly.",
-    icon: "🔒",
+    icon: "[SEC]",
     color: "#DC2626",
     memberCount: 12,
   },

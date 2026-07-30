@@ -14,7 +14,7 @@ export default function BlogPage() {
       <section className="section blog-hero">
         <div className="container">
           <span className="kicker">Blog & Resources</span>
-          <h1>Knowledge shared</h1>
+          <h1>System Logs (Blog)</h1>
           <p className="blog-hero__subtitle">
             Tutorials, post-mortems, and thought leadership from our members.
           </p>

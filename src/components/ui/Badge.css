@@ -30,7 +30,7 @@
 }
 
 .badge--upcoming {
-  background-color: var(--accent-primary-hover);
+  background-color: var(--accent-primary);
   color: var(--accent-primary-text);
 }
 
@@ -40,7 +40,7 @@
 }
 
 .badge--pending {
-  background-color: var(--accent-primary-hover);
+  background-color: var(--accent-primary);
   color: var(--accent-primary-text);
 }
 
@@ -50,7 +50,7 @@
 }
 
 .badge--completed {
-  background-color: var(--accent-primary-hover);
+  background-color: var(--accent-primary);
   color: var(--accent-primary-text);
 }
 

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/Button";
 import { RobotIcon } from "@/components/ui/RobotIcon";
 import { ClubIcon } from "@/components/ui/ClubIcon";
+import { Select } from "@/components/ui/Select";
 import "./join.css";
 
 export default function JoinPage() {
@@ -107,7 +108,7 @@ export default function JoinPage() {
       <div className="container container--narrow">
         <div className="join-header">
           <span className="kicker">New Connection</span>
-          <h1>Join the Source.</h1>
+          <h1>Ready to Git Commit to the Club?</h1>
           <p>
             We&apos;re looking for students who want to build, compete, and learn.
             No prior experience required — just curiosity and a willingness to write some code.
@@ -149,17 +150,22 @@ export default function JoinPage() {
               </div>
               <div className="form-group">
                 <label htmlFor="semester">Current Semester</label>
-                <select id="semester" value={formData.semester} onChange={handleInputChange} required>
-                  <option value="">Select...</option>
-                  <option value="1">1st Semester</option>
-                  <option value="2">2nd Semester</option>
-                  <option value="3">3rd Semester</option>
-                  <option value="4">4th Semester</option>
-                  <option value="5">5th Semester</option>
-                  <option value="6">6th Semester</option>
-                  <option value="7">7th Semester</option>
-                  <option value="8">8th Semester</option>
-                </select>
+                <Select
+                  id="semester"
+                  value={formData.semester}
+                  onChange={(val) => setFormData(prev => ({ ...prev, semester: val }))}
+                  options={[
+                    { value: "1", label: "1st Semester" },
+                    { value: "2", label: "2nd Semester" },
+                    { value: "3", label: "3rd Semester" },
+                    { value: "4", label: "4th Semester" },
+                    { value: "5", label: "5th Semester" },
+                    { value: "6", label: "6th Semester" },
+                    { value: "7", label: "7th Semester" },
+                    { value: "8", label: "8th Semester" },
+                  ]}
+                  required
+                />
               </div>
               <div className="form-actions">
                 <div onMouseEnter={() => setIsHoveringNext(true)} onMouseLeave={() => setIsHoveringNext(false)}>
@@ -194,13 +200,18 @@ export default function JoinPage() {
               </div>
               <div className="form-group">
                 <label htmlFor="experience">Current Experience Level</label>
-                <select id="experience" value={formData.experience} onChange={handleInputChange} required>
-                  <option value="">Select...</option>
-                  <option value="none">Complete beginner (Never coded before)</option>
-                  <option value="basic">Know basic syntax (Variables, loops, if/else)</option>
-                  <option value="intermediate">Have built small projects / solved some CP problems</option>
-                  <option value="advanced">Comfortable building full apps / high CP rating</option>
-                </select>
+                <Select
+                  id="experience"
+                  value={formData.experience}
+                  onChange={(val) => setFormData(prev => ({ ...prev, experience: val }))}
+                  options={[
+                    { value: "none", label: "Complete beginner (Never coded before)" },
+                    { value: "basic", label: "Know basic syntax (Variables, loops, if/else)" },
+                    { value: "intermediate", label: "Have built small projects / solved some CP problems" },
+                    { value: "advanced", label: "Comfortable building full apps / high CP rating" },
+                  ]}
+                  required
+                />
               </div>
               <div className="form-actions form-actions--split">
                 <Button type="button" variant="secondary" onClick={() => setStep(1)}>← Back</Button>
