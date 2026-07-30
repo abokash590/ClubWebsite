@@ -41,8 +41,14 @@ const navItems = [
     ],
   },
   { label: "CP Hub", href: "/cp-hub" },
-  { label: "Projects", href: "/projects" },
-  { label: "Blog", href: "/blog" },
+  {
+    label: "Resources",
+    href: "#",
+    children: [
+      { label: "Projects", href: "/projects" },
+      { label: "Blog", href: "/blog" },
+    ],
+  },
   { label: "Gallery", href: "/gallery" },
 ];
 
