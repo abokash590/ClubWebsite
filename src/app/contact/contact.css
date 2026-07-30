@@ -1,0 +1,34 @@
+.contact-page { padding: var(--space-8) 0; }
+
+.contact-header { margin-bottom: var(--space-7); text-align: center; }
+.contact-header h1 { font-size: clamp(2rem, 4vw, 3rem); margin: var(--space-3) 0 var(--space-4); }
+.contact-header p { font-size: var(--text-lg); color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+
+.contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: var(--space-8); }
+
+.contact-info { display: flex; flex-direction: column; gap: var(--space-4); }
+.contact-card { background: var(--surface-secondary); padding: var(--space-5); border-radius: var(--radius-lg); }
+.contact-card h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); }
+.contact-card p { font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-3); line-height: var(--leading-relaxed); }
+.contact-card a { font-family: var(--font-mono); font-feature-settings: "liga" 0, "calt" 0; font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--accent-primary-hover); text-decoration: none; transition: color var(--transition-fast); }
+.contact-card a:hover { color: var(--accent-primary-hover); }
+
+.contact-form { background: var(--surface-elevated); padding: var(--space-6); border-radius: var(--radius-xl); border: 1px solid var(--border-default); box-shadow: var(--shadow-md); }
+.contact-form h3 { font-size: var(--text-xl); margin-bottom: var(--space-5); }
+
+/* Reuse form styles from join.css */
+.contact-form .form-group { margin-bottom: var(--space-4); }
+.contact-form label { display: block; font-weight: var(--weight-medium); margin-bottom: var(--space-2); color: var(--text-primary); }
+.contact-form input,
+.contact-form select,
+.contact-form textarea { width: 100%; padding: var(--space-3) var(--space-4); border: 1px solid var(--border-default); border-radius: var(--radius-md); background: var(--surface-primary); font-family: inherit; font-size: var(--text-base); color: var(--text-primary); transition: all var(--transition-fast); }
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus { outline: none; border-color: var(--accent-primary-hover); box-shadow: 0 0 0 2px var(--accent-secondary-light); }
+.contact-form .form-actions { margin-top: var(--space-5); }
+
+@media (max-width: 768px) {
+  .contact-grid { grid-template-columns: 1fr; gap: var(--space-6); }
+  .contact-info { order: 2; }
+  .contact-form { order: 1; padding: var(--space-5); }
+}

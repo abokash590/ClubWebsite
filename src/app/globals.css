@@ -1,49 +1,541 @@
+/* ============================================================
+   MEC Computer Club — Design System
+   Single source of truth for all design tokens and base styles.
+   Light theme. Token architecture supports future dark mode swap.
+   ============================================================ */
+
+/* --- Design Tokens --- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* == Colors (§8.2) == */
+  /* Neutral tokens — fixed per mode, identical across all accent vibes */
+  /* Light Theme (default) */
+  --surface-primary: #F8F8F6;
+  --surface-secondary: #F3F3F1;
+  --surface-elevated: #FFFFFF;
+  --surface-inverse: #1A1A1A;
+  --nav-bg: rgba(248, 248, 246, 0.85);
+
+  --text-primary: #1A1A1A;
+  --text-secondary: #4a4a4a;
+  --text-tertiary: #717171;
+  --text-inverse: #F8F8F6;
+
+  /* Accent tokens are JS-driven (see AccentProvider) — these are
+     fallback values only, applied before JS hydrates. */
+  --logo-color: #1A1A1A;
+  --accent-primary: #84CC16;
+  --accent-primary-hover: #65A30D;
+  --accent-primary-light: #D9F99D;
+  --accent-primary-text: #1A1A1A;
+  --accent-text-on-surface: #3f6212;
+  --accent-secondary: #84CC16;
+  --accent-secondary-light: #D9F99D;
+
+  --accent-success: #10B981;
+  --accent-success-light: #D1FAE5;
+  --accent-warning: #F59E0B;
+  --accent-error: #EF4444;
+
+  --border-default: rgba(26, 26, 26, 0.15);
+  --border-hover: rgba(26, 26, 26, 0.3);
+  --border-focus: #84CC16;
+  --grid-lines: rgba(26, 26, 26, 0.05);
+
+  --shadow-xs: 0 1px 2px rgba(20, 22, 19, 0.05);
+  --shadow-sm: 0 1px 3px rgba(20, 22, 19, 0.1), 0 1px 2px rgba(20, 22, 19, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(20, 22, 19, 0.1), 0 2px 4px -1px rgba(20, 22, 19, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(20, 22, 19, 0.1), 0 4px 6px -2px rgba(20, 22, 19, 0.05);
+  --shadow-xl: 0 20px 40px rgba(20, 22, 19, 0.08), 0 8px 16px rgba(20, 22, 19, 0.04);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.dark {
+  /* Dark Theme — neutral tokens only */
+  --surface-primary: #0D0F0A;
+  --surface-secondary: #1a1c15;
+  --surface-elevated: #151711;
+  --surface-inverse: #F5F5EF;
+  --nav-bg: rgba(13, 15, 10, 0.85);
+
+  --text-primary: #F5F5EF;
+  --text-secondary: #a8ad9a;
+  --text-tertiary: #787d6a;
+  --text-inverse: #0D0F0A;
+
+  /* Accent fallbacks for dark mode (before JS hydrates) */
+  --logo-color: #D4F429;
+  --accent-primary: #D4F429;
+  --accent-primary-hover: #bde010;
+  --accent-primary-light: #3A4013;
+  --accent-primary-text: #0D0F0A;
+  --accent-text-on-surface: #D4F429;
+  --accent-secondary: #D4F429;
+  --accent-secondary-light: #3A4013;
+
+  --accent-success: #10B981;
+  --accent-success-light: #064E3B;
+  --accent-warning: #F59E0B;
+  --accent-error: #EF4444;
+
+  --border-default: rgba(180, 200, 100, 0.15);
+  --border-hover: rgba(180, 200, 100, 0.3);
+  --border-focus: #D4F429;
+  --grid-lines: rgba(180, 200, 100, 0.08);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.6), 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+:root {
+  /* Spacing — strict 8px base unit (§8.4) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+  --space-7: 64px;
+  --space-8: 96px;
+  --space-9: 128px;
+
+  /* Typography — 5-step scale (§8.1) */
+  --font-body: var(--font-geist-sans), system-ui, sans-serif;
+  --font-heading: "General Sans", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg: 1.25rem;     /* 20px */
+  --text-xl: 1.5rem;      /* 24px */
+  --text-2xl: 1.75rem;    /* 28px */
+  --text-3xl: 2.25rem;    /* 36px */
+  --text-4xl: 2.5rem;     /* 40px */
+  --text-5xl: 3rem;       /* 48px */
+  --text-6xl: 3.75rem;    /* 60px */
+
+  --leading-tight: 1.2;
+  --leading-snug: 1.35;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.75;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.02em;
+  --tracking-wider: 0.05em;
+
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Border radius — consistent scale (§8.13) */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Transitions — purposeful only (§8.11) */
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 300ms ease-out;
+  --transition-spring: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Layout */
+  --max-width: 1280px;
+  --max-width-narrow: 720px;
+  --max-width-wide: 1440px;
+  --nav-height: 64px;
+  --gutter: 24px;
+  --gutter-mobile: 16px;
+
+  /* Z-index scale */
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+}
+
+/* --- Reduced motion (§11 — non-negotiable) --- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+}
+
+/* --- CSS Reset + Base --- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
-  height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  font-size: 16px;
 }
 
 body {
-  min-height: 100%;
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background-color: var(--surface-primary);
+  /* Grid background */
+  background-image: 
+    linear-gradient(to right, var(--grid-lines) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-lines) 1px, transparent 1px);
+  background-size: 40px 40px;
+  line-height: var(--leading-normal);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Smooth transitions for accent vibe rotation & mode switching */
+  transition: background-color 0.6s ease, color 0.6s ease, border-color 0.6s ease;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: var(--radius-full);
+  border: 3px solid var(--surface-primary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary-hover);
 }
 
 * {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-primary) var(--surface-primary);
+}
+
+/* Custom Selection */
+::selection {
+  background-color: var(--accent-primary);
+  color: var(--accent-primary-text);
+}
+
+/* Semantic elements */
+main {
+  min-height: calc(100vh - var(--nav-height));
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* --- Typography --- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary);
+  font-weight: var(--weight-bold);
+}
+
+h1 {
+  font-size: var(--text-5xl);
+}
+
+h2 {
+  font-size: var(--text-3xl);
+}
+
+h3 {
+  font-size: var(--text-2xl);
+}
+
+h4 {
+  font-size: var(--text-xl);
+}
+
+h5 {
+  font-size: var(--text-lg);
+}
+
+h6 {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+}
+
+p {
+  line-height: var(--leading-normal);
+  color: var(--text-secondary);
 }
 
 a {
-  color: inherit;
+  color: var(--text-link);
   text-decoration: none;
+  transition: color var(--transition-fast);
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+a:hover {
+  color: var(--accent-secondary-hover);
+}
+
+/* Focus ring — custom, consistent, never removed (§11) */
+:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Mono for code */
+code, pre, kbd, samp {
+  font-family: var(--font-mono); font-feature-settings: "liga" 0, "calt" 0;
+  font-size: var(--text-sm);
+}
+
+pre {
+  background-color: var(--surface-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  overflow-x: auto;
+}
+
+/* Lists */
+ul, ol {
+  padding-left: var(--space-4);
+}
+
+li {
+  margin-bottom: var(--space-1);
+}
+
+/* --- Utilities --- */
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+.container--narrow {
+  max-width: var(--max-width-narrow);
+}
+
+.container--wide {
+  max-width: var(--max-width-wide);
+}
+
+/* Section spacing */
+.section {
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-8);
+}
+
+.section--sm {
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-6);
+}
+
+.section--lg {
+  padding-top: var(--space-9);
+  padding-bottom: var(--space-9);
+}
+
+/* Kicker label — monospace, uppercase, small */
+.kicker {
+  font-family: var(--font-mono); font-feature-settings: "liga" 0, "calt" 0;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: var(--accent-primary-hover);
+  margin-bottom: var(--space-2);
+  display: block;
+}
+
+/* Section header */
+.section-header {
+  text-align: center;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: var(--space-6);
+}
+
+.section-header h2 {
+  margin-bottom: var(--space-3);
+}
+
+.section-header p {
+  font-size: var(--text-lg);
+  color: var(--text-tertiary);
+}
+
+/* Grid system — 12 column (§8.3) */
+.grid {
+  display: grid;
+  gap: var(--gutter);
+}
+
+.grid--2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid--4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Visually hidden — accessible but invisible */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background-color: var(--border-default);
+  border: none;
+  margin: var(--space-6) 0;
+}
+
+/* --- Responsive breakpoints --- */
+@media (max-width: 480px) {
+  :root {
+    --gutter: var(--gutter-mobile);
+  }
+
+  h1 { font-size: var(--text-3xl); }
+  h2 { font-size: var(--text-2xl); }
+  h3 { font-size: var(--text-xl); }
+
+  .section {
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-6);
+  }
+
+  .grid--2,
+  .grid--3,
+  .grid--4 {
+    grid-template-columns: 1fr;
   }
 }
+
+@media (min-width: 481px) and (max-width: 768px) {
+  h1 { font-size: var(--text-4xl); }
+
+  .grid--3,
+  .grid--4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .grid--4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Ultra-wide: cap reading width (§12) */
+@media (min-width: 1920px) {
+  .container {
+    max-width: var(--max-width-wide);
+  }
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--transition-slow) forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp var(--transition-slow) forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight var(--transition-slow) forwards;
+}
+
+/* Staggered children animation */
+.stagger-children > * {
+  opacity: 0;
+  animation: fadeInUp var(--transition-slow) forwards;
+}
+
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 80ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 160ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 240ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 320ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 400ms; }

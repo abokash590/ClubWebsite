@@ -1,0 +1,157 @@
+/* About Page */
+
+.about-hero {
+  padding-top: var(--space-8);
+}
+
+.about-hero h1 {
+  font-size: clamp(2.25rem, 4vw, 3.5rem);
+  margin-bottom: var(--space-4);
+}
+
+.about-hero__subtitle {
+  font-size: var(--text-xl);
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+  max-width: 700px;
+  margin-bottom: var(--space-4);
+}
+
+.about-hero__body {
+  font-size: var(--text-base);
+  color: var(--text-tertiary);
+  line-height: var(--leading-relaxed);
+  max-width: 700px;
+}
+
+/* Department detail cards */
+.about-depts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-7);
+}
+
+.about-dept {
+  display: flex;
+  gap: var(--space-5);
+  align-items: flex-start;
+  background: var(--surface-elevated);
+  border: 2px solid var(--text-primary);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  transition: all var(--transition-base);
+}
+
+.dark .about-dept {
+  border-color: var(--border-default);
+}
+
+.about-dept:nth-child(even) {
+  background: var(--accent-primary);
+}
+.about-dept:nth-child(even) .about-dept__icon-wrap {
+  background: var(--surface-elevated);
+}
+
+.about-dept:hover {
+  box-shadow: 6px 6px 0px var(--text-primary);
+  transform: translate(-2px, -2px);
+}
+
+.about-dept__icon-wrap {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-secondary);
+  border-radius: var(--radius-lg);
+  flex-shrink: 0;
+}
+
+.about-dept__icon {
+  font-size: 1.75rem;
+}
+
+.about-dept__content h3 {
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-2);
+}
+
+.about-dept__content p {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-2);
+}
+
+.about-dept__meta {
+  font-family: var(--font-mono); font-feature-settings: "liga" 0, "calt" 0;
+  font-size: var(--text-xs);
+  color: var(--accent-primary-hover);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+}
+
+/* Timeline (§2.6 — continuity) */
+.timeline {
+  position: relative;
+  padding-left: var(--space-5);
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--border-default);
+}
+
+.timeline__item {
+  position: relative;
+  padding-bottom: var(--space-5);
+  padding-left: var(--space-4);
+}
+
+.timeline__item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline__marker {
+  position: absolute;
+  left: calc(-1 * var(--space-5) + 3px);
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-secondary);
+  border: 2px solid var(--surface-primary);
+  z-index: 1;
+}
+
+.timeline__year {
+  font-family: var(--font-mono); font-feature-settings: "liga" 0, "calt" 0;
+  font-size: var(--text-xs);
+  color: var(--accent-primary-hover);
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+}
+
+.timeline__content h4 {
+  font-size: var(--text-lg);
+  margin: var(--space-1) 0 var(--space-1);
+}
+
+.timeline__content p {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .about-dept {
+    flex-direction: column;
+  }
+}
