@@ -29,35 +29,42 @@ export function EventCard({
   slug,
   attendeeCount,
 }: EventCardProps) {
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+  const eventDate = new Date(date);
+  const month = eventDate.toLocaleDateString("en-US", { month: "short" }).toUpperCase();
+  const day = eventDate.getDate();
 
   return (
     <Link href={`/events/${slug}`} className="card card--event" id={`event-${slug}`}>
-      <div className="card__image-wrapper">
-        <div className="card__image-placeholder" style={{ background: getEventGradient(type) }}>
-          <span className="card__image-icon">{getEventIcon(type)}</span>
+      <div className="card__visual">
+        <div className="card__placeholder" style={{ background: getEventGradient(type) }}>
+          <span className="card__icon-large">{getEventIcon(type)}</span>
         </div>
         <Badge variant={status === "upcoming" ? "upcoming" : "past"} className="card__badge">
           {status}
         </Badge>
       </div>
-      <div className="card__content">
-        <div className="card__meta">
-          <time className="card__date">{formattedDate}</time>
-          <span className="card__separator">·</span>
-          <span className="card__location">{location}</span>
+      <div className="card__body">
+        <div className="card__accent-column" style={{ color: getEventAccentColor(type) }}>
+          <span className="card__accent-top">{month}</span>
+          <span className="card__accent-bottom">{day}</span>
         </div>
-        <h3 className="card__title">{title}</h3>
-        <p className="card__description">{description}</p>
-        <div className="card__footer">
-          <span className="card__time">{time}</span>
-          {attendeeCount && (
-            <span className="card__attendees">{attendeeCount} attending</span>
-          )}
+        
+        <div className="card__divider" />
+        
+        <div className="card__content-column">
+          <div className="card__meta-line">
+            <span className="card__meta-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </span>
+            {location}
+          </div>
+          <h3 className="card__title" style={{ color: getEventAccentColor(type) }}>{title}</h3>
+          <p className="card__description">{description}</p>
+          <div className="card__footer">
+            <div className="card__footer-pill">
+              {time} {attendeeCount ? `· ${attendeeCount} attending` : ""}
+            </div>
+          </div>
         </div>
       </div>
     </Link>
@@ -87,29 +94,44 @@ export function ProjectCard({
 }: ProjectCardProps) {
   return (
     <Link href={`/projects/${slug}`} className="card card--project" id={`project-${slug}`}>
-      <div className="card__image-wrapper">
-        <div className="card__image-placeholder" style={{ background: getDeptGradient(department) }}>
-          <span className="card__image-icon">{getDeptIcon(department)}</span>
+      <div className="card__visual">
+        <div className="card__placeholder" style={{ background: getDeptGradient(department) }}>
+          <span className="card__icon-large">{getDeptIcon(department)}</span>
         </div>
         <Badge variant={status === "completed" ? "completed" : "pending"} className="card__badge">
           {status === "in-progress" ? "In Progress" : status}
         </Badge>
       </div>
-      <div className="card__content">
-        <div className="card__meta">
-          <span className="card__department">{formatDept(department)}</span>
+      <div className="card__body">
+        <div className="card__accent-column" style={{ color: "var(--accent-primary)" }}>
+          <span className="card__accent-top" style={{ fontSize: '1.25rem', lineHeight: 1 }}>{getDeptIcon(department)}</span>
+          <span className="card__accent-bottom">{formatDeptShort(department)}</span>
         </div>
-        <h3 className="card__title">{title}</h3>
-        <p className="card__description">{description}</p>
-        <div className="card__tags">
-          {techStack.slice(0, 3).map((tech) => (
-            <span key={tech} className="card__tag">
-              {tech}
+        
+        <div className="card__divider" />
+        
+        <div className="card__content-column">
+          <div className="card__meta-line">
+            <span className="card__meta-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
             </span>
-          ))}
-          {techStack.length > 3 && (
-            <span className="card__tag card__tag--more">+{techStack.length - 3}</span>
-          )}
+            {techStack[0]}
+          </div>
+          <h3 className="card__title">{title}</h3>
+          <p className="card__description">{description}</p>
+          <div className="card__footer">
+            <div className="card__tags">
+              {techStack.slice(0, 3).map((tech) => (
+                <span key={tech} className="card__tag">
+                  {tech}
+                </span>
+              ))}
+              {techStack.length > 3 && (
+                <span className="card__tag card__tag--more">+{techStack.length - 3}</span>
+              )}
+            </div>
+            {liveUrl && <span className="card__link-glyph">↗</span>}
+          </div>
         </div>
       </div>
     </Link>
@@ -266,4 +288,21 @@ function formatDept(dept: string): string {
     cybersec: "Cybersecurity",
   };
   return names[dept] || dept;
+}
+
+function formatDeptShort(dept: string): string {
+  const short: Record<string, string> = {
+    cp: "CP",
+    webdev: "WEB",
+    ml: "AI",
+    cybersec: "CYBER",
+  };
+  return short[dept] || dept.toUpperCase().slice(0, 4);
+}
+
+function getEventAccentColor(type: string): string {
+  if (type === "contest") return "var(--accent-primary)";
+  if (type === "workshop") return "var(--accent-primary-hover)";
+  if (type === "hackathon") return "#F59E0B"; // Warm unique hue
+  return "var(--text-primary)";
 }

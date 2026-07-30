@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { VibeSwitcher } from "@/components/VibeSwitcher";
 import "./Navbar.css";
 
 const navItems = [

@@ -2,8 +2,8 @@
  * Multi-Accent Cycling Theme System
  * -----------------------------------
  * 7 named accent vibes × 2 modes (light / dark).
- * Neutral tokens (surfaces, text, shadows) stay in CSS.
- * Only these accent tokens are JS-driven so they can rotate.
+ * Every token — surfaces, text, borders, accents — is individually
+ * tuned per vibe so the entire canvas shifts mood, not just the accent.
  */
 
 export const VIBE_ORDER = [
@@ -19,6 +19,16 @@ export const VIBE_ORDER = [
 export type VibeName = (typeof VIBE_ORDER)[number];
 
 export interface AccentTokens {
+  /* ── Per-vibe neutrals ───────────────────────────────────── */
+  surfacePrimary: string;
+  surfaceSecondary: string;
+  surfaceElevated: string;
+  navBg: string;
+  textPrimary: string;
+  textSecondary: string;
+  textTertiary: string;
+
+  /* ── Accent tokens ───────────────────────────────────────── */
   logoColor: string;
   accentPrimary: string;
   accentPrimaryHover: string;
@@ -50,25 +60,45 @@ function borders(r: number, g: number, b: number, mode: "light" | "dark") {
   };
 }
 
-/* ------------------------------------------------------------------ */
+/* ================================================================== */
 /*  THEMES lookup table                                               */
-/* ------------------------------------------------------------------ */
+/*  Each vibe has its own full surface/text/accent profile so the     */
+/*  entire canvas shifts undertone when the vibe rotates.             */
+/* ================================================================== */
 export const THEMES: Record<VibeName, VibeDefinition> = {
-  /* ── Lime ─────────────────────────────────────────────────── */
+
+  /* ── Lime (H≈80° — warm olive undertone) ─────────────────── */
   lime: {
     light: {
+      surfacePrimary: "#F8F8F8",
+      surfaceSecondary: "#F2F2F2",
+      surfaceElevated: "#FFFFFF",
+      navBg: "rgba(248, 248, 248, 0.85)",
+      textPrimary: "#1A1A1A",
+      textSecondary: "#4B4B4A",
+      textTertiary: "#727271",
+
       logoColor: "#1A1A1A",
       accentPrimary: "#84CC16",
       accentPrimaryHover: "#65A30D",
       accentPrimaryLight: "#D9F99D",
-      accentPrimaryText: "#1A1A1A", // lime is too pale for white text
-      accentTextOnSurface: "#3f6212", // darkened for readability on light bg
+      accentPrimaryText: "#1A1A1A",
+      accentTextOnSurface: "#3f6212",
       accentSecondary: "#84CC16",
       accentSecondaryLight: "#D9F99D",
       borderFocus: "#84CC16",
       ...borders(132, 204, 22, "light"),
+      gridLines: "rgba(95, 94, 90, 0.05)",
     },
     dark: {
+      surfacePrimary: "#0D0F0A",
+      surfaceSecondary: "#1A1C15",
+      surfaceElevated: "#151711",
+      navBg: "rgba(13, 15, 10, 0.85)",
+      textPrimary: "#F5F5EF",
+      textSecondary: "#a8ad9a",
+      textTertiary: "#787d6a",
+
       logoColor: "#D4F429",
       accentPrimary: "#D4F429",
       accentPrimaryHover: "#bde010",
@@ -82,9 +112,17 @@ export const THEMES: Record<VibeName, VibeDefinition> = {
     },
   },
 
-  /* ── Mint ─────────────────────────────────────────────────── */
+  /* ── Mint (H≈160° — cool teal undertone) ─────────────────── */
   mint: {
     light: {
+      surfacePrimary: "#F8F8F8",
+      surfaceSecondary: "#F2F2F2",
+      surfaceElevated: "#FFFFFF",
+      navBg: "rgba(248, 248, 248, 0.85)",
+      textPrimary: "#1A1A1A",
+      textSecondary: "#4B4B4A",
+      textTertiary: "#727271",
+
       logoColor: "#1A5C48",
       accentPrimary: "#2E8B6B",
       accentPrimaryHover: "#246E55",
@@ -95,8 +133,17 @@ export const THEMES: Record<VibeName, VibeDefinition> = {
       accentSecondaryLight: "#E5F7F0",
       borderFocus: "#2E8B6B",
       ...borders(46, 139, 107, "light"),
+      gridLines: "rgba(95, 94, 90, 0.05)",
     },
     dark: {
+      surfacePrimary: "#0A0F0D",
+      surfaceSecondary: "#151C19",
+      surfaceElevated: "#111715",
+      navBg: "rgba(10, 15, 13, 0.85)",
+      textPrimary: "#EFF5F3",
+      textSecondary: "#9AADA6",
+      textTertiary: "#6A7D77",
+
       logoColor: "#34D399",
       accentPrimary: "#34D399",
       accentPrimaryHover: "#2AB882",
@@ -110,9 +157,17 @@ export const THEMES: Record<VibeName, VibeDefinition> = {
     },
   },
 
-  /* ── Sky ──────────────────────────────────────────────────── */
+  /* ── Sky (H≈220° — cool blue undertone) ──────────────────── */
   sky: {
     light: {
+      surfacePrimary: "#F8F8F8",
+      surfaceSecondary: "#F2F2F2",
+      surfaceElevated: "#FFFFFF",
+      navBg: "rgba(248, 248, 248, 0.85)",
+      textPrimary: "#1A1A1A",
+      textSecondary: "#4B4B4A",
+      textTertiary: "#727271",
+
       logoColor: "#1E3F8A",
       accentPrimary: "#2D5BC0",
       accentPrimaryHover: "#244A9D",
@@ -123,8 +178,17 @@ export const THEMES: Record<VibeName, VibeDefinition> = {
       accentSecondaryLight: "#E9F0FD",
       borderFocus: "#2D5BC0",
       ...borders(45, 91, 192, "light"),
+      gridLines: "rgba(95, 94, 90, 0.05)",
     },
     dark: {
+      surfacePrimary: "#0A0B0F",
+      surfaceSecondary: "#15171C",
+      surfaceElevated: "#111317",
+      navBg: "rgba(10, 11, 15, 0.85)",
+      textPrimary: "#EFF1F5",
+      textSecondary: "#9AA0AD",
+      textTertiary: "#6A707D",
+
       logoColor: "#5B8DEF",
       accentPrimary: "#5B8DEF",
       accentPrimaryHover: "#4A78D4",
@@ -138,9 +202,17 @@ export const THEMES: Record<VibeName, VibeDefinition> = {
     },
   },
 
-  /* ── Amber ────────────────────────────────────────────────── */
+  /* ── Amber (H≈30° — warm golden undertone) ───────────────── */
   amber: {
     light: {
+      surfacePrimary: "#F8F8F8",
+      surfaceSecondary: "#F2F2F2",
+      surfaceElevated: "#FFFFFF",
+      navBg: "rgba(248, 248, 248, 0.85)",
+      textPrimary: "#1A1A1A",
+      textSecondary: "#4B4B4A",
+      textTertiary: "#727271",
+
       logoColor: "#8A4410",
       accentPrimary: "#B25A15",
       accentPrimaryHover: "#934A11",
@@ -151,8 +223,17 @@ export const THEMES: Record<VibeName, VibeDefinition> = {
       accentSecondaryLight: "#FDF0E4",
       borderFocus: "#B25A15",
       ...borders(178, 90, 21, "light"),
+      gridLines: "rgba(95, 94, 90, 0.05)",
     },
     dark: {
+      surfacePrimary: "#0F0D0A",
+      surfaceSecondary: "#1C1915",
+      surfaceElevated: "#171511",
+      navBg: "rgba(15, 13, 10, 0.85)",
+      textPrimary: "#F5F3EF",
+      textSecondary: "#ADA69A",
+      textTertiary: "#7D776A",
+
       logoColor: "#F2A65A",
       accentPrimary: "#F2A65A",
       accentPrimaryHover: "#D99248",
@@ -166,9 +247,17 @@ export const THEMES: Record<VibeName, VibeDefinition> = {
     },
   },
 
-  /* ── Rose ─────────────────────────────────────────────────── */
+  /* ── Rose (H≈350° — warm pink undertone) ─────────────────── */
   rose: {
     light: {
+      surfacePrimary: "#F8F8F8",
+      surfaceSecondary: "#F2F2F2",
+      surfaceElevated: "#FFFFFF",
+      navBg: "rgba(248, 248, 248, 0.85)",
+      textPrimary: "#1A1A1A",
+      textSecondary: "#4B4B4A",
+      textTertiary: "#727271",
+
       logoColor: "#8A2637",
       accentPrimary: "#B23A4D",
       accentPrimaryHover: "#932F3F",
@@ -179,8 +268,17 @@ export const THEMES: Record<VibeName, VibeDefinition> = {
       accentSecondaryLight: "#FBE9EC",
       borderFocus: "#B23A4D",
       ...borders(178, 58, 77, "light"),
+      gridLines: "rgba(95, 94, 90, 0.05)",
     },
     dark: {
+      surfacePrimary: "#0F0A0C",
+      surfaceSecondary: "#1C1517",
+      surfaceElevated: "#171113",
+      navBg: "rgba(15, 10, 12, 0.85)",
+      textPrimary: "#F5EFF1",
+      textSecondary: "#AD9A9E",
+      textTertiary: "#7D6A6E",
+
       logoColor: "#F0687D",
       accentPrimary: "#F0687D",
       accentPrimaryHover: "#D45A6C",
@@ -194,9 +292,17 @@ export const THEMES: Record<VibeName, VibeDefinition> = {
     },
   },
 
-  /* ── Violet ───────────────────────────────────────────────── */
+  /* ── Violet (H≈260° — cool purple undertone) ─────────────── */
   violet: {
     light: {
+      surfacePrimary: "#F8F8F8",
+      surfaceSecondary: "#F2F2F2",
+      surfaceElevated: "#FFFFFF",
+      navBg: "rgba(248, 248, 248, 0.85)",
+      textPrimary: "#1A1A1A",
+      textSecondary: "#4B4B4A",
+      textTertiary: "#727271",
+
       logoColor: "#3E3590",
       accentPrimary: "#5A4FBF",
       accentPrimaryHover: "#4A409E",
@@ -207,8 +313,17 @@ export const THEMES: Record<VibeName, VibeDefinition> = {
       accentSecondaryLight: "#F0EEFB",
       borderFocus: "#5A4FBF",
       ...borders(90, 79, 191, "light"),
+      gridLines: "rgba(95, 94, 90, 0.05)",
     },
     dark: {
+      surfacePrimary: "#0C0A0F",
+      surfaceSecondary: "#17151C",
+      surfaceElevated: "#131117",
+      navBg: "rgba(12, 10, 15, 0.85)",
+      textPrimary: "#F1EFF5",
+      textSecondary: "#A09AAD",
+      textTertiary: "#706A7D",
+
       logoColor: "#8B7FE8",
       accentPrimary: "#8B7FE8",
       accentPrimaryHover: "#7A6ED0",
@@ -222,9 +337,17 @@ export const THEMES: Record<VibeName, VibeDefinition> = {
     },
   },
 
-  /* ── Slate ────────────────────────────────────────────────── */
+  /* ── Slate (neutral — no hue, true gray) ─────────────────── */
   slate: {
     light: {
+      surfacePrimary: "#F8F8F8",
+      surfaceSecondary: "#F2F2F2",
+      surfaceElevated: "#FFFFFF",
+      navBg: "rgba(248, 248, 248, 0.85)",
+      textPrimary: "#1A1A1A",
+      textSecondary: "#4B4B4A",
+      textTertiary: "#727271",
+
       logoColor: "#3D3D3A",
       accentPrimary: "#5F5E5A",
       accentPrimaryHover: "#4D4D49",
@@ -237,6 +360,14 @@ export const THEMES: Record<VibeName, VibeDefinition> = {
       ...borders(95, 94, 90, "light"),
     },
     dark: {
+      surfacePrimary: "#0C0C0B",
+      surfaceSecondary: "#191918",
+      surfaceElevated: "#141413",
+      navBg: "rgba(12, 12, 11, 0.85)",
+      textPrimary: "#F2F2F0",
+      textSecondary: "#A6A6A4",
+      textTertiary: "#767674",
+
       logoColor: "#B8B6AC",
       accentPrimary: "#B8B6AC",
       accentPrimaryHover: "#A3A198",

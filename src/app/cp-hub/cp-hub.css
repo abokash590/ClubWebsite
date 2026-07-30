@@ -51,7 +51,45 @@
   transition: background var(--transition-fast);
 }
 .cp-leaderboard__row:hover { background: var(--accent-primary-light); }
-.cp-leaderboard__row--top { background: rgba(13, 148, 136, 0.03); }
+/* --- Leaderboard Top 3 Variables --- */
+.cp-leaderboard {
+  --rank1-color: #D4AF37; /* Warm Gold */
+  --rank2-color: #9CA3AF; /* Silver Gray */
+  --rank3-color: #B08D57; /* Antique Bronze */
+  
+  --rank1-bg: rgba(212, 175, 55, 0.08);
+  --rank2-bg: rgba(156, 163, 175, 0.08);
+  --rank3-bg: rgba(176, 141, 87, 0.08);
+}
+
+.dark .cp-leaderboard {
+  --rank1-color: #FBBF24; /* Bright Yellow-Gold */
+  --rank2-color: #D1D5DB; /* Bright Silver */
+  --rank3-color: #F59E0B; /* Bright Amber-Bronze */
+  
+  --rank1-bg: rgba(251, 191, 36, 0.08);
+  --rank2-bg: rgba(209, 213, 219, 0.08);
+  --rank3-bg: rgba(245, 158, 11, 0.08);
+}
+
+.cp-leaderboard__row--top-1 {
+  background: linear-gradient(90deg, var(--rank1-bg) 0%, transparent 100%);
+  border-left: 3px solid var(--rank1-color);
+}
+.cp-leaderboard__row--top-2 {
+  background: linear-gradient(90deg, var(--rank2-bg) 0%, transparent 100%);
+  border-left: 3px solid var(--rank2-color);
+}
+.cp-leaderboard__row--top-3 {
+  background: linear-gradient(90deg, var(--rank3-bg) 0%, transparent 100%);
+  border-left: 3px solid var(--rank3-color);
+}
+
+.cp-leaderboard__row--top-1 .cp-leaderboard__rank,
+.cp-leaderboard__row--top-2 .cp-leaderboard__rank,
+.cp-leaderboard__row--top-3 .cp-leaderboard__rank {
+  font-size: 1.25rem;
+}
 
 .cp-leaderboard__rank { font-family: var(--font-mono); font-feature-settings: "liga" 0, "calt" 0; font-weight: var(--weight-bold); color: var(--accent-primary-hover); }
 .cp-leaderboard__name { font-weight: var(--weight-semibold); }
