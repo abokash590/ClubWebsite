@@ -20,7 +20,7 @@ const navItems = [
     children: [
       { label: "Advisor Panel", href: "/advisors" },
       { label: "Alumni", href: "/alumni" },
-      { label: "Experience Panel", href: "/experiences" },
+      { label: "Executive Panel", href: "/executives" },
       { label: "Members", href: "/about#team" },
     ],
   },
