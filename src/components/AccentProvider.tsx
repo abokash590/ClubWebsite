@@ -15,7 +15,7 @@ import {
   type VibeName,
 } from "@/lib/accent-themes";
 
-const ROTATION_INTERVAL = 30_000; // 30 seconds
+const ROTATION_INTERVAL = 8_000; // 8 seconds for dynamic feel
 
 interface AccentContextValue {
   currentVibe: VibeName;
@@ -77,11 +77,6 @@ export function AccentProvider({ children }: { children: React.ReactNode }) {
 
   // Start the rotation interval (independent of mode toggle)
   useEffect(() => {
-    if (isManual) {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      return;
-    }
-
     intervalRef.current = setInterval(() => {
       setVibeIndex((prev) => (prev + 1) % VIBE_ORDER.length);
     }, ROTATION_INTERVAL);
@@ -89,7 +84,7 @@ export function AccentProvider({ children }: { children: React.ReactNode }) {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isManual]); // Reacts to manual override
+  }, []); // Continuous loop
 
   return (
     <AccentContext.Provider value={{ currentVibe, setManualVibe, cycleManualVibe, isManual }}>
