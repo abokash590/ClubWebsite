@@ -43,6 +43,7 @@ const navItems = [
   { label: "CP Hub", href: "/cp-hub" },
   { label: "Projects", href: "/projects" },
   { label: "Blog", href: "/blog" },
+  { label: "Gallery", href: "/gallery" },
 ];
 
 const VIBES = ["lime", "mint", "sky", "amber", "rose", "violet", "slate"];
