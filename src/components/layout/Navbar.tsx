@@ -13,7 +13,15 @@ import "./Navbar.css";
 
 const navItems = [
   { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
+  {
+    label: "About",
+    href: "#",
+    children: [
+      { label: "About Us", href: "/about" },
+      { label: "Constitution", href: "/constitution" },
+      { label: "Contact Us", href: "/contact" },
+    ],
+  },
   {
     label: "Our People",
     href: "#",
