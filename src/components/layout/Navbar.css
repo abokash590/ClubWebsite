@@ -93,14 +93,14 @@
 /* Dropdown */
 .navbar__dropdown {
   position: absolute;
-  top: calc(100% + var(--space-2));
+  top: 100%; /* No gap, prevents mouseout bug */
   left: 0;
-  min-width: 200px;
+  min-width: 180px;
   background-color: var(--surface-primary);
-  border: 2px solid var(--text-primary);
-  border-radius: 0;
-  box-shadow: 6px 6px 0px 0px var(--text-primary);
-  padding: 0;
+  border: 2px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: 4px 4px 0px 0px var(--border-default);
+  padding: var(--space-2);
   list-style: none;
   margin: 0;
   animation: fadeIn var(--transition-fast) forwards;
@@ -108,24 +108,20 @@
 
 .navbar__dropdown-link {
   display: block;
-  padding: var(--space-3) var(--space-4);
-  font-family: var(--font-heading);
-  font-size: var(--text-base);
-  font-weight: var(--weight-bold);
-  color: var(--text-primary);
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--text-secondary);
   text-decoration: none;
-  border-bottom: 2px solid var(--border-default);
+  border-radius: var(--radius-sm);
   transition: all var(--transition-fast);
 }
 
-li:last-child .navbar__dropdown-link {
-  border-bottom: none;
-}
-
 .navbar__dropdown-link:hover {
-  background-color: var(--accent-primary-hover);
-  color: white;
-  padding-left: var(--space-5);
+  background-color: var(--surface-secondary);
+  color: var(--text-primary);
+  padding-left: var(--space-3); /* Revert the weird shift */
 }
 
 /* Actions */
