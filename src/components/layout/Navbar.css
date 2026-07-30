@@ -95,68 +95,44 @@
   position: absolute;
   top: 100%;
   left: 0;
-  padding-top: var(--space-3); /* The invisible bridge */
+  padding-top: var(--space-2); /* The invisible bridge */
   z-index: 100;
 }
 
-/* Neo-Brutalist Dropdown */
+/* Compact Dropdown */
 .navbar__dropdown {
-  min-width: 220px;
+  min-width: 180px;
   background-color: var(--surface-primary);
-  border: 2px solid var(--text-primary);
-  border-radius: 0;
-  box-shadow: 6px 6px 0px 0px var(--text-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: 4px 4px 0px 0px var(--border-default);
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: var(--space-1);
   animation: slideDown var(--transition-fast) forwards;
 }
 
 @keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
+  from { opacity: 0; transform: translateY(-5px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .navbar__dropdown-link {
   display: flex;
   align-items: center;
-  padding: var(--space-3) var(--space-4);
-  font-family: var(--font-heading);
-  font-size: var(--text-base);
-  font-weight: var(--weight-bold);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
-  color: var(--text-primary);
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--text-secondary);
   text-decoration: none;
-  border-bottom: 2px solid var(--text-primary);
-  transition: all var(--transition-fast);
-  position: relative;
-  overflow: hidden;
-}
-
-li:last-child .navbar__dropdown-link {
-  border-bottom: none;
-}
-
-.navbar__dropdown-link::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 100%;
-  background-color: var(--text-primary);
-  z-index: -1;
-  transition: width var(--transition-fast);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast), color var(--transition-fast);
 }
 
 .navbar__dropdown-link:hover {
-  color: var(--surface-primary);
-  padding-left: var(--space-5);
-}
-
-.navbar__dropdown-link:hover::before {
-  width: 100%;
+  background-color: var(--accent-primary-light);
+  color: var(--text-primary);
 }
 
 /* Actions */
