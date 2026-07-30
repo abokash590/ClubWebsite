@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { EventCard, ProjectCard } from "@/components/ui/Card";
 import { departments } from "@/data/departments";
-import { getUpcomingEvents } from "@/data/events";
+import { getUpcomingEvents, events } from "@/data/events";
 import { getFeaturedProjects } from "@/data/projects";
 import { testimonials } from "@/data/testimonials";
 import { leaderboard } from "@/data/cp";
