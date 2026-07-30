@@ -151,15 +151,14 @@
 .navbar__hamburger {
   display: none;
   flex-direction: column;
-  gap: 5px;
+  justify-content: space-around;
   width: 24px;
   height: 24px;
-  justify-content: center;
-  background: none;
+  background: transparent;
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: calc(var(--z-overlay) + 10);
+  z-index: 9999;
 }
 
 .navbar__hamburger span {
@@ -192,7 +191,9 @@
   right: 0;
   bottom: 0;
   background-color: var(--surface-primary);
-  z-index: var(--z-overlay);
+  z-index: 9998;
+  padding-top: var(--space-8);
+  overflow-y: auto;
   animation: fadeIn var(--transition-base) forwards;
 }
 
@@ -266,5 +267,11 @@
 
   .navbar__hamburger {
     display: flex;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar__mobile-link {
+    font-size: var(--text-2xl);
   }
 }

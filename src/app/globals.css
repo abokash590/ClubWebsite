@@ -448,12 +448,12 @@ li {
 /* --- Responsive breakpoints --- */
 @media (max-width: 480px) {
   :root {
-    --gutter: var(--gutter-mobile);
+    --gutter: var(--space-4);
   }
 
-  h1 { font-size: var(--text-3xl); }
-  h2 { font-size: var(--text-2xl); }
-  h3 { font-size: var(--text-xl); }
+  h1 { font-size: clamp(2rem, 8vw, var(--text-3xl)); }
+  h2 { font-size: clamp(1.75rem, 6vw, var(--text-2xl)); }
+  h3 { font-size: clamp(1.25rem, 5vw, var(--text-xl)); }
 
   .section {
     padding-top: var(--space-6);
@@ -463,16 +463,16 @@ li {
   .grid--2,
   .grid--3,
   .grid--4 {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
   }
 }
 
 @media (min-width: 481px) and (max-width: 768px) {
-  h1 { font-size: var(--text-4xl); }
+  h1 { font-size: clamp(2.5rem, 6vw, var(--text-4xl)); }
 
   .grid--3,
   .grid--4 {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 }
 
