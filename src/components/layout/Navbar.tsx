@@ -124,7 +124,7 @@ export function Navbar() {
         {/* Right side — CTA + Login */}
         <div className="navbar__actions">
           <ThemeToggle />
-          <Link href="#" className="navbar__login" id="nav-member-login">
+          <Link href="/login" className="navbar__login" id="nav-member-login">
             Member Login
           </Link>
           <Button href="/join" size="sm" id="nav-join-cta">
@@ -185,7 +185,7 @@ export function Navbar() {
               <Button href="/join" fullWidth id="mobile-join-cta">
                 Apply to Join
               </Button>
-              <Link href="#" className="navbar__mobile-login" onClick={() => setIsOpen(false)}>
+              <Link href="/login" className="navbar__mobile-login" onClick={() => setIsOpen(false)}>
                 Member Login →
               </Link>
             </div>

@@ -1,0 +1,108 @@
+/* Login Page Styles */
+
+.login-page {
+  min-height: calc(100vh - var(--nav-height));
+  display: flex;
+  align-items: stretch;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-8) var(--gutter);
+  max-width: 500px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.login-header {
+  margin-bottom: var(--space-6);
+  text-align: center;
+  width: 100%;
+}
+
+.login-header h1 {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  margin-bottom: var(--space-2);
+}
+
+.login-header p {
+  color: var(--text-secondary);
+  font-size: var(--text-lg);
+}
+
+/* Neo-brutalist form container */
+.login-form {
+  background: var(--surface-elevated);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--text-primary);
+  box-shadow: 4px 4px 0px var(--surface-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  animation: fadeIn 400ms ease forwards;
+  width: 100%;
+  transition: all var(--transition-base);
+}
+
+.login-form:hover {
+  border-color: var(--accent-primary);
+  box-shadow: 8px 8px 0px var(--accent-primary);
+  transform: translate(-4px, -4px);
+}
+
+.dark .login-form {
+  border-color: var(--border-default);
+  box-shadow: 4px 4px 0px var(--surface-primary);
+}
+
+.dark .login-form:hover {
+  border-color: var(--accent-primary);
+  box-shadow: 8px 8px 0px var(--accent-primary);
+}
+
+.login-form__footer {
+  margin-top: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: center;
+  text-align: center;
+}
+
+.login-form__forgot {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--accent-primary-hover);
+  text-decoration: none;
+}
+
+.login-form__forgot:hover {
+  text-decoration: underline;
+}
+
+.login-form__signup {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.login-form__signup a {
+  color: var(--text-primary);
+  font-weight: var(--weight-bold);
+  text-decoration: none;
+}
+
+.login-form__signup a:hover {
+  color: var(--accent-primary-hover);
+  text-decoration: underline;
+}
+
+/* Split screen visual (Right side) - REMOVED */
+@media (max-width: 480px) {
+  .login-form {
+    padding: var(--space-4);
+  }
+}

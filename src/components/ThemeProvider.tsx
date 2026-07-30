@@ -7,7 +7,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   return (
     <NextThemesProvider
       attribute={["class", "data-theme"]}
-      defaultTheme="dark"
+      defaultTheme="light"
       enableSystem
     >
       <AccentProvider>{children}</AccentProvider>
