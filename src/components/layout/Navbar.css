@@ -40,19 +40,20 @@
   object-fit: contain;
 }
 
-/* Theme based logo toggle */
-.navbar__logo-dark {
-  display: none;
-}
-.dark .navbar__logo-dark {
-  display: block;
-}
-
-.navbar__logo-light {
-  display: block;
-}
-.dark .navbar__logo-light {
-  display: none;
+/* Dynamic Theme Masked Logo */
+.navbar__logo-mask {
+  width: 160px;
+  height: 40px;
+  background-color: var(--logo-color);
+  -webkit-mask-image: url('/logo.png');
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center left;
+  mask-image: url('/logo.png');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center left;
+  transition: background-color var(--transition-colors);
 }
 
 /* Links */

@@ -28,19 +28,19 @@
   object-fit: contain;
 }
 
-/* Theme based logo toggle */
-.footer__logo-dark {
-  display: none;
-}
-.dark .footer__logo-dark {
-  display: block;
-}
-
-.footer__logo-light {
-  display: block;
-}
-.dark .footer__logo-light {
-  display: none;
+.footer__logo-mask {
+  width: 180px;
+  height: 45px;
+  background-color: var(--logo-color);
+  -webkit-mask-image: url('/logo.png');
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center left;
+  mask-image: url('/logo.png');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center left;
+  transition: background-color var(--transition-colors);
 }
 
 .footer__tagline {

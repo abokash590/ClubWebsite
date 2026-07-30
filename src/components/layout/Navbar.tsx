@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/Button";
@@ -64,22 +63,7 @@ export function Navbar() {
       <nav className="navbar__inner container" aria-label="Main navigation">
         {/* Logo */}
         <Link href="/" className="navbar__logo" aria-label="MEC Computer Club — Home">
-          <Image 
-            src="/logo.png" 
-            alt="MEC Computer Club Logo" 
-            width={160} 
-            height={60} 
-            className="navbar__logo-image navbar__logo-dark"
-            priority
-          />
-          <Image 
-            src="/logo-light.png" 
-            alt="MEC Computer Club Logo" 
-            width={160} 
-            height={60} 
-            className="navbar__logo-image navbar__logo-light"
-            priority
-          />
+          <div className="navbar__logo-mask" aria-label="MEC Computer Club Logo" />
         </Link>
 
         {/* Desktop nav */}

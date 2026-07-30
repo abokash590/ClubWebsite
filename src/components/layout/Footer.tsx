@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import "./Footer.css";
 
@@ -31,22 +30,9 @@ export function Footer() {
         <div className="footer__grid">
           {/* Brand column */}
           <div className="footer__brand">
-            <Link href="/" className="footer__logo" aria-label="MEC Computer Club — Home">
-              <Image 
-                src="/logo.png" 
-                alt="MEC Computer Club Logo" 
-                width={150} 
-                height={50} 
-                className="footer__logo-image footer__logo-dark"
-              />
-              <Image 
-                src="/logo-light.png" 
-                alt="MEC Computer Club Logo" 
-                width={150} 
-                height={50} 
-                className="footer__logo-image footer__logo-light"
-              />
-            </Link>
+            <Link href="/" className="footer__brand-link" aria-label="MEC Computer Club">
+            <div className="footer__logo-mask" />
+          </Link>
             <p className="footer__tagline">
               Weekly CP practice, real projects, one club.
               Building the next generation of developers at MEC.
