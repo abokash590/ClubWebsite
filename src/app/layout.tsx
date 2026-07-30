@@ -34,7 +34,7 @@ export default function RootLayout({
       <body className={`${GeistSans.variable} ${jetbrainsMono.variable}`}>
         <ThemeProvider>
           <Navbar />
-          <main id="main-content" className="animate-fade-in">{children}</main>
+          <main id="main-content">{children}</main>
           <Footer />
           <AccentIndicator />
         </ThemeProvider>

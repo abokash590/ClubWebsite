@@ -1,30 +1,85 @@
-import { Metadata } from "next";
+// Codeforces Roadmap Page
 
-export const metadata: Metadata = {
-  title: "Roadmaps | CP Hub | MEC Computer Club",
-};
+import "./roadmaps.css";
+
+const roadmapLevels = [
+  {
+    level: "Newbie",
+    rating: "< 1200",
+    color: "#808080", // Gray
+    topics: [
+      "Basic syntax (C++, Java, or Python)",
+      "Time Complexity Analysis",
+      "Basic Arrays & Strings",
+      "Brute Force & Simulation",
+    ],
+  },
+  {
+    level: "Pupil",
+    rating: "1200 - 1399",
+    color: "#008000", // Green
+    topics: [
+      "Sorting & Searching",
+      "Prefix Sums & Two Pointers",
+      "Basic Number Theory (Sieve, GCD)",
+      "Greedy Algorithms",
+    ],
+  },
+  {
+    level: "Specialist",
+    rating: "1400 - 1599",
+    color: "#03A89E", // Cyan
+    topics: [
+      "Binary Search (on answer)",
+      "Basic Dynamic Programming",
+      "Bit Manipulation",
+      "Graph Traversals (BFS / DFS)",
+    ],
+  },
+  {
+    level: "Expert+",
+    rating: "1600+",
+    color: "#0000FF", // Blue
+    topics: [
+      "Advanced DP (Bitmask, Digit)",
+      "Shortest Paths (Dijkstra)",
+      "Segment Trees & Fenwick Trees",
+      "Combinatorics & Game Theory",
+    ],
+  },
+];
 
 export default function RoadmapsPage() {
-  const roadmaps = [
-    { title: "Beginner", desc: "Basic Math, Time Complexity, Array operations, Basic strings.", color: "var(--accent-primary)" },
-    { title: "Intermediate", desc: "Number Theory, Binary Search, Basic DP, Graph Traversals.", color: "#ffb3ba" },
-    { title: "Advanced", desc: "Segment Trees, Advanced Graph Theory, Network Flow, Game Theory.", color: "#bae1ff" }
-  ];
-
   return (
     <main className="section container">
-      <div className="section-header">
+      <div className="section-header text-center">
         <span className="kicker">CP Hub</span>
-        <h2>Roadmaps</h2>
-        <p>Structured learning paths designed to take you from a novice to an expert in competitive programming.</p>
+        <h2>Codeforces Roadmaps</h2>
+        <p>Follow the path to reach your target rating!</p>
       </div>
-      <div style={{ display: "grid", gap: "var(--space-5)", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}>
-        {roadmaps.map(r => (
-          <div key={r.title} className="card" style={{ padding: "var(--space-5)", borderTop: `6px solid ${r.color}`, cursor: "default" }}>
-            <h3 style={{ marginBottom: "var(--space-2)", fontSize: "var(--text-xl)" }}>{r.title}</h3>
-            <p style={{ color: "var(--text-secondary)", lineHeight: "1.5" }}>{r.desc}</p>
-          </div>
-        ))}
+      
+      <div className="container container--narrow">
+        <div className="roadmap-timeline">
+          {roadmapLevels.map((r) => (
+            <div key={r.level} className="roadmap-timeline__item">
+              <div 
+                className="roadmap-timeline__marker" 
+                style={{ backgroundColor: r.color, borderColor: 'var(--surface-primary)' }} 
+              />
+              <div className="roadmap-timeline__content">
+                <span className="roadmap-timeline__rating" style={{ color: r.color }}>
+                  {r.rating}
+                </span>
+                <h4 style={{ color: r.color }}>{r.level}</h4>
+                <ul className="roadmap-timeline__topics">
+                  {r.topics.map((t, idx) => (
+                    <li key={idx}>{t}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </main>
   );

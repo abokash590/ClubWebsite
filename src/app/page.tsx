@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { EventCard, ProjectCard } from "@/components/ui/Card";
 import { departments } from "@/data/departments";
-import { getUpcomingEvents, events } from "@/data/events";
+import { getUpcomingEvents } from "@/data/events";
 import { getFeaturedProjects } from "@/data/projects";
 import { testimonials } from "@/data/testimonials";
 import { leaderboard } from "@/data/cp";
@@ -166,8 +166,8 @@ export default function HomePage() {
               ))}
             </div>
             <div className="cp-snapshot__cta">
-              <Button href="/cp-hub" variant="secondary" id="home-cp-hub">
-                Full leaderboard & resources →
+              <Button href="/cp-hub/leaderboard" variant="secondary" id="home-cp-hub">
+                Full leaderboard →
               </Button>
             </div>
           </div>

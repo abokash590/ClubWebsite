@@ -237,13 +237,14 @@ interface TeamCardProps {
   };
 }
 
-export function TeamCard({ name, role, image, bio, socials }: TeamCardProps) {
+export function TeamCard({ name, role, bio, socials }: TeamCardProps) {
+  // Use a generated avatar based on the name for a fun, dynamic look
+  const avatarUrl = `https://api.dicebear.com/7.x/notionists/svg?seed=${encodeURIComponent(name)}&backgroundColor=transparent`;
+
   return (
     <div className="card card--team">
-      <div className="card__avatar">
-        <div className="card__avatar-placeholder">
-          <span>{name.split(" ").map(n => n[0]).join("")}</span>
-        </div>
+      <div className="card__avatar" style={{ padding: '10px', background: 'var(--surface-secondary)' }}>
+        <Image src={avatarUrl} alt={name} fill style={{ objectFit: 'contain' }} unoptimized />
       </div>
       <div className="card__content">
         <h4 className="card__name">{name}</h4>

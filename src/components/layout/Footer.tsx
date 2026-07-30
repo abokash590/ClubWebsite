@@ -44,7 +44,7 @@ export function Footer() {
         <div className="footer__grid">
           {/* Brand column */}
           <div className="footer__brand">
-            <Link href="/" className="footer__brand-link" aria-label="MEC Computer Club">
+            <Link href="/" className="footer__logo" aria-label="MEC Computer Club">
               {mounted ? (
                 <Image 
                   src={`/logo-${currentVibe}-${resolvedTheme === 'dark' ? 'dark' : 'light'}.png`}

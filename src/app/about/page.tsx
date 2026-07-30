@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
-import { Button } from "@/components/ui/Button";
-import { TeamCard } from "@/components/ui/Card";
 import { departments } from "@/data/departments";
-import { teamMembers, getExecTeam, getPanelLeads } from "@/data/team";
 import "./about.css";
 
 export const metadata: Metadata = {
@@ -12,9 +9,6 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  const execTeam = getExecTeam();
-  const panelLeads = getPanelLeads();
-
   return (
     <>
       {/* Mission */}
@@ -45,50 +39,20 @@ export default function AboutPage() {
             <h2>Your Core Functions & Tasks</h2>
             <p>Each department runs its own activities, projects, and learning tracks.</p>
           </div>
-          <div className="about-depts">
+          <div className="grid grid--2 stagger-children">
             {departments.map((dept, i) => (
-              <div key={dept.id} className={`about-dept ${i % 2 !== 0 ? "about-dept--reverse" : ""}`}>
+              <div key={dept.id} className="about-dept">
                 <div className="about-dept__icon-wrap">
                   <span className="about-dept__icon">{dept.icon}</span>
                 </div>
                 <div className="about-dept__content">
                   <h3>{dept.name}</h3>
                   <p>{dept.description}</p>
+                </div>
+                <div className="about-dept__footer">
                   <span className="about-dept__meta">{dept.memberCount} active members</span>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Exec Team */}
-      <section className="section" id="team">
-        <div className="container">
-          <div className="section-header">
-            <span className="kicker">Leadership</span>
-            <h2>The Root Users (Executive Panel)</h2>
-            <p>The people keeping things running.</p>
-          </div>
-          <div className="grid grid--4 stagger-children">
-            {execTeam.map((member) => (
-              <TeamCard key={member.id} {...member} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Panel Leads */}
-      <section className="section section--alt">
-        <div className="container">
-          <div className="section-header">
-            <span className="kicker">Department leads</span>
-            <h2>Our Tech Leads & Mentors</h2>
-            <p>Each department is run by a lead who sets the direction and activities.</p>
-          </div>
-          <div className="grid grid--4 stagger-children">
-            {panelLeads.map((member) => (
-              <TeamCard key={member.id} {...member} />
             ))}
           </div>
         </div>

@@ -25,52 +25,56 @@
 }
 
 /* Department detail cards */
-.about-depts {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-7);
-}
-
 .about-dept {
   display: flex;
-  gap: var(--space-5);
-  align-items: flex-start;
+  flex-direction: column;
   background: var(--surface-elevated);
   border: 2px solid var(--text-primary);
   border-radius: var(--radius-xl);
   padding: var(--space-5);
   transition: all var(--transition-base);
+  height: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
 .dark .about-dept {
   border-color: var(--border-default);
 }
 
-.about-dept:nth-child(even) {
-  background: var(--accent-primary);
-}
-.about-dept:nth-child(even) .about-dept__icon-wrap {
-  background: var(--surface-elevated);
-}
-
+/* Beautiful hover effect for the 2x2 grid cards */
 .about-dept:hover {
-  box-shadow: 6px 6px 0px var(--text-primary);
-  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0px var(--accent-primary);
+  transform: translate(-4px, -4px);
+  border-color: var(--accent-primary);
 }
 
 .about-dept__icon-wrap {
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--surface-secondary);
   border-radius: var(--radius-lg);
-  flex-shrink: 0;
+  margin-bottom: var(--space-4);
+  border: 1px solid var(--border-default);
+  transition: all var(--transition-fast);
+}
+
+.about-dept:hover .about-dept__icon-wrap {
+  background: var(--accent-primary);
+  color: var(--accent-primary-text);
+  border-color: var(--accent-primary);
+  transform: scale(1.1) rotate(-5deg);
 }
 
 .about-dept__icon {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
+}
+
+.about-dept__content {
+  flex-grow: 1;
 }
 
 .about-dept__content h3 {
@@ -81,7 +85,14 @@
 .about-dept__content p {
   font-size: var(--text-base);
   line-height: var(--leading-relaxed);
-  margin-bottom: var(--space-2);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-4);
+}
+
+.about-dept__footer {
+  margin-top: auto;
+  padding-top: var(--space-4);
+  border-top: 1px dashed var(--border-default);
 }
 
 .about-dept__meta {
@@ -89,6 +100,7 @@
   font-size: var(--text-xs);
   color: var(--accent-primary-hover);
   text-transform: uppercase;
+  font-weight: var(--weight-bold);
   letter-spacing: var(--tracking-wider);
 }
 

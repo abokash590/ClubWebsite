@@ -8,7 +8,7 @@
   border: 1px solid var(--text-primary);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: all var(--transition-base);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base), background-color var(--transition-base), color var(--transition-base);
   text-decoration: none;
   color: inherit;
 }
@@ -17,24 +17,28 @@
   border-color: var(--border-default);
 }
 
-a.card:hover {
+a.card:hover,
+.card--hoverable:hover {
   border-color: var(--text-primary);
   box-shadow: 6px 6px 0px var(--accent-primary);
   transform: translate(-2px, -2px);
 }
 
-.dark a.card:hover {
+.dark a.card:hover,
+.dark .card--hoverable:hover {
   border-color: var(--border-hover);
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  a.card:hover {
+  a.card:hover,
+  .card--hoverable:hover {
     transform: none;
   }
 }
 
-a.card:active {
+a.card:active,
+.card--hoverable:active {
   transform: translateY(0);
 }
 

@@ -8,11 +8,9 @@ import { useTheme } from "next-themes";
 import { useAccent } from "@/components/AccentProvider";
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { VibeSwitcher } from "@/components/VibeSwitcher";
 import "./Navbar.css";
 
 const navItems = [
-  { label: "Home", href: "/" },
   {
     label: "About",
     href: "#",
@@ -51,7 +49,6 @@ const navItems = [
       { label: "Contests", href: "/cp-hub/contests" },
       { label: "Leaderboard", href: "/cp-hub/leaderboard" },
       { label: "ICPC Preparation", href: "/cp-hub/icpc-preparation" },
-      { label: "Mentor Sessions", href: "/cp-hub/mentor-sessions" },
       { label: "Achievements", href: "/cp-hub/achievements" },
     ],
   },
@@ -61,6 +58,14 @@ const navItems = [
     children: [
       { label: "Projects", href: "/projects" },
       { label: "Blog", href: "/blog" },
+    ],
+  },
+  {
+    label: "Collaborate",
+    href: "#",
+    children: [
+      { label: "Become a Sponsor", href: "/collaborate/sponsor" },
+      { label: "Our Partners", href: "/collaborate/partners" },
     ],
   },
   { label: "Gallery", href: "/gallery" },
@@ -74,13 +79,14 @@ function LogoPreloader() {
     <div style={{ position: "absolute", opacity: 0, pointerEvents: "none", width: 0, height: 0, overflow: "hidden" }} aria-hidden="true">
       {VIBES.map((vibe) =>
         MODES.map((mode) => (
-          <Image
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
             key={`${vibe}-${mode}`}
             src={`/logo-${vibe}-${mode}.png`}
             alt=""
             width={160}
             height={40}
-            priority={false}
+            loading="eager"
           />
         ))
       )}
@@ -102,8 +108,15 @@ export function Navbar() {
   }, []);
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 10);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
