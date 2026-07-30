@@ -29,6 +29,28 @@ const navItems = [
   { label: "Blog", href: "/blog" },
 ];
 
+const VIBES = ["lime", "mint", "sky", "amber", "rose", "violet", "slate"];
+const MODES = ["light", "dark"];
+
+function LogoPreloader() {
+  return (
+    <div style={{ position: "absolute", opacity: 0, pointerEvents: "none", width: 0, height: 0, overflow: "hidden" }} aria-hidden="true">
+      {VIBES.map((vibe) =>
+        MODES.map((mode) => (
+          <Image
+            key={`${vibe}-${mode}`}
+            src={`/logo-${vibe}-${mode}.png`}
+            alt=""
+            width={160}
+            height={40}
+            priority={false}
+          />
+        ))
+      )}
+    </div>
+  );
+}
+
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -70,6 +92,7 @@ export function Navbar() {
 
   return (
     <header className={`navbar ${isScrolled ? "navbar--scrolled" : ""}`} role="banner">
+      <LogoPreloader />
       <nav className="navbar__inner container" aria-label="Main navigation">
         {/* Logo */}
         <Link href="/" className="navbar__logo" aria-label="MEC Computer Club — Home">
