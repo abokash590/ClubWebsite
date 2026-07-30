@@ -13,17 +13,25 @@ import "./Navbar.css";
 
 const navItems = [
   { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
   {
-    label: "About",
-    href: "/about",
+    label: "Our People",
+    href: "#",
     children: [
-      { label: "Our Story", href: "/about" },
-      { label: "Departments", href: "/about#departments" },
-      { label: "Team", href: "/about#team" },
+      { label: "Advisor Panel", href: "/advisors" },
       { label: "Alumni", href: "/alumni" },
+      { label: "Experience Panel", href: "/experiences" },
+      { label: "Members", href: "/about#team" },
     ],
   },
-  { label: "Events", href: "/events" },
+  {
+    label: "Events",
+    href: "/events",
+    children: [
+      { label: "Upcoming Event", href: "/events#upcoming" },
+      { label: "Past Event", href: "/events#past" },
+    ],
+  },
   { label: "CP Hub", href: "/cp-hub" },
   { label: "Projects", href: "/projects" },
   { label: "Blog", href: "/blog" },
