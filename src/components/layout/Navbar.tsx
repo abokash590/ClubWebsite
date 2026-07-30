@@ -158,15 +158,17 @@ export function Navbar() {
                 )}
               </Link>
               {item.children && activeDropdown === item.label && (
-                <ul className="navbar__dropdown" role="menu">
-                  {item.children.map((child) => (
-                    <li key={child.href} role="none">
-                      <Link href={child.href} className="navbar__dropdown-link" role="menuitem">
-                        {child.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                <div className="navbar__dropdown-wrapper">
+                  <ul className="navbar__dropdown" role="menu">
+                    {item.children.map((child) => (
+                      <li key={child.href} role="none">
+                        <Link href={child.href} className="navbar__dropdown-link" role="menuitem">
+                          {child.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               )}
             </li>
           ))}
