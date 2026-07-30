@@ -108,7 +108,8 @@
   box-shadow: 4px 4px 0px 0px var(--accent-primary);
   list-style: none;
   margin: 0;
-  padding: var(--space-1);
+  padding: 0;
+  overflow: hidden;
   animation: slideDown var(--transition-fast) forwards;
 }
 
@@ -126,8 +127,12 @@
   font-weight: var(--weight-medium);
   color: var(--text-secondary);
   text-decoration: none;
-  border-radius: var(--radius-sm);
+  border-bottom: 1px solid var(--border-default);
   transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+li:last-child .navbar__dropdown-link {
+  border-bottom: none;
 }
 
 .navbar__dropdown-link:hover {
