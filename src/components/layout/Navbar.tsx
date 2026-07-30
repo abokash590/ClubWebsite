@@ -40,7 +40,21 @@ const navItems = [
       { label: "Past Event", href: "/events#past" },
     ],
   },
-  { label: "CP Hub", href: "/cp-hub" },
+  {
+    label: "CP Hub",
+    href: "#",
+    children: [
+      { label: "Roadmaps", href: "/cp-hub/roadmaps" },
+      { label: "Resources", href: "/cp-hub/resources" },
+      { label: "Problem Sets", href: "/cp-hub/problem-sets" },
+      { label: "Sheet Tracker", href: "/cp-hub/sheet-tracker" },
+      { label: "Contests", href: "/cp-hub/contests" },
+      { label: "Leaderboard", href: "/cp-hub/leaderboard" },
+      { label: "ICPC Preparation", href: "/cp-hub/icpc-preparation" },
+      { label: "Mentor Sessions", href: "/cp-hub/mentor-sessions" },
+      { label: "Achievements", href: "/cp-hub/achievements" },
+    ],
+  },
   {
     label: "Resources",
     href: "#",

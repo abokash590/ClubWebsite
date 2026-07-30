@@ -5,9 +5,10 @@ import "./AlgorithmVisualizer.css";
 
 const ARRAY_SIZE = 16;
 const BUBBLE_SPEED_MS = 250;
+const INITIAL_ARRAY = [40, 75, 25, 90, 50, 20, 80, 60, 30, 85, 45, 95, 35, 70, 55, 65];
 
 export function AlgorithmVisualizer() {
-  const [array, setArray] = useState<number[]>([]);
+  const [array, setArray] = useState<number[]>(INITIAL_ARRAY);
   const [isRunning, setIsRunning] = useState(false);
   
   // Bubble Sort state
@@ -112,11 +113,8 @@ export function AlgorithmVisualizer() {
 
   // Initial Auto-start
   useEffect(() => {
-    const initialArr = generateArray();
-    const t = setTimeout(() => {
-      runAlgorithm(initialArr);
-    }, 1000);
-    timeouts.current.push(t);
+    // Start immediately without delay
+    runAlgorithm(INITIAL_ARRAY);
 
     return () => clearTimeouts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
