@@ -1,4 +1,10 @@
+"use client";
+
+import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
+import { useAccent } from "@/components/AccentProvider";
 import "./Footer.css";
 
 const footerLinks = {
@@ -24,6 +30,14 @@ const footerLinks = {
 };
 
 export function Footer() {
+  const { currentVibe } = useAccent();
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <footer className="footer" role="contentinfo">
       <div className="container">
@@ -31,8 +45,24 @@ export function Footer() {
           {/* Brand column */}
           <div className="footer__brand">
             <Link href="/" className="footer__brand-link" aria-label="MEC Computer Club">
-            <div className="footer__logo-mask" />
-          </Link>
+              {mounted ? (
+                <Image 
+                  src={`/logo-${currentVibe}-${resolvedTheme === 'dark' ? 'dark' : 'light'}.png`}
+                  alt="MEC Computer Club Logo"
+                  width={180}
+                  height={45}
+                  className="footer__logo-image"
+                />
+              ) : (
+                <Image 
+                  src="/logo-lime-light.png"
+                  alt="MEC Computer Club Logo"
+                  width={180}
+                  height={45}
+                  className="footer__logo-image"
+                />
+              )}
+            </Link>
             <p className="footer__tagline">
               Weekly CP practice, real projects, one club.
               Building the next generation of developers at MEC.

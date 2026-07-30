@@ -1,8 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
+import { useAccent } from "@/components/AccentProvider";
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { VibeSwitcher } from "@/components/VibeSwitcher";
@@ -31,6 +34,13 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const pathname = usePathname();
+  const { currentVibe } = useAccent();
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,7 +73,25 @@ export function Navbar() {
       <nav className="navbar__inner container" aria-label="Main navigation">
         {/* Logo */}
         <Link href="/" className="navbar__logo" aria-label="MEC Computer Club — Home">
-          <div className="navbar__logo-mask" aria-label="MEC Computer Club Logo" />
+          {mounted ? (
+            <Image 
+              src={`/logo-${currentVibe}-${resolvedTheme === 'dark' ? 'dark' : 'light'}.png`}
+              alt="MEC Computer Club Logo" 
+              width={160} 
+              height={40} 
+              priority
+              className="navbar__logo-image"
+            />
+          ) : (
+            <Image 
+              src="/logo-lime-light.png"
+              alt="MEC Computer Club Logo" 
+              width={160} 
+              height={40} 
+              priority
+              className="navbar__logo-image"
+            />
+          )}
         </Link>
 
         {/* Desktop nav */}

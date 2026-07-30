@@ -40,20 +40,9 @@
   object-fit: contain;
 }
 
-/* Dynamic Theme Masked Logo */
-.navbar__logo-mask {
-  width: 160px;
-  height: 40px;
-  background-color: var(--logo-color);
-  -webkit-mask-image: url('/logo.png');
-  -webkit-mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center left;
-  mask-image: url('/logo.png');
-  mask-size: contain;
-  mask-repeat: no-repeat;
-  mask-position: center left;
-  transition: background-color var(--transition-colors);
+/* Logo Image */
+.navbar__logo-image {
+  object-fit: contain;
 }
 
 /* Links */
