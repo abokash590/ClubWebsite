@@ -27,7 +27,7 @@ export interface TeamMember {
     linkedin?: string;
     codeforces?: string;
   };
-  isExec: boolean;
+  isExec?: boolean;
 }
 
 export interface Event {
