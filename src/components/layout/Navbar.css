@@ -103,9 +103,9 @@
 .navbar__dropdown {
   min-width: 180px;
   background-color: var(--surface-primary);
-  border: 1px solid var(--border-default);
+  border: 1px solid var(--text-primary);
   border-radius: var(--radius-md);
-  box-shadow: 4px 4px 0px 0px var(--border-default);
+  box-shadow: 4px 4px 0px 0px var(--accent-primary);
   list-style: none;
   margin: 0;
   padding: var(--space-1);
