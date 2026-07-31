@@ -28,9 +28,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <link href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,700&display=swap" rel="stylesheet" />
-      </head>
       <body className={`${GeistSans.variable} ${jetbrainsMono.variable}`}>
         <ThemeProvider>
           <Navbar />
