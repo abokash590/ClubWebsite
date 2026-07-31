@@ -33,12 +33,6 @@ export default function HomePage() {
         </div>
         <div className="container hero__content">
           <div className="hero__text">
-            <Badge variant="upcoming" size="md" className="hero__badge">
-              <span className="hero__pulse-dot"></span>
-              {nextEvent
-                ? `Next: ${nextEvent.title.slice(0, 40)}${nextEvent.title.length > 40 ? "…" : ""}`
-                : "Applications Open"}
-            </Badge>
             <h1 className="hero__title">
               Debug your limits.
               <br />
@@ -52,10 +46,10 @@ export default function HomePage() {
             </p>
             <div className="hero__actions">
               <Button href="/join" size="lg" id="hero-join-cta">
-                Apply to join
+                Become a Member
               </Button>
-              <Button href="/events" variant="secondary" size="lg" id="hero-events-cta">
-                See upcoming events
+              <Button href="/contact" variant="secondary" size="lg" id="hero-sponsor-cta">
+                Become a Sponsor
               </Button>
             </div>
             <div className="hero__stats">
@@ -76,6 +70,22 @@ export default function HomePage() {
             </div>
           </div>
           
+          {upcomingEvents.length > 0 && (
+            <div className="hero__floating-event-border" style={{ position: 'absolute', top: '32px', right: '32px', zIndex: 30, width: '100%', maxWidth: '320px', borderRadius: 'var(--radius-sm)' }}>
+              <div className="hero__floating-event-inner">
+                <span className="hero__floating-event-label" style={{ borderBottom: '1px solid var(--border-brutalist)', paddingBottom: '4px' }}>
+                  Next in queue.
+                </span>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  {upcomingEvents.map((evt, index) => (
+                    <Link key={evt.slug} href={`/events/${evt.slug}`} style={{ textDecoration: 'none', padding: '6px 0', borderBottom: index !== upcomingEvents.length - 1 ? '1px solid var(--border-brutalist)' : 'none' }}>
+                      <p className="hero__floating-event-title">{evt.title}</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
           <div className="hero__visual">
             <AlgorithmVisualizer />
           </div>
@@ -123,15 +133,11 @@ export default function HomePage() {
             <h2>Choose Your Tech Tree</h2>
             <p>Every member belongs to at least one. Which one fits you?</p>
           </div>
-          <div className="grid grid--4 departments-grid stagger-children">
+          <div className="departments-grid stagger-children">
             {departments.map((dept) => (
               <div key={dept.id} className="dept-card" id={`dept-${dept.id}`}>
-                <span className="dept-card__icon">{dept.icon}</span>
                 <h3 className="dept-card__name">{dept.name}</h3>
                 <p className="dept-card__desc">{dept.description}</p>
-                <span className="dept-card__count">
-                  {dept.memberCount} members
-                </span>
               </div>
             ))}
           </div>

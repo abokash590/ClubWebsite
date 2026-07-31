@@ -1,0 +1,516 @@
+.samples-container {
+  padding: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.samples-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.sample-wrapper {
+  margin-bottom: 80px;
+  border-top: 2px dashed var(--border-default);
+  padding-top: 40px;
+}
+
+.sample-label {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  margin-bottom: 24px;
+  color: var(--accent-primary-hover);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.hero-sample {
+  position: relative;
+  padding: 40px;
+  background: var(--surface-primary);
+  border: 1px solid var(--border-brutalist);
+  border-radius: var(--radius-lg);
+  box-shadow: 12px 12px 0px var(--border-brutalist);
+}
+
+/* =========================================
+   Option 1: Terminal
+   ========================================= */
+.terminal-window {
+  background: #111; /* Always dark for terminal */
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #333;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  font-family: var(--font-mono);
+  color: #fff;
+}
+
+.terminal-header {
+  background: #222;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #333;
+}
+
+.terminal-header .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.dot.red { background: #ff5f56; }
+.dot.yellow { background: #ffbd2e; }
+.dot.green { background: #27c93f; }
+
+.terminal-title {
+  margin-left: auto;
+  margin-right: auto;
+  color: #888;
+  font-size: 0.8rem;
+}
+
+.terminal-body {
+  padding: 32px;
+}
+
+.terminal-text {
+  font-family: var(--font-mono);
+  font-size: 2.5rem;
+  line-height: 1.4;
+  color: #fff;
+  margin-bottom: 24px;
+}
+.terminal-text .prompt { color: var(--accent-primary); }
+.blinking-cursor {
+  animation: blink 1s step-end infinite;
+  color: #fff;
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.terminal-sub {
+  color: #888;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  max-width: 600px;
+  margin-bottom: 32px;
+}
+
+.terminal-stats {
+  display: flex;
+  gap: 24px;
+  margin-top: 40px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+
+/* =========================================
+   Option 2: Brutal Blocks
+   ========================================= */
+.brutal-hero {
+  background: var(--surface-secondary);
+}
+
+.brutal-title {
+  font-size: 4rem;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.brutal-block {
+  display: inline-block;
+  background: var(--accent-primary);
+  color: #000;
+  padding: 0 16px;
+  border: 4px solid #000;
+  transform: rotate(-2deg);
+  margin-right: 8px;
+}
+.brutal-block.inverted {
+  background: #000;
+  color: #fff;
+  transform: rotate(2deg);
+}
+
+.brutal-underline {
+  text-decoration: underline;
+  text-decoration-color: var(--accent-primary);
+  text-decoration-thickness: 8px;
+  text-underline-offset: 4px;
+}
+
+.brutal-sub {
+  font-size: 1.2rem;
+  border-left: 6px solid var(--accent-primary);
+  padding-left: 20px;
+  margin-top: 32px;
+  margin-bottom: 40px;
+  background: var(--surface-elevated);
+  padding: 16px 20px;
+  border-right: 2px solid #000;
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
+}
+
+.brutal-actions {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.brutal-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  border-top: 4px solid #000;
+  padding-top: 24px;
+}
+
+.b-stat {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  text-align: center;
+  border: 2px solid #000;
+  padding: 12px;
+  background: #fff;
+}
+.dark .b-stat { background: #000; border-color: var(--border-default); color: #fff; }
+
+
+/* =========================================
+   Option 3: Cyberpunk / Glitch Grid
+   ========================================= */
+.cyber-hero {
+  background-image: 
+    linear-gradient(var(--border-default) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-default) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: -1px -1px;
+}
+
+.cyber-text-container {
+  background: var(--surface-primary);
+  padding: 40px;
+  border: 1px solid var(--accent-primary);
+  box-shadow: -8px 8px 0px rgba(132, 204, 22, 0.2);
+  display: inline-block;
+}
+
+.cyber-title {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  font-size: 3.5rem;
+  position: relative;
+}
+
+/* Simple glitch hover effect */
+.cyber-title:hover {
+  animation: glitch-skew 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+  color: var(--accent-primary);
+}
+@keyframes glitch-skew {
+  0% { transform: skew(0deg); }
+  20% { transform: skew(-10deg); }
+  40% { transform: skew(10deg); }
+  60% { transform: skew(-5deg); }
+  80% { transform: skew(5deg); }
+  100% { transform: skew(0deg); }
+}
+
+.cyber-accent {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--text-primary);
+}
+
+.cyber-divider {
+  height: 4px;
+  width: 60px;
+  background: var(--accent-primary);
+  margin: 32px 0;
+}
+
+.cyber-stats {
+  display: flex;
+  gap: 40px;
+  margin-top: 48px;
+}
+
+.c-stat {
+  position: relative;
+  padding-left: 16px;
+}
+.c-stat::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--accent-primary);
+}
+
+.c-val {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+.c-lbl {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  letter-spacing: 2px;
+}
+
+/* =========================================
+   Option 4: Glassmorphic Minimal
+   ========================================= */
+.glass-hero {
+  background: #000;
+  overflow: hidden;
+  border-color: #333;
+}
+.glass-blob {
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 300px;
+  height: 300px;
+  background: var(--accent-primary);
+  filter: blur(100px);
+  opacity: 0.3;
+  z-index: 1;
+}
+.glass-content {
+  position: relative;
+  z-index: 2;
+}
+.glass-title {
+  font-size: 4rem;
+  line-height: 1.1;
+  color: #fff;
+  font-weight: 300;
+  letter-spacing: -2px;
+}
+.glass-accent {
+  background: linear-gradient(90deg, var(--accent-primary), #fff);
+  -webkit-background-clip: text;
+  color: transparent;
+  font-weight: bold;
+}
+.glass-sub {
+  font-size: 1.25rem;
+  color: #aaa;
+  font-weight: 300;
+  margin-top: 24px;
+}
+.glass-stats {
+  display: flex;
+  gap: 16px;
+  margin-top: 48px;
+}
+.g-stat {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 12px 24px;
+  border-radius: 100px;
+  color: #fff;
+  font-size: 0.9rem;
+}
+.g-stat strong {
+  color: var(--accent-primary);
+  margin-right: 8px;
+}
+
+/* =========================================
+   Option 5: Retro OS / Win95
+   ========================================= */
+.retro-hero {
+  background: #008080; /* Classic Win95 Teal */
+  padding: 60px;
+  border-radius: 0;
+  border: 4px solid #fff;
+  border-right-color: #000;
+  border-bottom-color: #000;
+}
+.retro-window {
+  background: #c0c0c0;
+  border: 2px solid #fff;
+  border-right-color: #000;
+  border-bottom-color: #000;
+  padding: 2px;
+}
+.retro-titlebar {
+  background: #000080;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 8px;
+  font-family: 'Times New Roman', serif;
+  font-size: 14px;
+  font-weight: bold;
+}
+.retro-controls {
+  display: flex;
+  gap: 4px;
+}
+.retro-btn {
+  background: #c0c0c0;
+  color: #000;
+  border: 2px solid #fff;
+  border-right-color: #000;
+  border-bottom-color: #000;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: default;
+}
+.retro-content {
+  padding: 24px;
+  font-family: 'Arial', sans-serif;
+  color: #000;
+}
+.retro-title {
+  font-family: 'Times New Roman', serif;
+  font-size: 3rem;
+  color: #000;
+  margin-bottom: 16px;
+}
+.retro-sub {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #000;
+  max-width: 500px;
+}
+.retro-divider {
+  border-top: 2px solid #808080;
+  border-bottom: 2px solid #fff;
+  margin: 24px 0;
+}
+.retro-actions {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.retro-button {
+  background: #c0c0c0;
+  border: 2px solid #fff;
+  border-right-color: #000;
+  border-bottom-color: #000;
+  padding: 8px 16px;
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+}
+.retro-button:active {
+  border: 2px solid #000;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+}
+.retro-stats {
+  border: 2px solid #808080;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+  padding: 16px;
+}
+.retro-stats legend {
+  font-family: 'Arial', sans-serif;
+  color: #000;
+}
+.retro-stats ul {
+  list-style: square;
+  padding-left: 20px;
+  margin: 0;
+}
+.retro-stats li {
+  margin-bottom: 8px;
+}
+
+/* =========================================
+   Option 6: Newspaper Brutalism
+   ========================================= */
+.news-hero {
+  background: #f4f4f0;
+  border: none;
+  border-top: 8px solid #000;
+  border-bottom: 8px solid #000;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  color: #000;
+}
+.news-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 4px solid #000;
+  padding: 12px 24px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.news-content {
+  padding: 40px;
+}
+.news-title {
+  font-family: 'Times New Roman', serif;
+  font-size: 5rem;
+  line-height: 0.9;
+  letter-spacing: -2px;
+  text-align: center;
+  border-bottom: 8px solid #000;
+  padding-bottom: 40px;
+  margin-bottom: 40px;
+}
+.news-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+}
+.news-left {
+  border-right: 2px solid #000;
+  padding-right: 40px;
+}
+.news-sub {
+  font-size: 1.5rem;
+  font-family: 'Times New Roman', serif;
+  line-height: 1.4;
+  margin-bottom: 32px;
+}
+.news-highlight {
+  display: inline-block;
+  background: #000;
+  color: #fff;
+  padding: 4px 8px;
+  font-weight: bold;
+}
+.news-btn {
+  border-radius: 0;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+.news-stat {
+  border-bottom: 2px solid #000;
+  padding: 16px 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.news-stat:last-child { border-bottom: none; }
+.n-num {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  font-weight: bold;
+}
+.n-lbl {
+  font-family: var(--font-mono);
+  font-weight: bold;
+}

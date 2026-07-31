@@ -37,4 +37,13 @@ export const departments: Department[] = [
     color: "#DC2626",
     memberCount: 12,
   },
+  {
+    id: "gaming",
+    name: "Game Dev & Esports",
+    description:
+      "Build immersive games using Unity and Unreal, and compete in inter-university esports tournaments.",
+    icon: "[GAME]",
+    color: "#F59E0B",
+    memberCount: 20,
+  }
 ];

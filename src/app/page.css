@@ -53,16 +53,6 @@
   white-space: nowrap;
 }
 
-.hero__dot {
-  display: inline-block;
-  width: 0.4em;
-  height: 0.4em;
-  background-color: var(--accent-primary-hover);
-  border-radius: 50%;
-  margin-left: 0.05em;
-  vertical-align: baseline;
-}
-
 .hero__badge {
   display: inline-flex;
   align-items: center;
@@ -142,6 +132,78 @@
   background-color: var(--border-default);
 }
 
+.hero__floating-event-border {
+  display: block;
+  padding: 4px;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--border-brutalist),
+    var(--border-brutalist) 10px,
+    var(--accent-primary) 10px,
+    var(--accent-primary) 20px
+  );
+  background-size: 28px 28px;
+  animation: stripeMove 1s linear infinite;
+  border-radius: var(--radius-sm);
+  box-shadow: 6px 6px 0px var(--border-brutalist);
+  transition: transform var(--transition-base);
+}
+
+.hero__floating-event-border:hover {
+  transform: scale(1.02);
+}
+
+.dark .hero__floating-event-border {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--surface-inverse),
+    var(--surface-inverse) 10px,
+    var(--accent-primary) 10px,
+    var(--accent-primary) 20px
+  );
+}
+
+@keyframes stripeMove {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 28px 0;
+  }
+}
+
+.hero__floating-event-inner {
+  background: var(--surface-elevated);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--border-brutalist);
+  border-radius: 2px;
+}
+
+.hero__floating-event-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.hero__floating-event-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-sm);
+  font-weight: bold;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: var(--leading-snug);
+  transition: color var(--transition-fast);
+}
+
+.hero__floating-event-title:hover {
+  color: var(--accent-primary-hover);
+}
+
 /* Hero Visual Wrapper */
 .hero__visual {
   position: relative;
@@ -181,7 +243,16 @@
 }
 
 /* ===== Department Cards ===== */
+.departments-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--gutter);
+}
+
 .dept-card {
+  flex: 1 1 240px;
+  max-width: 300px;
   background: var(--surface-elevated);
   border: 1px solid var(--border-brutalist);
   border-radius: var(--radius-lg);
@@ -196,10 +267,8 @@
   transform: translate(-2px, -2px);
 }
 
-.dept-card__icon {
-  font-size: 2rem;
-  display: block;
-  margin-bottom: var(--space-3);
+.dept-card:hover .dept-card__name {
+  color: var(--accent-primary);
 }
 
 .dept-card__name {
@@ -207,6 +276,7 @@
   font-size: var(--text-lg);
   font-weight: var(--weight-bold);
   margin-bottom: var(--space-2);
+  transition: color var(--transition-fast);
 }
 
 .dept-card__desc {

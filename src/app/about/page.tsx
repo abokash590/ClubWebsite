@@ -39,18 +39,12 @@ export default function AboutPage() {
             <h2>Your Core Functions & Tasks</h2>
             <p>Each department runs its own activities, projects, and learning tracks.</p>
           </div>
-          <div className="grid grid--2 stagger-children">
+          <div className="about-departments-grid stagger-children">
             {departments.map((dept, i) => (
               <div key={dept.id} className="about-dept">
-                <div className="about-dept__icon-wrap">
-                  <span className="about-dept__icon">{dept.icon}</span>
-                </div>
                 <div className="about-dept__content">
                   <h3>{dept.name}</h3>
                   <p>{dept.description}</p>
-                </div>
-                <div className="about-dept__footer">
-                  <span className="about-dept__meta">{dept.memberCount} active members</span>
                 </div>
               </div>
             ))}

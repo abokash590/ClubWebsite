@@ -13,6 +13,10 @@
   color: inherit;
 }
 
+.card--hoverable {
+  cursor: pointer;
+}
+
 a.card:hover,
 .card--hoverable:hover {
   border-color: var(--border-brutalist);
