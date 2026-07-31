@@ -104,9 +104,16 @@
   background: var(--nav-bg);
   padding: var(--space-8);
   border-radius: var(--radius-2xl);
-  border: 1px solid var(--border-default);
+  border: 1px solid var(--border-brutalist);
   backdrop-filter: blur(12px);
   max-width: 600px;
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.node-content:hover {
+  border-color: var(--border-brutalist);
+  box-shadow: 6px 6px 0px var(--accent-primary);
+  transform: translate(-2px, -2px);
 }
 
 .node-title {

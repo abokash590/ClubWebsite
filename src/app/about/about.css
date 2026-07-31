@@ -29,24 +29,20 @@
   display: flex;
   flex-direction: column;
   background: var(--surface-elevated);
-  border: 2px solid var(--text-primary);
+  border: 1px solid var(--border-brutalist);
   border-radius: var(--radius-xl);
   padding: var(--space-5);
-  transition: all var(--transition-base);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
   height: 100%;
   position: relative;
   overflow: hidden;
 }
 
-.dark .about-dept {
-  border-color: var(--border-default);
-}
-
 /* Beautiful hover effect for the 2x2 grid cards */
 .about-dept:hover {
-  box-shadow: 8px 8px 0px var(--accent-primary);
-  transform: translate(-4px, -4px);
-  border-color: var(--accent-primary);
+  border-color: var(--border-brutalist);
+  box-shadow: 6px 6px 0px var(--accent-primary);
+  transform: translate(-2px, -2px);
 }
 
 .about-dept__icon-wrap {
@@ -58,7 +54,7 @@
   background: var(--surface-secondary);
   border-radius: var(--radius-lg);
   margin-bottom: var(--space-4);
-  border: 1px solid var(--border-default);
+  border: 1px solid var(--border-brutalist);
   transition: all var(--transition-fast);
 }
 

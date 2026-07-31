@@ -10,15 +10,15 @@
   aspect-ratio: 4 / 3;
   background-color: var(--surface-secondary);
   border-radius: var(--radius-lg);
-  border: 1px solid var(--text-primary);
+  border: 1px solid var(--border-brutalist);
   overflow: hidden;
-  transition: all var(--transition-fast);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
   cursor: pointer;
 }
 
 .gallery-card:hover {
-  border-color: var(--text-primary);
-  box-shadow: 4px 4px 0px 0px var(--accent-primary);
+  border-color: var(--border-brutalist);
+  box-shadow: 6px 6px 0px var(--accent-primary);
   transform: translate(-2px, -2px);
   z-index: 10;
 }

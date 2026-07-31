@@ -38,30 +38,19 @@
   background: var(--surface-elevated);
   padding: var(--space-6);
   border-radius: var(--radius-lg);
-  border: 1px solid var(--text-primary);
-  box-shadow: 4px 4px 0px var(--surface-secondary);
+  border: 1px solid var(--border-brutalist);
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
   animation: fadeIn 400ms ease forwards;
   width: 100%;
-  transition: all var(--transition-base);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
 }
 
 .login-form:hover {
-  border-color: var(--accent-primary);
-  box-shadow: 8px 8px 0px var(--accent-primary);
-  transform: translate(-4px, -4px);
-}
-
-.dark .login-form {
-  border-color: var(--border-default);
-  box-shadow: 4px 4px 0px var(--surface-primary);
-}
-
-.dark .login-form:hover {
-  border-color: var(--accent-primary);
-  box-shadow: 8px 8px 0px var(--accent-primary);
+  border-color: var(--border-brutalist);
+  box-shadow: 6px 6px 0px var(--accent-primary);
+  transform: translate(-2px, -2px);
 }
 
 .login-form__footer {

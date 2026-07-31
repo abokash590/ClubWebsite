@@ -207,17 +207,27 @@ export default function HomePage() {
           </div>
           <div className="grid grid--3 testimonials-grid stagger-children">
             {testimonials.map((t) => (
-              <blockquote key={t.id} className="testimonial" id={`testimonial-${t.id}`}>
-                <p className="testimonial__quote">&ldquo;{t.quote}&rdquo;</p>
-                <footer className="testimonial__footer">
-                  <div className="testimonial__avatar">
-                    {t.name.split(" ").map((n) => n[0]).join("")}
+              <blockquote key={t.id} className="card card--project card--hoverable testimonial" id={`testimonial-${t.id}`}>
+                <div className="card__content" style={{ padding: 'var(--space-3)' }}>
+                  <div className="testimonial__quote-mark">
+                    &ldquo;
                   </div>
-                  <div>
-                    <cite className="testimonial__name">{t.name}</cite>
-                    <span className="testimonial__role">{t.role}</span>
+                  
+                  <p className="testimonial__quote-text" style={{ marginTop: '0', marginBottom: 'var(--space-3)', fontSize: '0.9rem', lineHeight: '1.4' }}>
+                    {t.quote}
+                  </p>
+
+                  <div className="card__footer card__footer--spaced testimonial__footer" style={{ paddingTop: 'var(--space-2)' }}>
+                    <div className="testimonial__name-wrap" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 'bold', textTransform: 'uppercase', color: 'var(--text-secondary)', transition: 'color var(--transition-fast)' }}>
+                      <span className="testimonial__name-label">{t.name}</span> →
+                    </div>
+                    <div className="avatar-group">
+                      <div className="avatar">
+                        {t.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                      </div>
+                    </div>
                   </div>
-                </footer>
+                </div>
               </blockquote>
             ))}
           </div>

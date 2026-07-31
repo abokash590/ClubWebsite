@@ -183,17 +183,17 @@
 /* ===== Department Cards ===== */
 .dept-card {
   background: var(--surface-elevated);
-  border: 1px solid var(--border-default);
+  border: 1px solid var(--border-brutalist);
   border-radius: var(--radius-lg);
   padding: var(--space-5);
   text-align: center;
-  transition: all var(--transition-base);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
 }
 
 .dept-card:hover {
-  border-color: var(--border-hover);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-4px);
+  border-color: var(--border-brutalist);
+  box-shadow: 6px 6px 0px var(--accent-primary);
+  transform: translate(-2px, -2px);
 }
 
 .dept-card__icon {
@@ -232,9 +232,16 @@
 
 .cp-snapshot__leaderboard {
   background: var(--surface-elevated);
-  border: 1px solid var(--border-default);
+  border: 1px solid var(--border-brutalist);
   border-radius: var(--radius-lg);
   overflow: hidden;
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.cp-snapshot__leaderboard:hover {
+  border-color: var(--border-brutalist);
+  box-shadow: 6px 6px 0px var(--accent-primary);
+  transform: translate(-2px, -2px);
 }
 
 .cp-snapshot__header {
@@ -301,73 +308,25 @@
 
 /* ===== Testimonials ===== */
 .testimonial {
-  background: var(--surface-elevated);
-  border: 1px solid #E9E7E1;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  border-radius: var(--radius-lg);
-  padding: var(--space-5);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  transition: all var(--transition-base);
+  /* Inherits from .card and .card--project */
 }
 
-.testimonial:hover {
-  border-color: var(--border-hover);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-4px);
+.testimonial:hover .testimonial__name-wrap {
+  color: var(--accent-primary) !important;
 }
 
-.dark .testimonial {
-  border-color: var(--border-default);
-  box-shadow: none;
-}
-
-.testimonial__quote {
+.testimonial__quote-mark {
   font-family: var(--font-heading);
-  font-size: var(--text-base);
-  font-style: italic;
-  line-height: var(--leading-relaxed);
-  color: var(--text-secondary);
-  flex: 1;
-}
-
-.testimonial__footer {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-}
-
-.testimonial__avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-primary-light) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--accent-primary-text);
-  font-family: var(--font-mono); font-feature-settings: "liga" 0, "calt" 0;
-  font-size: var(--text-xs);
-  font-weight: var(--weight-bold);
-  flex-shrink: 0;
-}
-
-.testimonial__name {
-  display: block;
-  font-style: normal;
-  font-weight: var(--weight-semibold);
-  font-size: var(--text-sm);
-  color: var(--text-primary);
-}
-
-.testimonial__role {
-  display: block;
-  font-family: var(--font-mono); font-feature-settings: "liga" 0, "calt" 0;
-  font-size: 0.65rem;
+  font-size: 2.5rem;
+  line-height: 0.5;
   color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wider);
+  margin-top: 5px;
+  margin-bottom: 5px;
+  transition: color var(--transition-fast);
+}
+
+.testimonial:hover .testimonial__quote-mark {
+  color: var(--accent-primary);
 }
 
 /* ===== CTA Band ===== */

@@ -5,12 +5,14 @@
   padding: 6px;
   background: var(--surface-secondary);
   border-radius: 99px;
-  border: 1px solid var(--border-default);
-  transition: border-color var(--transition-normal);
+  border: 1px solid var(--border-brutalist);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
 }
 
 .vibe-switcher:hover {
-  border-color: var(--border-hover);
+  border-color: var(--border-brutalist);
+  box-shadow: 4px 4px 0px var(--accent-primary);
+  transform: translate(-2px, -2px);
 }
 
 .vibe-dot {

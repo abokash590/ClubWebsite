@@ -39,6 +39,7 @@
   --border-default: rgba(26, 26, 26, 0.15);
   --border-hover: rgba(26, 26, 26, 0.3);
   --border-focus: #84CC16;
+  --border-brutalist: #000;
   --grid-lines: rgba(26, 26, 26, 0.05);
 
   --shadow-xs: 0 1px 2px rgba(20, 22, 19, 0.05);
@@ -76,9 +77,10 @@
   --accent-warning: #F59E0B;
   --accent-error: #EF4444;
 
-  --border-default: rgba(255, 255, 255, 0.1);
-  --border-hover: rgba(255, 255, 255, 0.2);
+  --border-default: rgba(255, 255, 255, 0.2); /* Made slightly more visible for dark mode boxes */
+  --border-hover: rgba(255, 255, 255, 0.3);
   --border-focus: #D4F429;
+  --border-brutalist: var(--border-default);
   --grid-lines: rgba(255, 255, 255, 0.02);
 
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -325,7 +327,7 @@ code, pre, kbd, samp {
 
 pre {
   background-color: var(--surface-secondary);
-  border: 1px solid var(--border-default);
+  border: 1px solid var(--border-brutalist);
   border-radius: var(--radius-md);
   padding: var(--space-3);
   overflow-x: auto;

@@ -6,7 +6,7 @@
 .project-detail__info-item h4 { font-size: var(--text-sm); font-family: var(--font-mono); font-feature-settings: "liga" 0, "calt" 0; text-transform: uppercase; letter-spacing: var(--tracking-wider); color: var(--text-tertiary); margin-bottom: var(--space-3); }
 
 .project-detail__tags { display: flex; flex-wrap: wrap; gap: var(--space-2); }
-.project-detail__tag { font-family: var(--font-mono); font-feature-settings: "liga" 0, "calt" 0; font-size: var(--text-sm); padding: 4px 12px; background: var(--surface-elevated); border: 1px solid var(--border-default); border-radius: var(--radius-sm); color: var(--text-primary); }
+.project-detail__tag { font-family: var(--font-mono); font-feature-settings: "liga" 0, "calt" 0; font-size: var(--text-sm); padding: 4px 12px; background: var(--surface-elevated); border: 1px solid var(--border-brutalist); border-radius: var(--radius-sm); color: var(--text-primary); }
 
 .project-detail__team { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
 .project-detail__team li { font-weight: var(--weight-medium); color: var(--text-primary); }

@@ -39,19 +39,19 @@
   position: absolute;
   width: 450px;
   background: var(--surface-elevated);
-  border: 1px solid var(--border-hover);
+  border: 1px solid var(--border-brutalist);
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-xl);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   backdrop-filter: blur(20px);
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
 }
 
-.os-window:focus-within, .os-window:active {
-  border-color: var(--accent-primary);
-  box-shadow: 0 20px 50px -10px var(--accent-primary-light);
+.os-window:hover {
+  border-color: var(--border-brutalist);
+  box-shadow: 6px 6px 0px var(--accent-primary);
+  transform: translate(-2px, -2px);
 }
 
 .os-window-header {

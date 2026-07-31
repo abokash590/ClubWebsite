@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   background-color: var(--surface-elevated);
-  border: 1px solid var(--text-primary);
+  border: 1px solid var(--border-brutalist);
   border-radius: var(--radius-lg);
   overflow: hidden;
   transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base), background-color var(--transition-base), color var(--transition-base);
@@ -13,20 +13,11 @@
   color: inherit;
 }
 
-.dark .card {
-  border-color: var(--border-default);
-}
-
 a.card:hover,
 .card--hoverable:hover {
-  border-color: var(--text-primary);
+  border-color: var(--border-brutalist);
   box-shadow: 6px 6px 0px var(--accent-primary);
   transform: translate(-2px, -2px);
-}
-
-.dark a.card:hover,
-.dark .card--hoverable:hover {
-  border-color: var(--border-hover);
 }
 
 /* Reduced motion */
@@ -169,7 +160,7 @@ a.card:active,
   color: var(--text-primary);
   background-color: var(--surface-secondary);
   padding: 2px 8px;
-  border: 1px solid var(--border-default);
+  border: 1px solid var(--border-brutalist);
   border-radius: var(--radius-sm);
   display: inline-flex;
   align-items: center;

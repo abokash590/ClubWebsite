@@ -48,7 +48,7 @@
   padding: 2px 8px;
   background: var(--surface-secondary);
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border-default);
+  border: 1px solid var(--border-brutalist);
 }
 
 .roadmap-timeline__content h4 {
