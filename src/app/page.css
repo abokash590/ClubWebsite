@@ -448,7 +448,9 @@
   }
 
   .hero__visual {
-    display: none;
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-6);
   }
 
   .hero {
