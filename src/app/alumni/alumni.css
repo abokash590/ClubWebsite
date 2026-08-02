@@ -7,9 +7,7 @@
 .alumni-hero h1 {
   font-size: clamp(2.5rem, 5vw, 4rem);
   margin: var(--space-3) 0 var(--space-4);
-  background: linear-gradient(to right, var(--text-primary), var(--text-tertiary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--text-primary);
 }
 
 .alumni-hero__subtitle {

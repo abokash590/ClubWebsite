@@ -17,8 +17,8 @@ export const metadata: Metadata = {
     "The official computer club of MEC. Competitive programming, web development, ML/AI, cybersecurity — join 70+ members building real things.",
 };
 
-export default function HomePage() {
-  const upcomingEvents = getUpcomingEvents();
+export default async function HomePage() {
+  const upcomingEvents = await getUpcomingEvents();
   const featuredProjects = getFeaturedProjects();
   const nextEvent = upcomingEvents[0];
   const topCP = leaderboard.slice(0, 3);
@@ -110,7 +110,7 @@ export default function HomePage() {
             <h2>Upcoming Events Queue</h2>
             <p>Never an empty calendar. Here&apos;s what&apos;s next.</p>
           </div>
-          <div className="grid grid--3 home-events-grid">
+          <div className="home-events-grid">
             {(upcomingEvents.length > 0 ? upcomingEvents : events.slice(0, 3)).map(
               (event) => (
                 <EventCard key={event.id} {...event} />

@@ -1,15 +1,22 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useActionState } from "react";
+import { submitJoinRequest, JoinActionState } from "./actions";
 import { Button } from "@/components/ui/Button";
 import { RobotIcon } from "@/components/ui/RobotIcon";
 import { ClubIcon } from "@/components/ui/ClubIcon";
 import { Select } from "@/components/ui/Select";
 import "./join.css";
 
+const initialState: JoinActionState = {
+  success: false,
+  message: "",
+  errors: {},
+};
+
 export default function JoinPage() {
   const [step, setStep] = useState(1);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [state, formAction, isPending] = useActionState(submitJoinRequest, initialState);
   
   // Track all form data
   const [formData, setFormData] = useState({
@@ -82,20 +89,25 @@ export default function JoinPage() {
     };
   }, [progress]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitted(true);
-  };
+  // Jump to the step with errors
+  useEffect(() => {
+    if (!state.success && state.errors) {
+      if (state.errors.name || state.errors.email) {
+        setStep(1);
+      } else if (state.errors.reason) {
+        setStep(3);
+      }
+    }
+  }, [state]);
 
-  if (isSubmitted) {
+  if (state.success) {
     return (
       <section className="section join-success">
         <div className="container container--narrow text-center">
           <div className="join-success__icon">✓</div>
           <h1>Application Received</h1>
           <p className="join-success__message">
-            Thanks for applying! We&apos;ve received your application and will email you
-            at the provided address within 3-5 business days with next steps.
+            {state.message}
           </p>
           <Button href="/" size="lg">Return Home</Button>
         </div>
@@ -133,12 +145,25 @@ export default function JoinPage() {
           </div>
         </div>
 
-        <form className="join-form" onSubmit={handleSubmit}>
+        <form className="join-form" action={formAction}>
+          {/* Hidden inputs to ensure all data is submitted even across steps */}
+          <input type="hidden" name="fullName" value={formData.fullName} />
+          <input type="hidden" name="email" value={formData.email} />
+          <input type="hidden" name="whyJoin" value={formData.whyJoin} />
+
+          {/* Global error message */}
+          {state.message && !state.success && (
+            <div style={{ color: "var(--accent-primary)", padding: "10px", background: "rgba(255,0,0,0.1)", borderRadius: "4px", marginBottom: "16px" }}>
+              {state.message}
+            </div>
+          )}
+
           {step === 1 && (
             <div className="join-form__step animate-fade-in">
               <div className="form-group">
                 <label htmlFor="fullName">Full Name</label>
                 <input type="text" id="fullName" value={formData.fullName} onChange={handleInputChange} required placeholder="e.g., Farhan Ahmed" />
+                {state.errors?.name && <span style={{ color: "var(--accent-primary)", fontSize: "0.85rem", marginTop: "4px", display: "block" }}>{state.errors.name}</span>}
               </div>
               <div className="form-group">
                 <label htmlFor="studentId">Student ID</label>
@@ -147,6 +172,7 @@ export default function JoinPage() {
               <div className="form-group">
                 <label htmlFor="email">University Email</label>
                 <input type="email" id="email" value={formData.email} onChange={handleInputChange} required placeholder="name@std.mec.edu.bd" />
+                {state.errors?.email && <span style={{ color: "var(--accent-primary)", fontSize: "0.85rem", marginTop: "4px", display: "block" }}>{state.errors.email}</span>}
               </div>
               <div className="form-group">
                 <label htmlFor="semester">Current Semester</label>
@@ -234,6 +260,7 @@ export default function JoinPage() {
                   required 
                   placeholder="e.g., I want to learn web dev to build my own startup ideas, or I want to represent the university in ICPC..."
                 ></textarea>
+                {state.errors?.reason && <span style={{ color: "var(--accent-primary)", fontSize: "0.85rem", marginTop: "4px", display: "block" }}>{state.errors.reason}</span>}
               </div>
               <div className="form-group">
                 <label htmlFor="commitment">
@@ -244,7 +271,7 @@ export default function JoinPage() {
               <div className="form-actions form-actions--split">
                 <Button type="button" variant="secondary" onClick={() => setStep(2)}>← Back</Button>
                 <div onMouseEnter={() => setIsHoveringNext(true)} onMouseLeave={() => setIsHoveringNext(false)}>
-                  <Button type="submit">Submit Application</Button>
+                  <Button type="submit">{isPending ? "Submitting..." : "Submit Application"}</Button>
                 </div>
               </div>
             </div>

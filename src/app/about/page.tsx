@@ -3,7 +3,7 @@ import { departments } from "@/data/departments";
 import "./about.css";
 
 export const metadata: Metadata = {
-  title: "About",
+  title: "About | whoami",
   description:
     "Learn about MEC Computer Club — our mission, departments, and the team behind it all.",
 };

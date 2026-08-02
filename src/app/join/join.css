@@ -75,6 +75,33 @@
 @media (max-width: 600px) {
   .join-form { padding: var(--space-4); }
   .join-progress { font-size: var(--text-xs); }
+  
+  .robot-progress-container {
+    margin-bottom: var(--space-4);
+    padding: var(--space-2) 0;
+  }
+  .robot-progress-header {
+    margin-bottom: var(--space-3);
+  }
+  .robot-progress-track {
+    margin-top: 28px;
+    height: 8px;
+  }
+  .robot-character {
+    top: -36px;
+  }
+  .robot-character > * {
+    width: 36px !important;
+    height: 36px !important;
+  }
+  .robot-destination {
+    top: -28px;
+    right: -16px;
+  }
+  .robot-destination > * {
+    width: 32px !important;
+    height: 32px !important;
+  }
 }
 
 /* Robot Progress Bar */

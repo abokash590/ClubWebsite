@@ -242,6 +242,19 @@
   margin-top: var(--space-6);
 }
 
+/* ===== Upcoming Events Grid ===== */
+.home-events-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--gutter);
+}
+
+.home-events-grid > * {
+  flex: 1 1 300px;
+  max-width: 400px; /* Keep them from getting too wide if there's only 1 */
+}
+
 /* ===== Department Cards ===== */
 .departments-grid {
   display: flex;

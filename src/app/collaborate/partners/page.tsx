@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Our Partners | MEC Computer Club",
+  title: "Our Partners | Dependencies",
   description: "Meet the organizations and companies that support MEC Computer Club.",
 };
 
@@ -16,7 +16,7 @@ export default function PartnersPage() {
     <main className="section container">
       <div className="section-header text-center">
         <span className="kicker">Collaborate</span>
-        <h2>Our Partners</h2>
+        <h2>Dependencies (Our Partners)</h2>
         <p>We are proud to be supported by these amazing organizations.</p>
       </div>
 

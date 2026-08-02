@@ -4,7 +4,7 @@ import { galleryItems } from "@/data/gallery";
 import "./gallery.css";
 
 export const metadata: Metadata = {
-  title: "Gallery | MEC Computer Club",
+  title: "Gallery | Visual Cache",
   description: "Pictures and videos from past events of the MEC Computer Club.",
 };
 
@@ -14,7 +14,7 @@ export default function GalleryPage() {
       <section className="section container">
         <div className="section-header">
           <span className="kicker">Memories</span>
-          <h2>Our Gallery</h2>
+          <h2>Visual Cache (Our Gallery)</h2>
           <p>Highlights from our past events, workshops, and hackathons.</p>
         </div>
 

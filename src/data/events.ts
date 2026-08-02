@@ -91,14 +91,83 @@ export const events: Event[] = [
   },
 ];
 
-export function getUpcomingEvents(): Event[] {
-  return events.filter((e) => e.status === "upcoming");
+import { getDb } from "@/lib/db";
+
+export async function getUpcomingEvents(): Promise<Event[]> {
+  const db = getDb();
+  const now = new Date().toISOString();
+  
+  const dbEvents = db.prepare(`
+    SELECT * FROM events WHERE event_date >= ? ORDER BY event_date ASC
+  `).all(now) as any[];
+
+  const mappedDbEvents: Event[] = dbEvents.map(e => ({
+    id: e.id.toString(),
+    slug: e.id.toString(),
+    title: e.title,
+    description: e.description || "",
+    date: new Date(e.event_date).toISOString(),
+    time: new Date(e.event_date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+    location: e.location || "TBA",
+    type: "workshop",
+    status: "upcoming",
+    registrationUrl: "/events/" + e.id.toString() + "/register",
+    image: "",
+  }));
+
+  const staticUpcoming = events.filter((e) => e.status === "upcoming");
+  
+  return [...mappedDbEvents, ...staticUpcoming];
 }
 
-export function getPastEvents(): Event[] {
-  return events.filter((e) => e.status === "past");
+export async function getPastEvents(): Promise<Event[]> {
+  const db = getDb();
+  const now = new Date().toISOString();
+  
+  const dbEvents = db.prepare(`
+    SELECT * FROM events WHERE event_date < ? ORDER BY event_date DESC
+  `).all(now) as any[];
+
+  const mappedDbEvents: Event[] = dbEvents.map(e => ({
+    id: e.id.toString(),
+    slug: e.id.toString(),
+    title: e.title,
+    description: e.description || "",
+    date: new Date(e.event_date).toISOString(),
+    time: new Date(e.event_date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+    location: e.location || "TBA",
+    type: "workshop",
+    status: "past",
+    registrationUrl: "/events/" + e.id.toString() + "/register",
+    image: "",
+  }));
+
+  const staticPast = events.filter((e) => e.status === "past");
+  
+  return [...mappedDbEvents, ...staticPast];
 }
 
-export function getEventBySlug(slug: string): Event | undefined {
+export async function getEventBySlug(slug: string): Promise<Event | undefined> {
+  // First check if it's an ID from the database
+  if (!isNaN(Number(slug))) {
+    const db = getDb();
+    const e = db.prepare(`SELECT * FROM events WHERE id = ?`).get(Number(slug)) as any;
+    if (e) {
+      const isUpcoming = new Date(e.event_date) >= new Date();
+      return {
+        id: e.id.toString(),
+        slug: e.id.toString(),
+        title: e.title,
+        description: e.description || "",
+        date: new Date(e.event_date).toISOString(),
+        time: new Date(e.event_date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+        location: e.location || "TBA",
+        type: "workshop",
+        status: isUpcoming ? "upcoming" : "past",
+        registrationUrl: "/events/" + e.id.toString() + "/register",
+        image: "",
+      };
+    }
+  }
   return events.find((e) => e.slug === slug);
 }

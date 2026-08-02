@@ -4,7 +4,7 @@ import { advisors } from "@/data/advisors";
 import "./advisors.css";
 
 export const metadata: Metadata = {
-  title: "Advisor Panel",
+  title: "Advisor Panel | sudoers",
   description: "The guiding forces behind MEC Computer Club.",
 };
 
@@ -14,7 +14,7 @@ export default function AdvisorsPage() {
       <section className="section advisors-hero">
         <div className="container">
           <span className="kicker">Guidance & Vision</span>
-          <h1>Our Honorable Advisors</h1>
+          <h1>sudoers (Our Honorable Advisors)</h1>
           <p className="advisors-hero__subtitle">
             Meet the experienced mentors who guide our club towards excellence and innovation.
           </p>

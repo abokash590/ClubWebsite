@@ -1,9 +1,36 @@
-"use client";
-
+import { getDb } from "@/lib/db";
 import "@/components/layout/dashboard-ui.css";
 import { Button } from "@/components/ui/Button";
+import ApplicationRow from "./ApplicationRow";
+import { logoutAction } from "../logout/actions";
+
+type JoinRequestWithToken = {
+  id: number;
+  name: string;
+  email: string;
+  reason: string;
+  status: 'pending' | 'approved' | 'rejected';
+  created_at: string;
+  token: string | null;
+};
 
 export default function AdminDashboard() {
+  const db = getDb();
+  
+  // Fetch real applications along with their tokens if they are approved
+  const applications = db.prepare(`
+    SELECT r.*, t.token 
+    FROM requests r
+    LEFT JOIN invite_tokens t ON r.id = t.request_id
+    ORDER BY r.created_at DESC
+  `).all() as JoinRequestWithToken[];
+  
+  // Get counts for metrics
+  const pendingCount = applications.filter(app => app.status === 'pending').length;
+  
+  // Also get total users
+  const totalMembers = (db.prepare(`SELECT COUNT(*) as count FROM users`).get() as { count: number }).count;
+
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "var(--space-6)" }}>
@@ -11,17 +38,22 @@ export default function AdminDashboard() {
           <h2 style={{ fontSize: "var(--text-2xl)", marginBottom: "var(--space-1)" }}>Club Overview</h2>
           <p style={{ color: "var(--text-secondary)" }}>High-level metrics and recent activity.</p>
         </div>
-        <Button href="/admin/events" size="sm">Create Event</Button>
+        <div style={{ display: "flex", gap: "var(--space-3)", alignItems: "center" }}>
+          <form action={logoutAction}>
+            <Button type="submit" variant="outline" size="sm">Logout</Button>
+          </form>
+          <Button href="/admin/events" size="sm">Manage Events</Button>
+        </div>
       </div>
 
       <div className="dash-grid">
         <div className="dash-card">
           <div className="dash-card__label">Total Members</div>
-          <div className="dash-card__value">342</div>
+          <div className="dash-card__value">{totalMembers}</div>
         </div>
         <div className="dash-card">
           <div className="dash-card__label">Pending Applications</div>
-          <div className="dash-card__value" style={{ color: "var(--accent-primary-hover)" }}>15</div>
+          <div className="dash-card__value" style={{ color: "var(--accent-primary-hover)" }}>{pendingCount}</div>
         </div>
         <div className="dash-card">
           <div className="dash-card__label">Active Events</div>
@@ -35,34 +67,24 @@ export default function AdminDashboard() {
           <thead>
             <tr>
               <th>Applicant Name</th>
-              <th>Student ID</th>
-              <th>Interest</th>
+              <th>Email</th>
+              <th>Reason</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Rahim Uddin</td>
-              <td>202414001</td>
-              <td>Web Development</td>
-              <td><span className="dash-badge dash-badge--warning">Pending</span></td>
-              <td>
-                <div style={{ display: "flex", gap: "8px" }}>
-                  <Button size="sm" variant="primary">Approve</Button>
-                  <Button size="sm" variant="ghost">Reject</Button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Sadia Islam</td>
-              <td>202414050</td>
-              <td>Competitive Programming</td>
-              <td><span className="dash-badge dash-badge--success">Approved</span></td>
-              <td>
-                <span style={{ fontSize: "var(--text-xs)", color: "var(--text-tertiary)" }}>Processed</span>
-              </td>
-            </tr>
+            {applications.length === 0 ? (
+              <tr>
+                <td colSpan={5} style={{ textAlign: "center", padding: "2rem", color: "var(--text-tertiary)" }}>
+                  No applications yet.
+                </td>
+              </tr>
+            ) : (
+              applications.map((app) => (
+                <ApplicationRow key={app.id} app={{ ...app }} />
+              ))
+            )}
           </tbody>
         </table>
       </div>

@@ -4,7 +4,7 @@ import { alumniBatches } from "@/data/alumni";
 import "./alumni.css";
 
 export const metadata: Metadata = {
-  title: "Alumni",
+  title: "Alumni | Legacy Code",
   description: "Meet the legends who built MEC Computer Club.",
 };
 

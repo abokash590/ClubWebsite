@@ -1,31 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import { loginAction } from "./actions";
 import "./login.css";
 import "../join/join.css"; // Reuse the brutalist form-group styling
 
 export default function LoginPage() {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    
-    // Get the student ID value
-    const studentIdInput = (document.getElementById("studentId") as HTMLInputElement)?.value;
-    
-    // Simulate login
-    setTimeout(() => {
-      setIsLoading(false);
-      if (studentIdInput && studentIdInput.toLowerCase() === "admin") {
-        window.location.href = "/admin";
-      } else {
-        window.location.href = "/dashboard";
-      }
-    }, 1500);
-  };
+  const [state, formAction, isPending] = useActionState(loginAction, {
+    success: false,
+    message: "",
+  });
 
   return (
     <div className="login-page">
@@ -36,15 +22,22 @@ export default function LoginPage() {
           <p>Initialize your session to access member resources and track your progress.</p>
         </div>
 
-        <form className="login-form" onSubmit={handleSubmit}>
+        <form className="login-form" action={formAction}>
+          {state.message && (
+            <div style={{ color: "var(--accent-primary)", padding: "10px", background: "rgba(255,0,0,0.1)", borderRadius: "4px", marginBottom: "16px" }}>
+              {state.message}
+            </div>
+          )}
+
           <div className="form-group">
-            <label htmlFor="studentId">Student ID or Email</label>
+            <label htmlFor="email">Email</label>
             <input 
               type="text" 
-              id="studentId" 
+              id="email" 
+              name="email"
               required 
-              placeholder="e.g., 202314050" 
-              disabled={isLoading}
+              placeholder="e.g., admin@mec.edu.bd" 
+              disabled={isPending}
             />
           </div>
           
@@ -53,14 +46,15 @@ export default function LoginPage() {
             <input 
               type="password" 
               id="password" 
+              name="password"
               required 
               placeholder="••••••••" 
-              disabled={isLoading}
+              disabled={isPending}
             />
           </div>
 
-          <Button type="submit" fullWidth disabled={isLoading}>
-            {isLoading ? "Signing in..." : "Sign In"}
+          <Button type="submit" fullWidth disabled={isPending}>
+            {isPending ? "Signing in..." : "Sign In"}
           </Button>
 
           <div className="login-form__footer">

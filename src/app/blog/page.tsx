@@ -4,7 +4,7 @@ import { blogPosts } from "@/data/blog";
 import "./blog.css";
 
 export const metadata: Metadata = {
-  title: "Blog",
+  title: "Blog | stdout",
   description: "Articles, tutorials, and post-mortems from MEC Computer Club members.",
 };
 

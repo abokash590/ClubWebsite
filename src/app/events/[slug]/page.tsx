@@ -11,7 +11,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const event = getEventBySlug(slug);
+  const event = await getEventBySlug(slug);
   if (!event) return { title: "Event Not Found" };
   return {
     title: event.title,
@@ -19,9 +19,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-export default async function EventDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function EventDetailPage({ 
+  params,
+  searchParams
+}: { 
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const { slug } = await params;
-  const event = getEventBySlug(slug);
+  const { success } = await searchParams;
+  const event = await getEventBySlug(slug);
   if (!event) notFound();
 
   const formattedDate = new Date(event.date).toLocaleDateString("en-US", {
@@ -35,6 +42,11 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
     <article className="event-detail">
       <div className="container container--narrow">
         <div className="event-detail__header">
+          {success === "true" && (
+            <div style={{ marginBottom: "var(--space-4)", padding: "16px", background: "rgba(0, 255, 0, 0.1)", border: "1px solid #10B981", borderRadius: "8px", color: "#065F46", textAlign: "center" }}>
+              <strong>🎉 Registration Successful!</strong> We've received your registration for this event.
+            </div>
+          )}
           <Badge variant={event.status === "upcoming" ? "upcoming" : "past"} size="md">
             {event.status}
           </Badge>

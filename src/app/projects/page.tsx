@@ -4,7 +4,7 @@ import { projects } from "@/data/projects";
 import "./projects.css";
 
 export const metadata: Metadata = {
-  title: "Projects",
+  title: "Projects | ./codebase",
   description: "Real projects built by MEC Computer Club members — online judges, dashboards, chatbots, and more.",
 };
 

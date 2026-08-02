@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./constitution.css";
 
 export const metadata: Metadata = {
-  title: "Constitution",
+  title: "Constitution | README.md",
   description: "The official constitution and guidelines of MEC Computer Club.",
 };
 
@@ -12,7 +12,7 @@ export default function ConstitutionPage() {
       <section className="section constitution-hero">
         <div className="container">
           <span className="kicker">Official Document</span>
-          <h1>Club Constitution</h1>
+          <h1>README.md (Constitution)</h1>
           <p className="constitution-hero__subtitle">
             The rules, regulations, and core values that govern the MEC Computer Club.
           </p>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact",
+  title: "Contact | ping",
   description: "Get in touch with the MEC Computer Club for sponsorships, collaborations, or general questions.",
 };
 

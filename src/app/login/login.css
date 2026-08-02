@@ -12,20 +12,20 @@
   justify-content: center;
   align-items: center;
   padding: var(--space-8) var(--gutter);
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
   width: 100%;
 }
 
 .login-header {
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-3);
   text-align: center;
   width: 100%;
 }
 
 .login-header h1 {
-  font-size: clamp(2rem, 4vw, 2.5rem);
-  margin-bottom: var(--space-2);
+  font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+  margin-bottom: 4px;
 }
 
 .login-header p {
@@ -36,12 +36,12 @@
 /* Neo-brutalist form container */
 .login-form {
   background: var(--surface-elevated);
-  padding: var(--space-6);
+  padding: var(--space-4);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-brutalist);
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: var(--space-3);
   animation: fadeIn 400ms ease forwards;
   width: 100%;
   transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
@@ -89,7 +89,37 @@
   text-decoration: underline;
 }
 
-/* Split screen visual (Right side) - REMOVED */
+/* Form inputs (Brutalist style) */
+.form-group { margin-bottom: var(--space-3); width: 100%; }
+.form-group label { display: block; font-weight: var(--weight-medium); margin-bottom: 4px; color: var(--text-primary); }
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-brutalist);
+  border-radius: var(--radius-md);
+  background: var(--surface-primary);
+  font-family: inherit;
+  font-size: var(--text-base);
+  color: var(--text-primary);
+  box-shadow: 2px 2px 0px var(--border-brutalist);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--border-brutalist);
+  box-shadow: 4px 4px 0px var(--accent-primary);
+  transform: translate(-2px, -2px);
+}
+
+.form-group input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background: var(--surface-secondary);
+}
+
 @media (max-width: 480px) {
   .login-form {
     padding: var(--space-4);

@@ -4,13 +4,13 @@ import { getUpcomingEvents, getPastEvents } from "@/data/events";
 import "./events.css";
 
 export const metadata: Metadata = {
-  title: "Events",
+  title: "Events | Execution Queue",
   description: "Upcoming and past events — workshops, contests, seminars, and more from MEC Computer Club.",
 };
 
-export default function EventsPage() {
-  const upcoming = getUpcomingEvents();
-  const past = getPastEvents();
+export default async function EventsPage() {
+  const upcoming = await getUpcomingEvents();
+  const past = await getPastEvents();
 
   return (
     <>

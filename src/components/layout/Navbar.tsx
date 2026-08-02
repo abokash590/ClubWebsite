@@ -171,7 +171,7 @@ export function Navbar() {
         <ul className="navbar__links" role="menubar">
           {navItems.map((item) => (
             <li
-              key={item.href}
+              key={item.label}
               className={`navbar__item ${item.children ? "navbar__item--has-dropdown" : ""}`}
               onMouseEnter={() => item.children && setActiveDropdown(item.label)}
               onMouseLeave={() => setActiveDropdown(null)}
