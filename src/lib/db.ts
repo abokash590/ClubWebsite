@@ -2,10 +2,14 @@
 import { DatabaseSync } from 'node:sqlite';
 import path from 'path';
 
-const dbPath = path.join(process.cwd(), 'club.db');
+// Use /tmp in production (Vercel) since process.cwd() is read-only
+const dbPath = process.env.NODE_ENV === 'production' 
+  ? '/tmp/club.db' 
+  : path.join(process.cwd(), 'club.db');
 
 declare global {
   var _sqliteDb: DatabaseSync | undefined;
+  var _dbInitialized: boolean | undefined;
 }
 
 // Polyfill the transaction method to match better-sqlite3 API
@@ -28,22 +32,42 @@ function addTransactionSupport(db: DatabaseSync) {
   return db;
 }
 
-export function getDb(): any {
+function _getDbInstance(): any {
   if (process.env.NODE_ENV === 'production') {
-    const db = new DatabaseSync(dbPath);
-    db.exec('PRAGMA foreign_keys = ON;');
-    return addTransactionSupport(db);
+    if (!global._sqliteDb) {
+      global._sqliteDb = new DatabaseSync(dbPath);
+      global._sqliteDb.exec('PRAGMA foreign_keys = ON;');
+      addTransactionSupport(global._sqliteDb);
+    }
+    return global._sqliteDb;
   } else {
     if (!global._sqliteDb) {
       global._sqliteDb = new DatabaseSync(dbPath);
       global._sqliteDb.exec('PRAGMA foreign_keys = ON;');
+      addTransactionSupport(global._sqliteDb);
     }
-    return addTransactionSupport(global._sqliteDb);
+    return global._sqliteDb;
   }
 }
 
+export function getDb(): any {
+  const db = _getDbInstance();
+  
+  if (!global._dbInitialized) {
+    initDbTables(db);
+    global._dbInitialized = true;
+  }
+  
+  return db;
+}
+
 export function initDb() {
-  const db = getDb();
+  const db = _getDbInstance();
+  initDbTables(db);
+  global._dbInitialized = true;
+}
+
+function initDbTables(db: any) {
   db.exec(`
     CREATE TABLE IF NOT EXISTS requests (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
