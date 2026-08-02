@@ -110,8 +110,4 @@
   50% { opacity: 0; }
 }
 
-@media (max-width: 768px) {
-  .contact-grid { grid-template-columns: 1fr; gap: var(--space-6); }
-  .contact-info { order: 2; }
-  .contact-form { order: 1; padding: var(--space-5); }
-}
+

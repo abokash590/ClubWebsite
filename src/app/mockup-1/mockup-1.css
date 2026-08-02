@@ -237,11 +237,4 @@
 }
 
 /* Responsive */
-@media (max-width: 1024px) {
-  .bento-grid {
-    grid-template-columns: repeat(8, 1fr);
-  }
-  .bento-main { grid-column: span 8; }
-  .bento-terminal { grid-column: span 8; }
-  .bento-stat--1, .bento-stat--2, .bento-abstract { grid-column: span 8; }
-}
+

@@ -7,11 +7,7 @@
   margin-bottom: var(--space-6);
 }
 
-@media (max-width: 600px) {
-  .dash-grid {
-    grid-template-columns: 1fr;
-  }
-}
+
 
 .dash-card {
   background: var(--surface-elevated);
@@ -21,11 +17,7 @@
   transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
 }
 
-@media (max-width: 600px) {
-  .dash-card {
-    padding: var(--space-3);
-  }
-}
+
 
 .dash-card:hover {
   border-color: var(--border-brutalist);
@@ -109,63 +101,7 @@
 }
 
 /* Mobile Responsive Table (Card View) */
-@media (max-width: 600px) {
-  .dash-table-container {
-    background: transparent;
-    border: none;
-    box-shadow: none;
-  }
-  
-  .dash-table-container:hover {
-    transform: none;
-    box-shadow: none;
-    border-color: transparent;
-  }
 
-  .dash-table,
-  .dash-table tbody,
-  .dash-table tr,
-  .dash-table td {
-    display: block;
-    width: 100%;
-  }
-
-  .dash-table thead {
-    display: none; /* Hide table headers */
-  }
-
-  .dash-table tr {
-    margin-bottom: var(--space-4);
-    background: var(--surface-elevated);
-    border: 1px solid var(--border-brutalist);
-    border-radius: var(--radius-md);
-    padding: var(--space-2);
-  }
-
-  .dash-table td {
-    border-bottom: 1px solid var(--border-default);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--space-2) var(--space-3);
-    text-align: right;
-  }
-  
-  .dash-table td:last-child {
-    border-bottom: none;
-  }
-
-  .dash-table td::before {
-    content: attr(data-label);
-    font-family: var(--font-mono); font-feature-settings: "liga" 0, "calt" 0;
-    font-size: var(--text-xs);
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    font-weight: var(--weight-semibold);
-    text-align: left;
-    margin-right: var(--space-4);
-  }
-}
 
 .dash-badge {
   display: inline-block;
@@ -232,11 +168,7 @@
   margin-bottom: var(--space-4);
 }
 
-@media (max-width: 600px) {
-  .dash-form-grid {
-    grid-template-columns: 1fr;
-  }
-}
+
 
 /* Option Row Builder */
 .dash-option-row {
@@ -246,18 +178,12 @@
   margin-bottom: var(--space-2);
 }
 
-@media (max-width: 480px) {
-  .dash-option-row {
-    flex-wrap: nowrap; /* Force no wrap to keep trash icon visible */
-  }
-  
-  .dash-option-row input[type="text"] {
-    min-width: 0; /* Allows the input to shrink below its default min-content width */
-    flex: 1;
-  }
-  
-  .dash-option-row button {
-    flex-shrink: 0; /* Prevent the trash button from shrinking */
-    padding: 8px; /* Increase touch target */
-  }
+.dash-option-row input[type="text"] {
+  min-width: 0;
+  flex: 1;
+}
+
+.dash-option-row button {
+  flex-shrink: 0;
+  padding: 8px;
 }

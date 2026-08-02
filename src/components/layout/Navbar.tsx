@@ -95,7 +95,6 @@ function LogoPreloader() {
 }
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const pathname = usePathname();
@@ -122,23 +121,7 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu on route change
-  useEffect(() => {
-    setIsOpen(false);
-    setActiveDropdown(null);
-  }, [pathname]);
 
-  // Prevent body scroll when mobile menu is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
 
   return (
     <header className={`navbar ${isScrolled ? "navbar--scrolled" : ""}`} role="banner">
@@ -219,66 +202,7 @@ export function Navbar() {
           </Button>
         </div>
 
-        {/* Mobile hamburger */}
-        <button
-          className={`navbar__hamburger ${isOpen ? "navbar__hamburger--open" : ""}`}
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label={isOpen ? "Close menu" : "Open menu"}
-          aria-expanded={isOpen}
-          id="nav-mobile-toggle"
-        >
-          <span />
-          <span />
-          <span />
-        </button>
       </nav>
-
-      {/* Mobile menu — full-screen overlay (§5) */}
-      {isOpen && (
-        <div className="navbar__mobile-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu">
-          <nav className="navbar__mobile-menu">
-            <ul className="navbar__mobile-links">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={`navbar__mobile-link ${pathname === item.href ? "navbar__mobile-link--active" : ""}`}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                  {item.children && (
-                    <ul className="navbar__mobile-sub">
-                      {item.children.map((child) => (
-                        <li key={child.href}>
-                          <Link
-                            href={child.href}
-                            className="navbar__mobile-sub-link"
-                            onClick={() => setIsOpen(false)}
-                          >
-                            {child.label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
-            </ul>
-            <div className="navbar__mobile-actions">
-              <div style={{ marginBottom: '1rem' }}>
-                <ThemeToggle />
-              </div>
-              <Button href="/join" fullWidth id="mobile-join-cta">
-                Apply to Join
-              </Button>
-              <Link href="/login" className="navbar__mobile-login" onClick={() => setIsOpen(false)}>
-                Member Login →
-              </Link>
-            </div>
-          </nav>
-        </div>
-      )}
     </header>
   );
 }

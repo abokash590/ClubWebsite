@@ -95,8 +95,4 @@
 }
 
 /* Make it responsive */
-@media (max-width: 640px) {
-  .gallery-grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  }
-}
+

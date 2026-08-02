@@ -120,8 +120,4 @@
   background: var(--surface-secondary);
 }
 
-@media (max-width: 480px) {
-  .login-form {
-    padding: var(--space-4);
-  }
-}
+

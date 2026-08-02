@@ -177,24 +177,4 @@
   backdrop-filter: blur(4px);
 }
 
-@media (max-width: 768px) {
-  .sidebar {
-    transform: translateX(-100%);
-  }
-  
-  .sidebar--open {
-    transform: translateX(0);
-  }
 
-  .dashboard-content {
-    margin-left: 0;
-  }
-
-  .sidebar-toggle {
-    display: block;
-  }
-
-  .sidebar-overlay--open {
-    display: block;
-  }
-}

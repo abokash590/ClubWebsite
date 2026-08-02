@@ -128,8 +128,4 @@
 .cp-resource__tags { display: flex; flex-wrap: wrap; gap: var(--space-1); }
 .cp-resource__tag { font-family: var(--font-mono); font-feature-settings: "liga" 0, "calt" 0; font-size: 0.65rem; padding: 2px 8px; background: var(--surface-secondary); border-radius: var(--radius-sm); color: var(--text-tertiary); }
 
-@media (max-width: 768px) {
-  .cp-leaderboard__header, .cp-leaderboard__row { grid-template-columns: 40px 1fr 80px; }
-  .cp-leaderboard__handle, .cp-leaderboard__solved,
-  .cp-leaderboard__header span:nth-child(3), .cp-leaderboard__header span:nth-child(5) { display: none; }
-}
+

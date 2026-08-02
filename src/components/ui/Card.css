@@ -410,49 +410,4 @@ a.card:hover .card__link-glyph {
 }
 
 /* Responsive */
-@media (max-width: 480px) {
-  .card__body {
-    flex-direction: column;
-    padding: 0;
-  }
-  
-  .card__content {
-    padding: var(--space-3);
-  }
 
-  .card__accent-column {
-    flex-direction: row;
-    padding: var(--space-3);
-    min-width: auto;
-    justify-content: flex-start;
-    gap: var(--space-2);
-    border-bottom: 1px solid var(--text-primary);
-    background: var(--surface-secondary);
-  }
-  .dark .card__accent-column {
-    border-bottom-color: var(--border-default);
-  }
-
-  .card__accent-top {
-    font-size: var(--text-xs);
-  }
-  .card__accent-bottom {
-    font-size: var(--text-lg);
-  }
-
-  .card__divider {
-    display: none;
-  }
-
-  .card__content-column {
-    padding: var(--space-3);
-  }
-
-  .card__title {
-    font-size: var(--text-base);
-  }
-
-  .card--blog .card__title {
-    font-size: var(--text-lg);
-  }
-}

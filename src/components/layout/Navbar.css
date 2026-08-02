@@ -281,20 +281,3 @@ li:last-child .navbar__dropdown-link {
   text-decoration: none;
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-  .navbar__links,
-  .navbar__actions {
-    display: none;
-  }
-
-  .navbar__hamburger {
-    display: flex;
-  }
-}
-
-@media (max-width: 480px) {
-  .navbar__mobile-link {
-    font-size: var(--text-2xl);
-  }
-}

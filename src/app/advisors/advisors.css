@@ -11,8 +11,4 @@
   margin-top: var(--space-3);
 }
 
-@media (max-width: 768px) {
-  .advisors-hero {
-    padding-top: var(--space-6);
-  }
-}
+

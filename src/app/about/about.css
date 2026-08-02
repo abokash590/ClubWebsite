@@ -172,8 +172,4 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .about-dept {
-    flex-direction: column;
-  }
-}
+
