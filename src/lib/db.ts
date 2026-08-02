@@ -138,4 +138,13 @@ function initDbTables(db: any) {
       FOREIGN KEY(field_id) REFERENCES event_fields(id)
     );
   `);
+
+  // Seed default admin
+  const existingAdmin = db.prepare('SELECT id FROM users WHERE email = ?').get('admin@mec.edu.bd');
+  if (!existingAdmin) {
+    db.prepare(`
+      INSERT INTO users (name, email, password_hash, role)
+      VALUES (?, ?, ?, 'admin')
+    `).run('Club Admin', 'admin@mec.edu.bd', '$2b$10$eZOrzpKAkbzoB3gd9WHMZOeM3HqmcODuL4vG0Japhbb6NP0YZCfb.');
+  }
 }
