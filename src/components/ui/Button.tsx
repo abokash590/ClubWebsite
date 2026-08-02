@@ -3,16 +3,17 @@ import "./Button.css";
 
 interface ButtonProps {
   children: React.ReactNode;
-  variant?: "primary" | "secondary" | "ghost";
+  variant?: "primary" | "secondary" | "ghost" | "outline";
   size?: "sm" | "md" | "lg";
   href?: string;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
   className?: string;
   id?: string;
   fullWidth?: boolean;
   icon?: React.ReactNode;
+  style?: React.CSSProperties;
 }
 
 export function Button({
@@ -27,6 +28,7 @@ export function Button({
   id,
   fullWidth = false,
   icon,
+  style,
 }: ButtonProps) {
   const classes = [
     "btn",
@@ -40,7 +42,7 @@ export function Button({
 
   if (href) {
     return (
-      <Link href={href} className={classes} id={id}>
+      <Link href={href} className={classes} id={id} style={style}>
         {icon && <span className="btn__icon">{icon}</span>}
         {children}
       </Link>
@@ -54,6 +56,7 @@ export function Button({
       onClick={onClick}
       disabled={disabled}
       id={id}
+      style={style}
     >
       {icon && <span className="btn__icon">{icon}</span>}
       {children}

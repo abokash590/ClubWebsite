@@ -89,7 +89,7 @@ export async function createEvent(prevState: any, formData: FormData) {
   redirect("/admin/events");
 }
 
-export async function deleteEvent(eventId: number) {
+export async function deleteEvent(eventId: number, formData?: FormData) {
   const cookieStore = await cookies();
   const sessionToken = cookieStore.get("session")?.value;
   if (!sessionToken) {

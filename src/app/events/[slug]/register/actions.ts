@@ -35,7 +35,7 @@ export async function submitRegistration(eventId: number, prevState: any, formDa
   const fields = db.prepare(`SELECT * FROM event_fields WHERE event_id = ?`).all(eventId) as any[];
 
   // Collect answers
-  const answersToInsert = [];
+  const answersToInsert: { field_id: number; answer_value: string }[] = [];
   
   for (const field of fields) {
     let valStr = "";

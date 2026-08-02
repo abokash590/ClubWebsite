@@ -50,7 +50,10 @@ export default async function EventDetailsPage({ params }: { params: Promise<{ i
     answersByRegId[ans.registration_id][ans.field_id] = ans.answer_value;
   }
 
-  const deleteEventWithId = deleteEvent.bind(null, Number(eventId));
+  const deleteEventWithId = async () => {
+    "use server";
+    await deleteEvent(Number(eventId));
+  };
 
   return (
     <div>
