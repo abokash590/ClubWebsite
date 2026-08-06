@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { TeamCard } from "@/components/ui/Card";
+import { ProfileCard, ProfileGrid } from "@/components/ui/ProfileCard";
 import { activeMembers } from "@/data/members";
 import "./members.css";
 
@@ -23,11 +23,19 @@ export default function MembersPage() {
 
       <section className="section section--alt">
         <div className="container">
-          <div className="grid grid--4 stagger-children">
+          <ProfileGrid className="stagger-children">
             {activeMembers.map((member) => (
-              <TeamCard key={member.id} {...member} />
+              <ProfileCard
+                key={member.id}
+                slug={member.id}
+                name={member.name}
+                role={member.role}
+                sublabel="BATCH 27"
+                category="member"
+                socials={member.socials}
+              />
             ))}
-          </div>
+          </ProfileGrid>
         </div>
       </section>
     </>

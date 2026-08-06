@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { TeamCard } from "@/components/ui/Card";
+import { ProfileCard, ProfileGrid } from "@/components/ui/ProfileCard";
 import { alumniBatches } from "@/data/alumni";
 import "./alumni.css";
 
@@ -30,11 +30,19 @@ export default function AlumniPage() {
                   <h2>{batch.batchNumber}</h2>
                   <span className="alumni-batch__year">{batch.year}</span>
                 </div>
-                <div className="grid grid--4 stagger-children">
+                <ProfileGrid className="stagger-children">
                   {batch.members.map((member) => (
-                    <TeamCard key={member.id} {...member} />
+                    <ProfileCard
+                      key={member.id}
+                      slug={member.id}
+                      name={member.name}
+                      role={member.role}
+                      sublabel={batch.batchNumber.toUpperCase().replace(" BATCH", "")}
+                      category="alumni"
+                      socials={member.socials}
+                    />
                   ))}
-                </div>
+                </ProfileGrid>
               </div>
             ))}
           </div>

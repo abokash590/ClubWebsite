@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { TeamCard } from "@/components/ui/Card";
+import { ProfileCard, ProfileGrid } from "@/components/ui/ProfileCard";
 import { executives } from "@/data/executives";
 import "./executives.css";
 
@@ -23,11 +23,19 @@ export default function ExecutivesPage() {
 
       <section className="section section--alt">
         <div className="container">
-          <div className="grid grid--3 stagger-children">
+          <ProfileGrid className="stagger-children">
             {executives.map((exec) => (
-              <TeamCard key={exec.id} {...exec} />
+              <ProfileCard
+                key={exec.id}
+                slug={exec.id}
+                name={exec.name}
+                role={exec.role}
+                sublabel="PANEL"
+                category="executive"
+                socials={exec.socials}
+              />
             ))}
-          </div>
+          </ProfileGrid>
         </div>
       </section>
     </>

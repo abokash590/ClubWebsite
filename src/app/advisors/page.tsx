@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { TeamCard } from "@/components/ui/Card";
+import { ProfileCard, ProfileGrid } from "@/components/ui/ProfileCard";
 import { advisors } from "@/data/advisors";
 import "./advisors.css";
 
@@ -13,7 +13,7 @@ export default function AdvisorsPage() {
     <>
       <section className="section advisors-hero">
         <div className="container">
-          <span className="kicker">Guidance & Vision</span>
+          <span className="kicker">Guidance &amp; Vision</span>
           <h1>sudoers (Our Honorable Advisors)</h1>
           <p className="advisors-hero__subtitle">
             Meet the experienced mentors who guide our club towards excellence and innovation.
@@ -23,11 +23,19 @@ export default function AdvisorsPage() {
 
       <section className="section section--alt">
         <div className="container">
-          <div className="grid grid--3 stagger-children">
+          <ProfileGrid className="stagger-children">
             {advisors.map((advisor) => (
-              <TeamCard key={advisor.id} {...advisor} />
+              <ProfileCard
+                key={advisor.id}
+                slug={advisor.id}
+                name={advisor.name}
+                role={advisor.role}
+                sublabel="FACULTY"
+                category="advisor"
+                socials={advisor.socials}
+              />
             ))}
-          </div>
+          </ProfileGrid>
         </div>
       </section>
     </>
