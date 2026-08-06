@@ -213,6 +213,10 @@ export default function JoinPage() {
 
   const handleSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!photoUrl) {
+      setServerMsg("Profile photo is required. Please upload a photo.");
+      return;
+    }
     setSubmitting(true);
     const fd = new FormData();
     Object.entries(form).forEach(([k, v]) => fd.append(k, v));
@@ -281,6 +285,7 @@ export default function JoinPage() {
                 </button>
                 <input ref={fileRef} type="file" accept="image/*" onChange={handlePhoto} style={{ display: "none" }} />
                 <div className="jc-photo-upload-hint">
+                  <p>Profile Photo <span className="jc-required">*</span></p>
                   <p>JPG, PNG or WEBP</p>
                   <p>Min 400×400px recommended</p>
                   {photoUrl && (
