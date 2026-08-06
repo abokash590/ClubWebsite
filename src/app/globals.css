@@ -542,3 +542,11 @@ li {
 .stagger-children > *:nth-child(4) { animation-delay: 240ms; }
 .stagger-children > *:nth-child(5) { animation-delay: 320ms; }
 .stagger-children > *:nth-child(6) { animation-delay: 400ms; }
+
+/* Center all subpage titles */
+.members-hero, .executives-hero, .events-hero, .cp-hero, .constitution-hero, .blog-hero, .alumni-hero, .advisors-hero, .about-hero, .projects-hero {
+  text-align: center;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}

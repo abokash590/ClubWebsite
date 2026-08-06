@@ -35,14 +35,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <body>
-        <ScaleWrapper>
-          <ThemeProvider>
+        <ThemeProvider>
+          <ScaleWrapper>
             <Navbar />
             <main id="main-content">{children}</main>
             <Footer />
             <AccentIndicator />
-          </ThemeProvider>
-        </ScaleWrapper>
+          </ScaleWrapper>
+        </ThemeProvider>
       </body>
     </html>
   );

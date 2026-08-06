@@ -253,8 +253,8 @@ export default function JoinPage() {
       <div className="container">
 
         <div className="jc-header">
-          <span className="kicker">New Connection</span>
-          <h1>Join MEC Computer Club</h1>
+          <span className="kicker">Join the Club</span>
+          <h1>sudo adduser</h1>
           <p>Fill in your details and watch your member card come to life — live preview on the right.</p>
         </div>
 
