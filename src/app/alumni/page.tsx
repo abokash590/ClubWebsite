@@ -37,6 +37,7 @@ export default function AlumniPage() {
                       slug={member.id}
                       name={member.name}
                       role={member.role}
+                      batch={batch.batchNumber}
                       sublabel={batch.batchNumber.toUpperCase().replace(" BATCH", "")}
                       category="alumni"
                       socials={member.socials}

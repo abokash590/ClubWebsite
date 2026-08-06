@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getDb } from "@/lib/db";
 import { notFound } from "next/navigation";
 import EventBuilderForm from "../../new/EventBuilderForm";

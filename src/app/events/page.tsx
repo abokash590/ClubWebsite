@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import type { Metadata } from "next";
 import { EventCard } from "@/components/ui/Card";
 import { getUpcomingEvents, getPastEvents } from "@/data/events";

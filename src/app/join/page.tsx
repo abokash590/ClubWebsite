@@ -1,113 +1,242 @@
+
 "use client";
 
-import { useState, useEffect, useRef, useActionState } from "react";
-import { submitJoinRequest, JoinActionState } from "./actions";
+import { useState, useRef, useCallback } from "react";
+import { submitJoinRequest } from "./actions";
 import { Button } from "@/components/ui/Button";
-import { RobotIcon } from "@/components/ui/RobotIcon";
-import { ClubIcon } from "@/components/ui/ClubIcon";
-import { Select } from "@/components/ui/Select";
+import Image from "next/image";
 import "./join.css";
 
-const initialState: JoinActionState = {
-  success: false,
-  message: "",
-  errors: {},
+
+
+/* ── Auto-link builders ── */
+const toGithubUrl    = (u: string) => u.trim() ? `https://github.com/${u.trim()}` : "";
+const toCfUrl        = (u: string) => u.trim() ? `https://codeforces.com/profile/${u.trim()}` : "";
+const toCodechefUrl  = (u: string) => u.trim() ? `https://codechef.com/users/${u.trim()}` : "";
+
+const initialForm = {
+  fullName: "",
+  batch: "",
+  studentId: "",
+  registrationNumber: "",
+  email: "",
+  linkedin: "",     // full URL (required)
+  github: "",       // username → auto link (required)
+  facebook: "",     // full URL (optional)
+  codeforces: "",   // handle → auto link (required)
+  codechef: "",     // username → auto link (required)
 };
 
+/* ── Social icon SVGs ── */
+const IconGH = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+);
+const IconLI = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+);
+const IconFB = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+);
+const IconCF = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="10" width="4" height="12" rx="1"/><rect x="10" y="4" width="4" height="18" rx="1"/><rect x="18" y="7" width="4" height="15" rx="1"/></svg>
+);
+const IconCC = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M11.2574.0039c-.37.0101-.7353.041-1.1003.095C9.6164.153 9.0766.4236 8.482.694c-.757.3244-1.5147.6486-2.2176.7027-1.1896.3785-1.568.919-1.8925 1.3516 0 .054-.054.1079-.054.1079-.4325.865-.4873 1.73-.325 2.5952.1621.5407.3786 1.0282.5408 1.5148.3785 1.0274.7578 2.0007.92 3.1362.1622.3244.3235.7571.4316 1.1897.2704.8651.542 1.8383 1.353 2.5952l.0057-.0028c.0175.0183.0301.0387.0482.0568.0072-.0036.0141-.0063.0213-.0099l-.0213-.5849c.6489-.9733 1.5673-1.6221 2.865-1.8925.5195-.1093 1.081-.1497 1.6625-.1278a8.7733 8.7733 0 0 1 1.7988.2357c1.4599.3785 2.595 1.1358 2.6492 1.7846.0273.3549.0398.6952.0326 1.0364-.001.064-.0046.1285-.007.193l.1362.0682c.075-.0375.1424-.107.2059-.1902.0008-.001.002-.002.0028-.0028.0018-.0023.0039-.0061.0057-.0085.0396-.0536.0747-.1236.1107-.1931.0188-.0377.0372-.0866.0554-.1292.2048-.4622.362-1.1536.538-1.9635.0541-.2703.1092-.4864.1633-.7027.4326-.9733 1.0266-1.8382 1.6213-2.6492.9733-1.3518 1.8928-2.5962 1.7846-4.0561-1.784-3.4608-4.2718-4.0017-5.5695-4.272-.2163-.0541-.3233-.0539-.4856-.108-1.3382-.2433-2.4945-.3953-3.6046-.3648zm5.0428 14.3788a9.8602 9.8602 0 0 0-.0326-.9824c-.0541-.703-1.1892-1.46-2.7032-1.8386-.588-.1336-1.1764-.2142-1.7448-.2356-.539-.0137-1.0657.0248-1.5546.1277-1.2436.2704-2.2162.9193-2.811 1.8925l.0511 1.431c.6672-.3558 1.7326-.8747 3.139-.9994.0662-.0059.1368-.0059.2044-.0099.1177-.013.2667-.044.4444-.044 1.6075 0 3.2682.5336 4.8767 1.6483.039-.2744.0611-.549.071-.8234l.044.0227c.0028-.0622.0143-.1268.0156-.1888zM11.256.0578c.1239-.0034.2538.01.379.0114-.23-.0022-.4588.0026-.6871.0156.103-.0061.2046-.0242.308-.027zm.4983.0156c.6552.014 1.3255.0711 2.0387.1803-.6834-.0987-1.3646-.1671-2.0387-.1803zm-1.3147.0554c-.076.0087-.1527.0133-.2285.0241-.8168.1167-1.7742.7015-2.75 1.045.3545-.1323.7143-.2957 1.0747-.4501C9.0765.4774 9.6705.207 10.1571.1529c.0939-.0139.1886-.0133.2825-.0241zm-.2285.24c.1622 0 .3787-.0002.5409.0539-.1425-.0357-.2595-.026-.3706-.0142a1.174 1.174 0 0 1 .3166.0681c.5796 1.0012-.4264 5.2791-.6786 8.1492.1559 1.0276.3138 1.9963.4628 2.7201-.7029-1.7843-1.4067-4.921-1.5148-7.354-.054-.9733.001-1.8386.2172-2.4874C9.401.8557 9.7244.4228 10.2111.3687zm3.1361.271c-.811 2.1088-.9184 6.1092-.9725 7.3528-.054.5407-.0001 1.73.054 2.5952 0 .2163.054.4325.054.6488 0-.2163-.054-.3786-.054-.5948-.4326-3.2442-.974-7.1362.9185-10.002zm3.352.3777c-.2704 2.1628-1.4047 3.191-1.7832 5.2998-.1081 1.6762-.325 3.6222-.379 5.2984-.0541-1.6762-.0007-3.4601.2697-5.2444.2703-1.8384.8651-3.6776 1.8925-5.3538zm-10.381.433c-.3581.1194-.632.248-.8575.3805.2317-.1358.4996-.2666.8575-.3805zm.2101.1974c.2155.0025.4384.0734.6006.2357-.0067-.004-.0078-.0033-.0142-.0071.1331.0929.2666.2093.3932.3847-.2036.9673.2553 3.0317.0398 4.6694.0763 1.5485.0717 3.1804.849 4.4594-.9796-1.5107-1.176-3.4375-1.3218-5.236-.1128-1.0907-.2035-2.0969-.4642-2.9033-.144-.3047-.2684-.5745-.3833-.822-.0247-.0369-.0447-.0784-.071-.1135-.1082-.1082-.1619-.2696-.1619-.3777 0-.054.0539-.1618.108-.1618.054-.0541.1616-.0553.2157-.1094a1.013 1.013 0 0 1 .2101-.0184zm-1.3459.6133c-.0604.0201-.0923.041-.1405.061.1768-.034.3617.0339.5196.318-.1877.8916.4364 3.3685.4288 5.104.3124 1.8478.5496 3.8498 1.5716 5.1152C6.3723 11.5076 5.886 9.1286 5.5076 7.128 5.183 5.56 4.9125 4.2086 4.3718 3.776c-.054-.1081-.1079-.163-.1079-.2711 0-.1622-.0002-.3786.1079-.5949-.2772.6337-.4047 1.2673-.3706 1.901-.0445-.6487.0857-1.2905.3706-1.901 0-.054.054-.0538.054-.1079.012-.016.0314-.0349.044-.0511.0618-.0983.1308-.189.2257-.257.0557-.0615.0965-.1191.159-.1817-.0526.0555-.0872.1092-.1335.1647.0273-.018.0523-.0368.0838-.0525.1081-.1082.2154-.1633.3776-.1633zm-.3776.1633c-.0038.0075-.0076.0111-.0114.0184.0125-.0099.0242-.0208.037-.0298-.0074.0037-.0182.0077-.0256.0114zm14.7608 1.1343c-.0017.0052-.004.0104-.0057.0156.0378-.005.0751-.0173.1135-.0156-.0378-.0022-.0763.0103-.115.0199-.8634 2.6418-1.8874 5.2844-2.9118 7.9262a.0184.0184 0 0 1-.0015.0028c-.0874.4652-.234.8842-.5395 1.1898.4326-.4867.4854-1.1907.5395-2.0558.054-.811.0544-1.6761.487-2.5413 0-.0531.0012-.1058.0525-.159.0003-.0009.0012-.0019.0015-.0028.0973-.3524.202-.6885.3166-1.018.4183-1.2896 1.1396-3.1653 2.0131-3.3405.0163-.0052.034-.018.0497-.0213zM8.3726 16.2113l-.3238.1079c.1623.2163.2696.379.3777.433.1081.054.2168.108.379.108.0541 0 .1618 0 .2159-.054l.812-.2698c.0541 0 .1078-.054.1619-.054.1081 0 .1616 0 .2697.054l.2712.2698.2697-.054c-.1081-.1622-.2695-.3236-.3776-.3776-.1082-.0541-.2169-.1094-.379-.1094h-.108l-.866.3252h-.1618c-.1082 0-.2157 0-.2698-.054-.054-.054-.163-.1629-.2712-.3251zm-2.5953.541c-.2703.1621-.649.4324-1.1897.6487-.5407.2163-.9734.4325-1.1897.6488-.2163.2163-.3237.4326-.3237.6488 0 .1082.0537.1632.1618.2172.054.0541.1632.0539.2172.108.757.3244 1.5133.7019 2.2162 1.0803.1082.0541.2171.1632.2712.2173.054.054.1078.054.1618.054.1082 0 .2695-.0538.3777-.162.1081-.108.1632-.217.1632-.325 0-.1082-.055-.1618-.1632-.2158 0 0-.4328-.2165-1.1898-.541-.4866-.2162-.9179-.4326-1.1883-.5948.1623-.2704.486-.4865.9726-.7028.5407-.2163.9196-.4326 1.0818-.5948.054-.0541.054-.1078.054-.1619 0-.054-.0539-.1631-.108-.2172-.054-.054-.163-.1079-.2711-.1079zm11.247 0c-.054 0-.1618.0537-.2158.1078-.0541.1081-.1093.1632-.1093.2172v.054c.1622.1622.3797.2695.7041.3776.2704.054.5403.1632.8107.2172.3244.1082.5407.2693.6488.4856v.0553c0 .0541-.1088.1616-.3251.2698-.1082.054-.3245.2167-.5949.433-.2703.1622-.4326.3236-.5948.3776-.2163.1082-.3776.217-.4316.3252-.0541.054-.054.1077-.054.1618 0 .1081.0539.1077.108.2158.054.1081.1616.1093.2157.1093.054 0 .1078-.0554.1619-.0554.2703-.1622.6492-.3782 1.0818-.7567.4866-.3784.8655-.6484 1.0818-.8106.2163-.1082.3237-.2169.3237-.379 0-.0541.0002-.1618-.1079-.2159-.3785-.4325-.9185-.7022-1.5674-.9185-.1081-.0541-.2704-.1092-.5948-.1633-.1622-.054-.3249-.1079-.433-.1079zm-2.9743.8106c-.2704 0-.4866.055-.6488.2172-.2163.1622-.2699.4323-.2158.7567 0 .2703.1075.4865.2697.7027.1622.2163.3786.3252.5949.3252.1622 0 .2708-.0553.433-.1094.2703-.1622.379-.4319.379-.9185 0-.3785-.109-.6485-.2711-.8107-.1622-.1081-.3246-.1632-.541-.1632zm-4.4877.054c-.2704 0-.4866.055-.6488.2171-.2163.1622-.27.4323-.2158.7567 0 .2704.1075.4865.2697.7028s.3786.3251.5949.3251c.1622 0 .2708-.0552.433-.1093.2703-.1622.3776-.432.3776-.9186 0-.4325-.1075-.7025-.2697-.8106-.1622-.1082-.3247-.1633-.541-.1633zm0 .6501c.1622 0 .2711.1076.2711.2698 0 .1622-.163.2697-.2711.2697-.1622 0-.2698-.1075-.2698-.2697s.1076-.2698.2698-.2698zm4.3798.054c.1622 0 .2711.1075.2711.2697 0 .1082-.109.2698-.2711.2698-.1622 0-.2698-.1076-.2698-.2698 0-.1622.1076-.2697.2698-.2697zm-2.7032 2.1083l.1619.3237c.054.1081.1076.163.2158.2711.054.054.163.1619.2712.1619h.1078c.1082 0 .1618 0 .2158-.054.0541-.054.1632-.0538.2173-.1079l.1618-.1618c.054-.054.108-.1092.108-.1633.054-.054.0537-.1078.1078-.1618 0-.0541.054-.108.054-.108-.0541.1082-.1618.2156-.2158.3238-.1082.054-.1616.1632-.2698.1632-.1081.0541-.217.054-.3251.054s-.2157.0001-.2697-.054c-.1082 0-.1632-.0538-.2173-.1079l-.1618-.1632c-.054-.0541-.1078-.1618-.1619-.2158zm-.866 1.0278c-1.1355 0-1.8377 1.5136-3.4598.1619-.4326 2.6494 2.7583 2.866 4.11 1.7306.9192-.811.6475-1.9465-.6502-1.8925zm2.8664 0c-1.2977-.054-1.568 1.0815-.6488 1.8925 1.3518 1.1355 4.5412.9188 4.1087-1.7306-1.6221 1.3517-2.2703-.1619-3.4599-.1619z"/></svg>
+);
+
+/* ── PrefixInput — shows base URL, user types only handle/username ── */
+interface PrefixInputProps {
+  id: string;
+  icon: React.ReactNode;
+  label: string;
+  prefix: string;
+  placeholder: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  required?: boolean;
+  generatedUrl?: string;
+}
+function PrefixInput({ id, icon, label, prefix, placeholder, value, onChange, required, generatedUrl }: PrefixInputProps) {
+  return (
+    <div className="jc-form-group">
+      <label htmlFor={id}>
+        {icon} {label}
+        {required && <span className="jc-required"> *</span>}
+      </label>
+      <div className="jc-prefix-input">
+        <span className="jc-prefix-input__base">{prefix}</span>
+        <input id={id} type="text" value={value} onChange={onChange} placeholder={placeholder} required={required} />
+      </div>
+      {generatedUrl && (
+        <a href={generatedUrl} target="_blank" rel="noopener noreferrer" className="jc-generated-url">
+          ↗ {generatedUrl}
+        </a>
+      )}
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════
+   LIVE CARD PREVIEW
+   ════════════════════════════════════════════════════════════ */
+interface CardPreviewProps {
+  name: string;
+  batch: string;
+  photoUrl: string | null;
+  initial: string;
+  zoom: number;
+  offsetX: number;
+  offsetY: number;
+  github: string;
+  linkedin: string;
+  facebook: string;
+  codeforces: string;
+  codechef: string;
+}
+
+function CardPreview({ name, batch, photoUrl, initial, zoom, offsetX, offsetY, github, linkedin, facebook, codeforces, codechef }: CardPreviewProps) {
+  const socials = [
+    github     && { icon: <IconGH />, label: "GitHub", url: toGithubUrl(github) },
+    linkedin   && { icon: <IconLI />, label: "LinkedIn", url: linkedin },
+    facebook   && { icon: <IconFB />, label: "Facebook", url: facebook },
+    codeforces && { icon: <IconCF />, label: "Codeforces", url: toCfUrl(codeforces) },
+    codechef   && { icon: <IconCC />, label: "CodeChef", url: toCodechefUrl(codechef) },
+  ].filter(Boolean) as { icon: React.ReactNode; label: string; url: string }[];
+
+  return (
+    <div className="jc-preview-card">
+      {/* Photo */}
+      <div className="jc-preview-card__photo">
+        {photoUrl ? (
+          <div style={{ width: "100%", height: "100%", overflow: "hidden", position: "relative" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={photoUrl} alt="preview"
+              style={{
+                width: `${zoom}%`, height: `${zoom}%`,
+                objectFit: "cover", position: "absolute",
+                top: "50%", left: "50%",
+                transform: `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px))`,
+                transition: "none",
+              }}
+            />
+          </div>
+        ) : (
+          <div className="jc-preview-card__placeholder">{initial || "?"}</div>
+        )}
+      </div>
+
+      {/* Info */}
+      <div className="jc-preview-card__content">
+        <p className="jc-preview-card__name">{name || "Your Name"}</p>
+        {batch && <p className="jc-preview-card__batch">{batch}</p>}
+        <p className="jc-preview-card__role">Club Member</p>
+      </div>
+
+      {/* Social footer */}
+      {socials.length > 0 && (
+        <div className="jc-preview-card__social-footer">
+          {socials.map((s, i) => (
+            <a key={s.label} href={s.url} target="_blank" rel="noopener noreferrer" className="jc-preview-card__social-cell" title={s.label}>
+              {i > 0 && <span className="jc-preview-card__social-sep" aria-hidden="true" />}
+              {s.icon}
+            </a>
+          ))}
+        </div>
+      )}
+
+      <div className="jc-preview-card__badge">MEC CC</div>
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════
+   SLIDER WITH DEFAULT MARK
+   ════════════════════════════════════════════════════════════ */
+interface MarkedSliderProps {
+  label: string;
+  min: number;
+  max: number;
+  defaultVal: number;
+  value: number;
+  onChange: (v: number) => void;
+  suffix?: string;
+}
+function MarkedSlider({ label, min, max, defaultVal, value, onChange, suffix }: MarkedSliderProps) {
+  const markPct = ((defaultVal - min) / (max - min)) * 100;
+  const isAtDefault = value === defaultVal;
+  return (
+    <div className="jc-photo-controls__row">
+      <label>{label}</label>
+      <div className="jc-slider-wrap">
+        <input
+          type="range" min={min} max={max} value={value}
+          onChange={e => onChange(Number(e.target.value))}
+          className="jc-slider"
+        />
+        {/* Default position tick */}
+        <span
+          className={`jc-slider-mark${isAtDefault ? " jc-slider-mark--active" : ""}`}
+          style={{ left: `${markPct}%` }}
+          aria-hidden="true"
+        />
+      </div>
+      <span>{suffix ? `${value}${suffix}` : value}</span>
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════
+   MAIN PAGE
+   ════════════════════════════════════════════════════════════ */
 export default function JoinPage() {
-  const [step, setStep] = useState(1);
-  const [state, formAction, isPending] = useActionState(submitJoinRequest, initialState);
-  
-  // Track all form data
-  const [formData, setFormData] = useState({
-    fullName: "",
-    studentId: "",
-    email: "",
-    semester: "",
-    department: "",
-    experience: "",
-    whyJoin: "",
-    commitment: false,
-  });
+  const [form, setForm] = useState(initialForm);
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+  const [zoom, setZoom] = useState(100);
+  const [offsetX, setOffsetX] = useState(0);
+  const [offsetY, setOffsetY] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [serverMsg, setServerMsg] = useState("");
+  const fileRef = useRef<HTMLInputElement>(null);
 
-  const [mood, setMood] = useState<"neutral" | "happy" | "sad">("neutral");
-  const [isHoveringNext, setIsHoveringNext] = useState(false);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { id, value, type } = e.target;
-    // Handle specific radio group mapping
-    if (e.target.name === "department") {
-      setFormData(prev => ({ ...prev, department: value }));
-      return;
-    }
-    
-    // Handle checkbox
-    if (type === "checkbox") {
-      const checked = (e.target as HTMLInputElement).checked;
-      setFormData(prev => ({ ...prev, [id]: checked }));
-      return;
-    }
-
-    setFormData(prev => ({ ...prev, [id]: value }));
+  const update = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setForm(prev => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
-  // Calculate progress %
-  const calculateProgress = () => {
-    let filled = 0;
-    if (formData.fullName.trim() !== "") filled++;
-    if (formData.studentId.trim() !== "") filled++;
-    if (formData.email.trim() !== "") filled++;
-    if (formData.semester !== "") filled++;
-    if (formData.department !== "") filled++;
-    if (formData.experience !== "") filled++;
-    if (formData.whyJoin.trim() !== "") filled++;
-    if (formData.commitment) filled++;
-    return (filled / 8) * 100;
+  const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setPhotoUrl(URL.createObjectURL(file));
+    setZoom(100); setOffsetX(0); setOffsetY(0);
   };
 
-  const progress = calculateProgress();
-  const prevProgressRef = useRef(progress);
-  const moodTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const handleSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitting(true);
+    const fd = new FormData();
+    Object.entries(form).forEach(([k, v]) => fd.append(k, v));
+    // store resolved links for username fields
+    fd.set("github_url",    toGithubUrl(form.github));
+    fd.set("codeforces_url", toCfUrl(form.codeforces));
+    fd.set("codechef_url",   toCodechefUrl(form.codechef));
+    fd.set("whyJoin", "Member application via Join page");
+    const result = await submitJoinRequest({ success: false, message: "", errors: {} }, fd);
+    setSubmitting(false);
+    if (result.success) setSubmitted(true);
+    else setServerMsg(result.message);
+  }, [form]);
 
-  // Watch for progress changes to set robot mood
-  useEffect(() => {
-    if (progress > prevProgressRef.current) {
-      setMood("happy");
-    } else if (progress < prevProgressRef.current) {
-      setMood("sad");
-    }
+  const initial = form.fullName.trim().charAt(0).toUpperCase();
 
-    prevProgressRef.current = progress;
-
-    if (moodTimeoutRef.current) clearTimeout(moodTimeoutRef.current);
-    moodTimeoutRef.current = setTimeout(() => {
-      setMood("neutral");
-    }, 2000);
-
-    return () => {
-      if (moodTimeoutRef.current) clearTimeout(moodTimeoutRef.current);
-    };
-  }, [progress]);
-
-  // Jump to the step with errors
-  useEffect(() => {
-    if (!state.success && state.errors) {
-      if (state.errors.name || state.errors.email) {
-        setStep(1);
-      } else if (state.errors.reason) {
-        setStep(3);
-      }
-    }
-  }, [state]);
-
-  if (state.success) {
+  if (submitted) {
     return (
       <section className="section join-success">
         <div className="container container--narrow text-center">
           <div className="join-success__icon">✓</div>
-          <h1>Application Received</h1>
+          <h1>Application Received!</h1>
           <p className="join-success__message">
-            {state.message}
+            Thanks, <strong>{form.fullName}</strong>! We&apos;ll review your request and get back to you via <strong>{form.email}</strong>.
           </p>
           <Button href="/" size="lg">Return Home</Button>
         </div>
@@ -116,167 +245,176 @@ export default function JoinPage() {
   }
 
   return (
-    <section className="section join-page">
-      <div className="container container--narrow">
-        <div className="join-header">
+    <section className="section jc-page">
+      <div className="container">
+
+        <div className="jc-header">
           <span className="kicker">New Connection</span>
-          <h1>Ready to Git Commit to the Club?</h1>
-          <p>
-            We&apos;re looking for students who want to build, compete, and learn.
-            No prior experience required — just curiosity and a willingness to write some code.
-          </p>
+          <h1>Join MEC Computer Club</h1>
+          <p>Fill in your details and watch your member card come to life — live preview on the right.</p>
         </div>
 
-        {/* Dynamic Robot Progress Bar */}
-        <div className="robot-progress-container">
-          <div className="robot-progress-header">
-            <span style={{ fontWeight: step >= 1 ? "bold" : "normal", color: step >= 1 ? "var(--text-primary)" : "var(--text-tertiary)" }}>1. Basics</span>
-            <span style={{ fontWeight: step >= 2 ? "bold" : "normal", color: step >= 2 ? "var(--text-primary)" : "var(--text-tertiary)" }}>2. Interests</span>
-            <span style={{ fontWeight: step >= 3 ? "bold" : "normal", color: step >= 3 ? "var(--text-primary)" : "var(--text-tertiary)" }}>3. Submit</span>
-          </div>
-          <div className="robot-progress-track">
-            <div className="robot-progress-fill" style={{ width: `${progress}%` }}></div>
-            <div className="robot-character" style={{ left: `${progress}%` }}>
-              <RobotIcon mood={isHoveringNext ? "happy" : mood} />
-            </div>
-            <div className="robot-destination">
-              <ClubIcon />
-            </div>
-          </div>
-        </div>
+        <div className="jc-layout">
 
-        <form className="join-form" action={formAction}>
-          {/* Hidden inputs to ensure all data is submitted even across steps */}
-          <input type="hidden" name="fullName" value={formData.fullName} />
-          <input type="hidden" name="email" value={formData.email} />
-          <input type="hidden" name="whyJoin" value={formData.whyJoin} />
+          {/* ════ LEFT: FORM ════ */}
+          <form className="jc-form" onSubmit={handleSubmit} noValidate>
 
-          {/* Global error message */}
-          {state.message && !state.success && (
-            <div style={{ color: "var(--accent-primary)", padding: "10px", background: "rgba(255,0,0,0.1)", borderRadius: "4px", marginBottom: "16px" }}>
-              {state.message}
-            </div>
-          )}
+            {/* — Section 01: Identity — */}
+            <div className="jc-form__section">
+              <h2 className="jc-form__section-title">
+                <span className="jc-form__section-num">01</span> Identity
+              </h2>
 
-          {step === 1 && (
-            <div className="join-form__step animate-fade-in">
-              <div className="form-group">
-                <label htmlFor="fullName">Full Name</label>
-                <input type="text" id="fullName" value={formData.fullName} onChange={handleInputChange} required placeholder="e.g., Farhan Ahmed" />
-                {state.errors?.name && <span style={{ color: "var(--accent-primary)", fontSize: "0.85rem", marginTop: "4px", display: "block" }}>{state.errors.name}</span>}
+              {/* Photo upload */}
+              <div className="jc-form__photo-row">
+                <button type="button" className="jc-photo-upload-btn" onClick={() => fileRef.current?.click()} aria-label="Upload profile picture">
+                  {photoUrl
+                    ? <Image src={photoUrl} alt="profile" fill style={{ objectFit: "cover" }} unoptimized />
+                    : <div className="jc-photo-upload-btn__inner">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                          <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                        <span>Upload Photo</span>
+                      </div>
+                  }
+                </button>
+                <input ref={fileRef} type="file" accept="image/*" onChange={handlePhoto} style={{ display: "none" }} />
+                <div className="jc-photo-upload-hint">
+                  <p>JPG, PNG or WEBP</p>
+                  <p>Min 400×400px recommended</p>
+                  {photoUrl && (
+                    <button type="button" className="jc-photo-remove"
+                      onClick={() => { setPhotoUrl(null); if (fileRef.current) fileRef.current.value = ""; }}>
+                      Remove photo
+                    </button>
+                  )}
+                </div>
               </div>
-              <div className="form-group">
-                <label htmlFor="studentId">Student ID</label>
-                <input type="text" id="studentId" value={formData.studentId} onChange={handleInputChange} required placeholder="e.g., 202314050" />
+
+              <div className="jc-form-group">
+                <label htmlFor="fullName">Full Name <span className="jc-required">*</span></label>
+                <input id="fullName" type="text" value={form.fullName} onChange={update} required placeholder="e.g. Tawhid Ahmmed" />
               </div>
-              <div className="form-group">
-                <label htmlFor="email">University Email</label>
-                <input type="email" id="email" value={formData.email} onChange={handleInputChange} required placeholder="name@std.mec.edu.bd" />
-                {state.errors?.email && <span style={{ color: "var(--accent-primary)", fontSize: "0.85rem", marginTop: "4px", display: "block" }}>{state.errors.email}</span>}
+
+              <div className="jc-form__row--2">
+                <div className="jc-form-group">
+                  <label htmlFor="studentId">Student ID <span className="jc-required">*</span></label>
+                  <input id="studentId" type="text" value={form.studentId} onChange={update} required placeholder="e.g. 210321" />
+                </div>
+                <div className="jc-form-group">
+                  <label htmlFor="registrationNumber">Registration No. <span className="jc-required">*</span></label>
+                  <input id="registrationNumber" type="text" value={form.registrationNumber} onChange={update} required placeholder="e.g. 1356" />
+                </div>
               </div>
-              <div className="form-group">
-                <label htmlFor="semester">Current Semester</label>
-                <Select
-                  id="semester"
-                  value={formData.semester}
-                  onChange={(val) => setFormData(prev => ({ ...prev, semester: val }))}
-                  options={[
-                    { value: "1", label: "1st Semester" },
-                    { value: "2", label: "2nd Semester" },
-                    { value: "3", label: "3rd Semester" },
-                    { value: "4", label: "4th Semester" },
-                    { value: "5", label: "5th Semester" },
-                    { value: "6", label: "6th Semester" },
-                    { value: "7", label: "7th Semester" },
-                    { value: "8", label: "8th Semester" },
-                  ]}
-                  required
-                />
-              </div>
-              <div className="form-actions">
-                <div onMouseEnter={() => setIsHoveringNext(true)} onMouseLeave={() => setIsHoveringNext(false)}>
-                  <Button type="button" onClick={() => setStep(2)}>Next Step →</Button>
+
+              <div className="jc-form__row--2">
+                <div className="jc-form-group">
+                  <label htmlFor="batch">Batch <span className="jc-required">*</span></label>
+                  <input id="batch" type="text" value={form.batch} onChange={update} required placeholder="e.g. CSE, 5th" />
+                </div>
+                <div className="jc-form-group">
+                  <label htmlFor="email">Email <span className="jc-required">*</span></label>
+                  <input id="email" type="email" value={form.email} onChange={update} required placeholder="name@std.mec.edu.bd" />
                 </div>
               </div>
             </div>
-          )}
 
-          {step === 2 && (
-            <div className="join-form__step animate-fade-in">
-              <div className="form-group">
-                <label>Primary Interest Area</label>
-                <div className="radio-group">
-                  <label className="radio-label">
-                    <input type="radio" name="department" value="cp" checked={formData.department === "cp"} onChange={handleInputChange} required />
-                    Competitive Programming
-                  </label>
-                  <label className="radio-label">
-                    <input type="radio" name="department" value="webdev" checked={formData.department === "webdev"} onChange={handleInputChange} />
-                    Web Development
-                  </label>
-                  <label className="radio-label">
-                    <input type="radio" name="department" value="ml" checked={formData.department === "ml"} onChange={handleInputChange} />
-                    Machine Learning / AI
-                  </label>
-                  <label className="radio-label">
-                    <input type="radio" name="department" value="cybersec" checked={formData.department === "cybersec"} onChange={handleInputChange} />
-                    Cybersecurity
-                  </label>
-                </div>
-              </div>
-              <div className="form-group">
-                <label htmlFor="experience">Current Experience Level</label>
-                <Select
-                  id="experience"
-                  value={formData.experience}
-                  onChange={(val) => setFormData(prev => ({ ...prev, experience: val }))}
-                  options={[
-                    { value: "none", label: "Complete beginner (Never coded before)" },
-                    { value: "basic", label: "Know basic syntax (Variables, loops, if/else)" },
-                    { value: "intermediate", label: "Have built small projects / solved some CP problems" },
-                    { value: "advanced", label: "Comfortable building full apps / high CP rating" },
-                  ]}
-                  required
-                />
-              </div>
-              <div className="form-actions form-actions--split">
-                <Button type="button" variant="secondary" onClick={() => setStep(1)}>← Back</Button>
-                <div onMouseEnter={() => setIsHoveringNext(true)} onMouseLeave={() => setIsHoveringNext(false)}>
-                  <Button type="button" onClick={() => setStep(3)}>Next Step →</Button>
-                </div>
-              </div>
-            </div>
-          )}
+            {/* — Section 02: Social & Competitive — */}
+            <div className="jc-form__section">
+              <h2 className="jc-form__section-title">
+                <span className="jc-form__section-num">02</span> Social &amp; Competitive Profiles
+              </h2>
 
-          {step === 3 && (
-            <div className="join-form__step animate-fade-in">
-              <div className="form-group">
-                <label htmlFor="whyJoin">Why do you want to join this club? (Be honest, not formal)</label>
-                <textarea 
-                  id="whyJoin" 
-                  value={formData.whyJoin}
-                  onChange={handleInputChange}
-                  rows={4} 
-                  required 
-                  placeholder="e.g., I want to learn web dev to build my own startup ideas, or I want to represent the university in ICPC..."
-                ></textarea>
-                {state.errors?.reason && <span style={{ color: "var(--accent-primary)", fontSize: "0.85rem", marginTop: "4px", display: "block" }}>{state.errors.reason}</span>}
-              </div>
-              <div className="form-group">
-                <label htmlFor="commitment">
-                  <input type="checkbox" id="commitment" checked={formData.commitment} onChange={handleInputChange} required />
-                  I understand that active membership requires attending at least one session/meeting per week.
+              {/* LinkedIn — full URL, required */}
+              <div className="jc-form-group">
+                <label htmlFor="linkedin">
+                  <IconLI /> LinkedIn <span className="jc-required">*</span>
                 </label>
+                <input id="linkedin" type="url" value={form.linkedin} onChange={update} required placeholder="https://linkedin.com/in/username" />
               </div>
-              <div className="form-actions form-actions--split">
-                <Button type="button" variant="secondary" onClick={() => setStep(2)}>← Back</Button>
-                <div onMouseEnter={() => setIsHoveringNext(true)} onMouseLeave={() => setIsHoveringNext(false)}>
-                  <Button type="submit">{isPending ? "Submitting..." : "Submit Application"}</Button>
-                </div>
+
+              {/* GitHub username → auto link */}
+              <PrefixInput
+                id="github" icon={<IconGH />} label="GitHub" required
+                prefix="github.com/" placeholder="username"
+                value={form.github} onChange={update}
+                generatedUrl={toGithubUrl(form.github)}
+              />
+
+              <div className="jc-form__row--2">
+                {/* Codeforces handle → auto link */}
+                <PrefixInput
+                  id="codeforces" icon={<IconCF />} label="Codeforces" required
+                  prefix="codeforces.com/" placeholder="handle"
+                  value={form.codeforces} onChange={update}
+                  generatedUrl={toCfUrl(form.codeforces)}
+                />
+                {/* CodeChef username → auto link */}
+                <PrefixInput
+                  id="codechef" icon={<IconCC />} label="CodeChef" required
+                  prefix="codechef.com/" placeholder="username"
+                  value={form.codechef} onChange={update}
+                  generatedUrl={toCodechefUrl(form.codechef)}
+                />
+              </div>
+
+              {/* Facebook — full URL, optional */}
+              <div className="jc-form-group">
+                <label htmlFor="facebook">
+                  <IconFB /> Facebook
+                </label>
+                <input id="facebook" type="url" value={form.facebook} onChange={update} placeholder="https://facebook.com/username" />
               </div>
             </div>
-          )}
-        </form>
+
+            {serverMsg && <div className="jc-error-msg">{serverMsg}</div>}
+
+            <div className="jc-form__actions">
+              <Button type="submit" size="lg" disabled={submitting}>
+                {submitting ? "Submitting…" : "Submit Application →"}
+              </Button>
+            </div>
+          </form>
+
+          {/* ════ RIGHT: LIVE PREVIEW ════ */}
+          <div className="jc-preview-panel">
+            <div className="jc-preview-panel__sticky">
+              <div className="jc-preview-label">
+                <span className="jc-preview-label__dot" />
+                Live Preview
+              </div>
+
+              <CardPreview
+                name={form.fullName} batch={form.batch}
+                photoUrl={photoUrl} initial={initial}
+                zoom={zoom} offsetX={offsetX} offsetY={offsetY}
+                github={form.github} linkedin={form.linkedin}
+                facebook={form.facebook} codeforces={form.codeforces}
+                codechef={form.codechef}
+              />
+
+              {/* Photo controls with default marks */}
+              {photoUrl && (
+                <div className="jc-photo-controls">
+                  <p className="jc-photo-controls__title">Adjust Photo</p>
+                  <MarkedSlider label="Zoom"       min={50}   max={200} defaultVal={100} value={zoom}    onChange={setZoom}    suffix="%" />
+                  <MarkedSlider label="Left/Right" min={-100} max={100} defaultVal={0}   value={offsetX} onChange={setOffsetX} />
+                  <MarkedSlider label="Up/Down"    min={-100} max={100} defaultVal={0}   value={offsetY} onChange={setOffsetY} />
+                  <button type="button" className="jc-photo-controls__reset"
+                    onClick={() => { setZoom(100); setOffsetX(0); setOffsetY(0); }}>
+                    Reset to default
+                  </button>
+                </div>
+              )}
+
+              <p className="jc-preview-hint">
+                This is how your member card will look on the club website.
+              </p>
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
   );

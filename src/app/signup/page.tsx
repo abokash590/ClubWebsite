@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getDb } from "@/lib/db";
 import SignupForm from "./SignupForm";
 import "../login/login.css"; // Reuse login brutalist styles for error messages

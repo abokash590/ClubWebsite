@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getDb } from "@/lib/db";
 import { Button } from "@/components/ui/Button";
 import { notFound } from "next/navigation";

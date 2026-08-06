@@ -30,6 +30,7 @@ export default function ExecutivesPage() {
                 slug={exec.id}
                 name={exec.name}
                 role={exec.role}
+                batch={exec.batch}
                 sublabel="PANEL"
                 category="executive"
                 socials={exec.socials}

@@ -29,6 +29,8 @@ export interface ProfileCardProps {
    * e.g. "BATCH 27" / "PRESIDENT" / "BATCH 21" / "FACULTY"
    */
   sublabel: string;
+  /** e.g. "CSE 5th" — shown as "Batch: CSE 5th" below the photo */
+  batch?: string;
   category: ProfileCategory;
   /** URL to the photo. Omit → show initial letter placeholder. */
   image?: string;
@@ -123,6 +125,7 @@ export function ProfileCard({
   name,
   role,
   sublabel,
+  batch,
   category,
   image,
   socials,
@@ -184,39 +187,34 @@ export function ProfileCard({
 
       {/* 2. Content block */}
       <div className="profile-card__content">
-        {/* a. Category label */}
-        <span className="profile-card__category" title={categoryLabel}>
-          {categoryLabel}
-        </span>
-
-        {/* b. Name */}
-        <h3 className="profile-card__name">{name}</h3>
-
-        {/* c. Role */}
+        <p className="profile-card__name" title={name}>{name}</p>
+        {batch && <p className="profile-card__batch">{batch}</p>}
         <p className="profile-card__role" title={role}>{role}</p>
-
-        {/* Spacer */}
-        <div className="profile-card__social-spacer" />
-
-        {/* 3. Social icon row — only rendered if at least one link exists */}
-        {socialLinks.length > 0 && (
-          <div className="profile-card__socials" role="group" aria-label="Social links">
-            {socialLinks.map(({ href, label, icon }) => (
-              <a
-                key={label}
-                href={href}
-                className="profile-card__social-btn"
-                aria-label={label}
-                target={href.startsWith("mailto") ? undefined : "_blank"}
-                rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
-                onClick={(e) => e.stopPropagation()}
-              >
-                {icon}
-              </a>
-            ))}
-          </div>
-        )}
       </div>
+
+      {/* 3. Social footer */}
+      {socialLinks.length > 0 && (
+        <div className="profile-card__social-footer" role="group" aria-label="Social links">
+          {socialLinks.map(({ href, label, icon }, i) => (
+            <a
+              key={label}
+              href={href}
+              className="profile-card__social-cell"
+              aria-label={label}
+              title={label}
+              target={href.startsWith("mailto") ? undefined : "_blank"}
+              rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {i > 0 && <span className="profile-card__social-sep" aria-hidden="true" />}
+              {icon}
+            </a>
+          ))}
+        </div>
+      )}
+
+      {/* 4. Corner badge */}
+      <div className="profile-card__badge">{CATEGORY_LABEL[category]}</div>
     </CardWrapper>
   );
 }

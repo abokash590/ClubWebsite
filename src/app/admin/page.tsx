@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getDb } from "@/lib/db";
 import "@/components/layout/dashboard-ui.css";
 import { Button } from "@/components/ui/Button";

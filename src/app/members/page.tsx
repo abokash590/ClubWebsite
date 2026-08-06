@@ -30,6 +30,7 @@ export default function MembersPage() {
                 slug={member.id}
                 name={member.name}
                 role={member.role}
+                batch={member.batch}
                 sublabel="BATCH 27"
                 category="member"
                 socials={member.socials}
