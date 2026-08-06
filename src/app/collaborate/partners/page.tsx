@@ -5,11 +5,7 @@ export const metadata: Metadata = {
   description: "Meet the organizations and companies that support MEC Computer Club.",
 };
 
-const partners = [
-  { name: "TechCorp Inc.", type: "Title Sponsor", desc: "Supported our flagship hackathon and provided cloud credits." },
-  { name: "DevAcademy", type: "Learning Partner", desc: "Provides premium courses for our competitive programming panel." },
-  { name: "Local Software Solutions", type: "Event Sponsor", desc: "Sponsored prizes for the intra-university programming contest." },
-];
+import { partners } from "@/data/partners";
 
 export default function PartnersPage() {
   return (
