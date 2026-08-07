@@ -734,3 +734,4 @@
   margin-bottom: var(--space-6);
   line-height: var(--leading-relaxed);
 }
+.jc-form__section-header { display: flex; align-items: center; justify-content: space-between; } .jc-draft-indicator { font-size: 0.8rem; color: var(--color-success, #22c55e); opacity: 0; transition: opacity 0.3s ease; } .jc-draft-indicator--visible { opacity: 1; } 

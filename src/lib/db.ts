@@ -77,6 +77,25 @@ function initDbTables(db: any) {
       status TEXT DEFAULT 'pending' CHECK(status IN ('pending', 'approved', 'rejected')),
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
+  `);
+
+  // Run migration for requests table to add all missing columns
+  const requestColsInfo = db.prepare(`PRAGMA table_info(requests)`).all() as { name: string }[];
+  const existingCols = requestColsInfo.map(c => c.name);
+  const requiredCols = [
+    'student_id', 'registration_number', 'batch',
+    'linkedin', 'github', 'facebook', 'discord',
+    'codeforces', 'codechef', 'photo_base64'
+  ];
+
+  for (const col of requiredCols) {
+    if (!existingCols.includes(col)) {
+      db.prepare(`ALTER TABLE requests ADD COLUMN ${col} TEXT`).run();
+      console.log(`Migrated requests table: added column ${col}`);
+    }
+  }
+
+  db.exec(`
 
     CREATE TABLE IF NOT EXISTS invite_tokens (
       id INTEGER PRIMARY KEY AUTOINCREMENT,

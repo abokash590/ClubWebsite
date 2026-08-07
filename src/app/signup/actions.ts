@@ -96,6 +96,9 @@ export async function completeSignup(
   try {
     userId = finalizeSignup();
   } catch (error: any) {
+    if (error.message && error.message.includes("UNIQUE constraint failed: users.email")) {
+      return { success: false, error: "An account with this email already exists. Please log in." };
+    }
     return { success: false, error: error.message };
   }
 

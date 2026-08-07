@@ -12,6 +12,32 @@ export async function rejectRequest(requestId: number) {
   revalidatePath("/admin");
 }
 
+export async function getApplicationDetails(requestId: number) {
+  const db = getDb();
+  // Fetch all columns including photo_base64
+  const row = db.prepare(`SELECT * FROM requests WHERE id = ?`).get(requestId);
+  if (!row) return null;
+  
+  return {
+    id: row.id,
+    name: row.name,
+    email: row.email,
+    reason: row.reason,
+    status: row.status,
+    created_at: row.created_at,
+    student_id: row.student_id,
+    registration_number: row.registration_number,
+    batch: row.batch,
+    linkedin: row.linkedin,
+    github: row.github,
+    facebook: row.facebook,
+    discord: row.discord,
+    codeforces: row.codeforces,
+    codechef: row.codechef,
+    photo_base64: row.photo_base64
+  };
+}
+
 export async function approveRequest(requestId: number) {
   const db = getDb();
   

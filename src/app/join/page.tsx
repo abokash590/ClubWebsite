@@ -1,13 +1,12 @@
-
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { submitJoinRequest } from "./actions";
 import { Button } from "@/components/ui/Button";
 import Image from "next/image";
+import toast from "react-hot-toast";
+import confetti from "canvas-confetti";
 import "./join.css";
-
-
 
 /* ── Auto-link builders ── */
 const toGithubUrl    = (u: string) => u.trim() ? `https://github.com/${u.trim()}` : "";
@@ -23,6 +22,7 @@ const initialForm = {
   linkedin: "",     // full URL (required)
   github: "",       // username → auto link (required)
   facebook: "",     // full URL (optional)
+  discord: "",      // username (optional/required)
   codeforces: "",   // handle → auto link (required)
   codechef: "",     // username → auto link (required)
 };
@@ -31,11 +31,21 @@ const initialForm = {
 const IconGH = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
 );
+const IconMail = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+  </svg>
+);
 const IconLI = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
 );
 const IconFB = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+);
+const IconDiscord = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+  </svg>
 );
 const IconCF = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="10" width="4" height="12" rx="1"/><rect x="10" y="4" width="4" height="18" rx="1"/><rect x="18" y="7" width="4" height="15" rx="1"/></svg>
@@ -47,6 +57,7 @@ const IconCC = () => (
 /* ── PrefixInput — shows base URL, user types only handle/username ── */
 interface PrefixInputProps {
   id: string;
+  name: string;
   icon: React.ReactNode;
   label: string;
   prefix: string;
@@ -56,7 +67,7 @@ interface PrefixInputProps {
   required?: boolean;
   generatedUrl?: string;
 }
-function PrefixInput({ id, icon, label, prefix, placeholder, value, onChange, required, generatedUrl }: PrefixInputProps) {
+function PrefixInput({ id, name, icon, label, prefix, placeholder, value, onChange, required, generatedUrl }: PrefixInputProps) {
   return (
     <div className="jc-form-group">
       <label htmlFor={id}>
@@ -64,8 +75,8 @@ function PrefixInput({ id, icon, label, prefix, placeholder, value, onChange, re
         {required && <span className="jc-required"> *</span>}
       </label>
       <div className="jc-prefix-input">
-        <span className="jc-prefix-input__base">{prefix}</span>
-        <input id={id} type="text" value={value} onChange={onChange} placeholder={placeholder} required={required} />
+        <span className="jc-prefix-input__base" aria-hidden="true">{prefix}</span>
+        <input id={id} name={name} type="text" value={value} onChange={onChange} placeholder={placeholder} required={required} aria-label={label} />
       </div>
       {generatedUrl && (
         <a href={generatedUrl} target="_blank" rel="noopener noreferrer" className="jc-generated-url">
@@ -84,20 +95,24 @@ interface CardPreviewProps {
   batch: string;
   photoUrl: string | null;
   initial: string;
-  zoom: number;
-  offsetX: number;
-  offsetY: number;
   github: string;
   linkedin: string;
   facebook: string;
+  discord: string;
   codeforces: string;
   codechef: string;
+  email: string;
 }
 
-function CardPreview({ name, batch, photoUrl, initial, zoom, offsetX, offsetY, github, linkedin, facebook, codeforces, codechef }: CardPreviewProps) {
+function CardPreview({ 
+  name, batch, photoUrl, initial,
+  github, linkedin, facebook, discord, codeforces, codechef, email
+}: CardPreviewProps) {
   const socials = [
+    email      && { icon: <IconMail />, label: "Email", url: `mailto:${email}` },
     github     && { icon: <IconGH />, label: "GitHub", url: toGithubUrl(github) },
     linkedin   && { icon: <IconLI />, label: "LinkedIn", url: linkedin },
+    discord    && { icon: <IconDiscord />, label: `Discord: @${discord}`, url: `https://discord.com` },
     facebook   && { icon: <IconFB />, label: "Facebook", url: facebook },
     codeforces && { icon: <IconCF />, label: "Codeforces", url: toCfUrl(codeforces) },
     codechef   && { icon: <IconCC />, label: "CodeChef", url: toCodechefUrl(codechef) },
@@ -112,11 +127,11 @@ function CardPreview({ name, batch, photoUrl, initial, zoom, offsetX, offsetY, g
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={photoUrl} alt="preview"
+              draggable={false}
               style={{
-                width: `${zoom}%`, height: `${zoom}%`,
+                width: "100%", height: "100%",
                 objectFit: "cover", position: "absolute",
-                top: "50%", left: "50%",
-                transform: `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px))`,
+                top: 0, left: 0,
                 transition: "none",
               }}
             />
@@ -129,7 +144,7 @@ function CardPreview({ name, batch, photoUrl, initial, zoom, offsetX, offsetY, g
       {/* Info */}
       <div className="jc-preview-card__content">
         <p className="jc-preview-card__name">{name || "Your Name"}</p>
-        {batch && <p className="jc-preview-card__batch">{batch}</p>}
+        <p className="jc-preview-card__batch">{batch || "Your Batch"}</p>
         <p className="jc-preview-card__role">Club Member</p>
       </div>
 
@@ -151,85 +166,141 @@ function CardPreview({ name, batch, photoUrl, initial, zoom, offsetX, offsetY, g
 }
 
 /* ════════════════════════════════════════════════════════════
-   SLIDER WITH DEFAULT MARK
-   ════════════════════════════════════════════════════════════ */
-interface MarkedSliderProps {
-  label: string;
-  min: number;
-  max: number;
-  defaultVal: number;
-  value: number;
-  onChange: (v: number) => void;
-  suffix?: string;
-}
-function MarkedSlider({ label, min, max, defaultVal, value, onChange, suffix }: MarkedSliderProps) {
-  const markPct = ((defaultVal - min) / (max - min)) * 100;
-  const isAtDefault = value === defaultVal;
-  return (
-    <div className="jc-photo-controls__row">
-      <label>{label}</label>
-      <div className="jc-slider-wrap">
-        <input
-          type="range" min={min} max={max} value={value}
-          onChange={e => onChange(Number(e.target.value))}
-          className="jc-slider"
-        />
-        {/* Default position tick */}
-        <span
-          className={`jc-slider-mark${isAtDefault ? " jc-slider-mark--active" : ""}`}
-          style={{ left: `${markPct}%` }}
-          aria-hidden="true"
-        />
-      </div>
-      <span>{suffix ? `${value}${suffix}` : value}</span>
-    </div>
-  );
-}
-
-/* ════════════════════════════════════════════════════════════
    MAIN PAGE
    ════════════════════════════════════════════════════════════ */
 export default function JoinPage() {
   const [form, setForm] = useState(initialForm);
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
-  const [zoom, setZoom] = useState(100);
-  const [offsetX, setOffsetX] = useState(0);
-  const [offsetY, setOffsetY] = useState(0);
+  const [photoBase64, setPhotoBase64] = useState<string | null>(null);
+  const [photoError, setPhotoError] = useState<string | null>(null);
+  
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [serverMsg, setServerMsg] = useState("");
+  const [draftSaved, setDraftSaved] = useState(false);
+  
   const fileRef = useRef<HTMLInputElement>(null);
 
   const update = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm(prev => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
+  // 1. Local Storage Draft
+  useEffect(() => {
+    const saved = localStorage.getItem("joinFormDraft");
+    if (saved) {
+      try {
+        setForm(JSON.parse(saved));
+      } catch(e) {
+        console.error("Failed to parse form draft", e);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    // Save draft and flash indicator
+    if (form !== initialForm) {
+      localStorage.setItem("joinFormDraft", JSON.stringify(form));
+      setDraftSaved(true);
+      const timer = setTimeout(() => setDraftSaved(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [form]);
+
   const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
-    setPhotoUrl(URL.createObjectURL(file));
-    setZoom(100); setOffsetX(0); setOffsetY(0);
+    if (!file) {
+      setPhotoUrl(null);
+      setPhotoBase64(null);
+      setPhotoError(null);
+      return;
+    }
+    
+    // 2. File Size Validation (Max 5MB)
+    const MAX_SIZE = 5 * 1024 * 1024;
+    if (file.size > MAX_SIZE) {
+      setPhotoError("Photo is too large. Maximum allowed size is 5MB.");
+      setPhotoUrl(null);
+      if (fileRef.current) fileRef.current.value = "";
+      return;
+    }
+
+    const url = URL.createObjectURL(file);
+    
+    const img = new window.Image();
+    img.src = url;
+    img.onload = () => {
+      // Validate that the image is a perfect square
+      if (Math.abs(img.naturalWidth - img.naturalHeight) > 1) {
+        setPhotoError("Photo must be perfectly squared (1:1 ratio). Please crop it before uploading.");
+        setPhotoUrl(null);
+        setPhotoBase64(null);
+        if (fileRef.current) fileRef.current.value = "";
+        return;
+      }
+      setPhotoError(null);
+      setPhotoUrl(url);
+
+      // Downscale and convert to base64
+      const canvas = document.createElement("canvas");
+      const MAX_DIM = 600; // max size to keep it under 300KB
+      let width = img.naturalWidth;
+      let height = img.naturalHeight;
+      if (width > MAX_DIM) {
+        height = Math.round((height * MAX_DIM) / width);
+        width = MAX_DIM;
+      }
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        ctx.drawImage(img, 0, 0, width, height);
+        const base64 = canvas.toDataURL("image/jpeg", 0.8);
+        setPhotoBase64(base64);
+      }
+    };
   };
 
   const handleSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!photoUrl) {
-      setServerMsg("Profile photo is required. Please upload a photo.");
+      toast.error("Profile photo is required and must be a square.");
       return;
     }
     setSubmitting(true);
-    const fd = new FormData();
-    Object.entries(form).forEach(([k, v]) => fd.append(k, v));
+    const formEl = e.currentTarget;
+    const formData = new FormData(formEl);
+
+    // Append all React state fields to formData (since some HTML inputs lack name attributes)
+    Object.entries(form).forEach(([key, value]) => {
+      formData.set(key, value);
+    });
+    
     // store resolved links for username fields
-    fd.set("github_url",    toGithubUrl(form.github));
-    fd.set("codeforces_url", toCfUrl(form.codeforces));
-    fd.set("codechef_url",   toCodechefUrl(form.codechef));
-    fd.set("whyJoin", "Member application via Join page");
-    const result = await submitJoinRequest({ success: false, message: "", errors: {} }, fd);
+    formData.set("github_url",    toGithubUrl(form.github));
+    formData.set("codeforces_url", toCfUrl(form.codeforces));
+    formData.set("codechef_url",   toCodechefUrl(form.codechef));
+    formData.set("whyJoin", "Member application via Join page");
+    
+    if (photoBase64) {
+      formData.set("photo_base64", photoBase64);
+    }
+
+    const result = await submitJoinRequest({ success: false, message: "", errors: {} }, formData);
     setSubmitting(false);
-    if (result.success) setSubmitted(true);
-    else setServerMsg(result.message);
-  }, [form]);
+    if (result.success) {
+      setSubmitted(true);
+      localStorage.removeItem("joinFormDraft");
+      toast.success("Application submitted successfully!");
+      confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ["#6366f1", "#a855f7", "#ec4899", "#3b82f6"]
+      });
+    } else {
+      toast.error(result.message || "Failed to submit application.");
+    }
+  }, [form, photoUrl]);
 
   const initial = form.fullName.trim().charAt(0).toUpperCase();
 
@@ -265,16 +336,21 @@ export default function JoinPage() {
 
             {/* — Section 01: Identity — */}
             <div className="jc-form__section">
-              <h2 className="jc-form__section-title">
-                <span className="jc-form__section-num">01</span> Identity
-              </h2>
+              <div className="jc-form__section-header">
+                <h2 className="jc-form__section-title">
+                  <span className="jc-form__section-num">01</span> Identity
+                </h2>
+                <span className={`jc-draft-indicator ${draftSaved ? "jc-draft-indicator--visible" : ""}`}>
+                  ✓ Draft saved locally
+                </span>
+              </div>
 
               {/* Photo upload */}
               <div className="jc-form__photo-row">
-                <button type="button" className="jc-photo-upload-btn" onClick={() => fileRef.current?.click()} aria-label="Upload profile picture">
+                <button type="button" className="jc-photo-upload-btn" onClick={() => fileRef.current?.click()} aria-label="Upload profile picture" aria-describedby="photo-hint">
                   {photoUrl
                     ? <Image src={photoUrl} alt="profile" fill style={{ objectFit: "cover" }} unoptimized />
-                    : <div className="jc-photo-upload-btn__inner">
+                    : <div className="jc-photo-upload-btn__inner" aria-hidden="true">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                           <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
                           <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
@@ -283,13 +359,19 @@ export default function JoinPage() {
                       </div>
                   }
                 </button>
-                <input ref={fileRef} type="file" accept="image/*" onChange={handlePhoto} style={{ display: "none" }} />
-                <div className="jc-photo-upload-hint">
-                  <p>Profile Photo <span className="jc-required">*</span></p>
-                  <p>JPG, PNG or WEBP</p>
-                  <p>Min 400×400px recommended</p>
+                <input ref={fileRef} type="file" accept="image/*" onChange={handlePhoto} style={{ display: "none" }} aria-hidden="true" />
+                <div id="photo-hint" className="jc-photo-upload-hint">
+                  <p>Profile Photo <span className="jc-required" aria-hidden="true">*</span></p>
+                  <div style={{ fontWeight: "bold", fontSize: "0.85rem", color: "var(--color-primary)" }}>
+                    <p>Important requirements:</p>
+                    <ul style={{ paddingLeft: "1.2rem", marginTop: "0.2rem", listStyleType: "disc" }}>
+                      <li>Photo MUST be exactly squared (1:1 aspect ratio).</li>
+                      <li>File size must be under 5MB.</li>
+                    </ul>
+                  </div>
+                  {photoError && <p role="alert" style={{ fontSize: "0.85rem", color: "red" }}>{photoError}</p>}
                   {photoUrl && (
-                    <button type="button" className="jc-photo-remove"
+                    <button type="button" className="jc-photo-remove" aria-label="Remove uploaded photo"
                       onClick={() => { setPhotoUrl(null); if (fileRef.current) fileRef.current.value = ""; }}>
                       Remove photo
                     </button>
@@ -299,28 +381,28 @@ export default function JoinPage() {
 
               <div className="jc-form-group">
                 <label htmlFor="fullName">Full Name <span className="jc-required">*</span></label>
-                <input id="fullName" type="text" value={form.fullName} onChange={update} required placeholder="e.g. Tawhid Ahmmed" />
+                <input id="fullName" name="fullName" type="text" value={form.fullName} onChange={update} required placeholder="e.g. Tawhid Ahmmed" />
               </div>
 
               <div className="jc-form__row--2">
                 <div className="jc-form-group">
                   <label htmlFor="studentId">Student ID <span className="jc-required">*</span></label>
-                  <input id="studentId" type="text" value={form.studentId} onChange={update} required placeholder="e.g. 210321" />
+                  <input id="studentId" name="studentId" type="text" value={form.studentId} onChange={update} required placeholder="e.g. 210321" />
                 </div>
                 <div className="jc-form-group">
                   <label htmlFor="registrationNumber">Registration No. <span className="jc-required">*</span></label>
-                  <input id="registrationNumber" type="text" value={form.registrationNumber} onChange={update} required placeholder="e.g. 1356" />
+                  <input id="registrationNumber" name="registrationNumber" type="text" value={form.registrationNumber} onChange={update} required placeholder="e.g. 1356" />
                 </div>
               </div>
 
               <div className="jc-form__row--2">
                 <div className="jc-form-group">
                   <label htmlFor="batch">Batch <span className="jc-required">*</span></label>
-                  <input id="batch" type="text" value={form.batch} onChange={update} required placeholder="e.g. CSE, 5th" />
+                  <input id="batch" name="batch" type="text" value={form.batch} onChange={update} required placeholder="e.g. CSE, 5th" />
                 </div>
                 <div className="jc-form-group">
                   <label htmlFor="email">Email <span className="jc-required">*</span></label>
-                  <input id="email" type="email" value={form.email} onChange={update} required placeholder="name@std.mec.edu.bd" />
+                  <input id="email" name="email" type="email" value={form.email} onChange={update} required placeholder="name@std.mec.edu.bd" />
                 </div>
               </div>
             </div>
@@ -336,12 +418,12 @@ export default function JoinPage() {
                 <label htmlFor="linkedin">
                   <IconLI /> LinkedIn <span className="jc-required">*</span>
                 </label>
-                <input id="linkedin" type="url" value={form.linkedin} onChange={update} required placeholder="https://linkedin.com/in/username" />
+                <input id="linkedin" name="linkedin" type="url" value={form.linkedin} onChange={update} required placeholder="https://linkedin.com/in/username" />
               </div>
 
               {/* GitHub username → auto link */}
               <PrefixInput
-                id="github" icon={<IconGH />} label="GitHub" required
+                id="github" name="github" icon={<IconGH />} label="GitHub" required
                 prefix="github.com/" placeholder="username"
                 value={form.github} onChange={update}
                 generatedUrl={toGithubUrl(form.github)}
@@ -350,33 +432,38 @@ export default function JoinPage() {
               <div className="jc-form__row--2">
                 {/* Codeforces handle → auto link */}
                 <PrefixInput
-                  id="codeforces" icon={<IconCF />} label="Codeforces" required
+                  id="codeforces" name="codeforces" icon={<IconCF />} label="Codeforces" required
                   prefix="codeforces.com/" placeholder="handle"
                   value={form.codeforces} onChange={update}
                   generatedUrl={toCfUrl(form.codeforces)}
                 />
                 {/* CodeChef username → auto link */}
                 <PrefixInput
-                  id="codechef" icon={<IconCC />} label="CodeChef" required
+                  id="codechef" name="codechef" icon={<IconCC />} label="CodeChef" required
                   prefix="codechef.com/" placeholder="username"
                   value={form.codechef} onChange={update}
                   generatedUrl={toCodechefUrl(form.codechef)}
                 />
               </div>
 
+              {/* Discord username */}
+              <PrefixInput
+                id="discord" name="discord" icon={<IconDiscord />} label="Discord" required
+                prefix="@" placeholder="username"
+                value={form.discord} onChange={update}
+              />
+
               {/* Facebook — full URL, optional */}
               <div className="jc-form-group">
                 <label htmlFor="facebook">
                   <IconFB /> Facebook
                 </label>
-                <input id="facebook" type="url" value={form.facebook} onChange={update} placeholder="https://facebook.com/username" />
+                <input id="facebook" name="facebook" type="url" value={form.facebook} onChange={update} placeholder="https://facebook.com/username" />
               </div>
             </div>
 
-            {serverMsg && <div className="jc-error-msg">{serverMsg}</div>}
-
             <div className="jc-form__actions">
-              <Button type="submit" size="lg" disabled={submitting}>
+              <Button type="submit" size="lg" disabled={submitting} aria-busy={submitting}>
                 {submitting ? "Submitting…" : "Submit Application →"}
               </Button>
             </div>
@@ -393,25 +480,12 @@ export default function JoinPage() {
               <CardPreview
                 name={form.fullName} batch={form.batch}
                 photoUrl={photoUrl} initial={initial}
-                zoom={zoom} offsetX={offsetX} offsetY={offsetY}
                 github={form.github} linkedin={form.linkedin}
-                facebook={form.facebook} codeforces={form.codeforces}
-                codechef={form.codechef}
+                facebook={form.facebook} discord={form.discord} 
+                codeforces={form.codeforces}
+                codechef={form.codechef} email={form.email}
               />
 
-              {/* Photo controls with default marks */}
-              {photoUrl && (
-                <div className="jc-photo-controls">
-                  <p className="jc-photo-controls__title">Adjust Photo</p>
-                  <MarkedSlider label="Zoom"       min={50}   max={200} defaultVal={100} value={zoom}    onChange={setZoom}    suffix="%" />
-                  <MarkedSlider label="Left/Right" min={-100} max={100} defaultVal={0}   value={offsetX} onChange={setOffsetX} />
-                  <MarkedSlider label="Up/Down"    min={-100} max={100} defaultVal={0}   value={offsetY} onChange={setOffsetY} />
-                  <button type="button" className="jc-photo-controls__reset"
-                    onClick={() => { setZoom(100); setOffsetX(0); setOffsetY(0); }}>
-                    Reset to default
-                  </button>
-                </div>
-              )}
 
               <p className="jc-preview-hint">
                 This is how your member card will look on the club website.

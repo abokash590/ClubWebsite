@@ -8,6 +8,8 @@ import { useTheme } from "next-themes";
 import { useAccent } from "@/components/AccentProvider";
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import type { SessionPayload } from "@/lib/auth";
+import { logoutAction } from "@/app/logout/actions";
 import "./Navbar.css";
 
 const navItems = [
@@ -94,7 +96,7 @@ function LogoPreloader() {
   );
 }
 
-export function Navbar() {
+export function Navbar({ user }: { user?: SessionPayload | null }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const pathname = usePathname();
@@ -194,12 +196,27 @@ export function Navbar() {
         {/* Right side — CTA + Login */}
         <div className="navbar__actions">
           <ThemeToggle />
-          <Link href="/login" className="navbar__login" id="nav-member-login">
-            Member Login
-          </Link>
-          <Button href="/join" size="sm" id="nav-join-cta">
-            Join Us
-          </Button>
+          {user ? (
+            <>
+              <Link href={user.role === 'admin' ? '/admin' : '/dashboard'} className="navbar__login">
+                {user.role === 'admin' ? 'Admin Panel' : 'Dashboard'}
+              </Link>
+              <form action={logoutAction} style={{ display: 'inline' }}>
+                <Button type="submit" size="sm" variant="outline">
+                  Logout
+                </Button>
+              </form>
+            </>
+          ) : (
+            <>
+              <Link href="/login" className="navbar__login" id="nav-member-login">
+                Member Login
+              </Link>
+              <Button href="/join" size="sm" id="nav-join-cta">
+                Join Club
+              </Button>
+            </>
+          )}
         </div>
 
       </nav>

@@ -21,7 +21,7 @@ export default function AdminDashboard() {
   
   // Fetch real applications along with their tokens if they are approved
   const applications = db.prepare(`
-    SELECT r.*, t.token 
+    SELECT r.id, r.name, r.email, r.reason, r.status, r.created_at, t.token 
     FROM requests r
     LEFT JOIN invite_tokens t ON r.id = t.request_id
     ORDER BY r.created_at DESC
